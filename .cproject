@@ -28,18 +28,20 @@
 							<tool id="de.innot.avreclipse.tool.compiler.winavr.lib.debug.262684875" name="AVR Compiler" superClass="de.innot.avreclipse.tool.compiler.winavr.lib.debug">
 								<option id="de.innot.avreclipse.compiler.option.debug.level.776583367" name="Generate Debugging Info" superClass="de.innot.avreclipse.compiler.option.debug.level"/>
 								<option id="de.innot.avreclipse.compiler.option.optimize.801325057" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize"/>
-								<option id="de.innot.avreclipse.compiler.option.incpath.1766543281" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
+								<option id="de.innot.avreclipse.compiler.option.incpath.1766543281" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="/Developer/Applications/Arduino.app/Contents/Resources/Java/hardware/arduino/cores/arduino"/>
 									<listOptionValue builtIn="false" value="/Developer/Applications/Arduino.app/Contents/Resources/Java/hardware/arduino/variants/mega"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino-core-mega}&quot;"/>
 								</option>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.920245964" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.cppcompiler.lib.debug.754492553" name="AVR C++ Compiler" superClass="de.innot.avreclipse.tool.cppcompiler.lib.debug">
 								<option id="de.innot.avreclipse.cppcompiler.option.debug.level.226169331" name="Generate Debugging Info" superClass="de.innot.avreclipse.cppcompiler.option.debug.level"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.50412748" name="Optimization Level" superClass="de.innot.avreclipse.cppcompiler.option.optimize"/>
-								<option id="de.innot.avreclipse.cppcompiler.option.incpath.63841891" superClass="de.innot.avreclipse.cppcompiler.option.incpath" valueType="includePath">
+								<option id="de.innot.avreclipse.cppcompiler.option.incpath.63841891" name="Include Paths (-I)" superClass="de.innot.avreclipse.cppcompiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="/Developer/Applications/Arduino.app/Contents/Resources/Java/hardware/arduino/cores/arduino"/>
 									<listOptionValue builtIn="false" value="/Developer/Applications/Arduino.app/Contents/Resources/Java/hardware/arduino/variants/mega"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino-core-mega}&quot;"/>
 								</option>
 								<inputType id="de.innot.avreclipse.cppcompiler.input.237833743" superClass="de.innot.avreclipse.cppcompiler.input"/>
 							</tool>
