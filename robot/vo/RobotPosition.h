@@ -10,10 +10,19 @@
 
 class RobotPosition {
 public:
-	RobotPosition(double X, double Y, int A);
+	RobotPosition();
 	virtual ~RobotPosition();
 
+	void updatePosition(double x, double y, int angle);
 
+	void setX(double x);
+	double getX();
+
+	void setY(double y);
+	double getY();
+
+	void setAngle(int angle);
+	int getAngle();
 
 private:
 	double x, y, angle;
