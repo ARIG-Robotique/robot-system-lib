@@ -7,12 +7,29 @@
 
 #include "Encodeurs.h"
 
-Encodeurs::Encodeurs() {
-	// TODO Auto-generated constructor stub
+double distance;
+double orientation;
 
+Encodeurs::Encodeurs() {
+	distance = orientation = 0;
 }
 
 Encodeurs::~Encodeurs() {
-	// TODO Auto-generated destructor stub
 }
 
+void Encodeurs::lectureValeurs() {
+	// TODO : Interroger les cartes de lecture codeurs
+}
+
+double Encodeurs::getDistance() {
+	return distance;
+}
+
+double Encodeurs::getOrientation() {
+	return orientation;
+}
+
+void Encodeurs::setValeursCodeurs(double gauche, double droit) {
+	distance = (droit + gauche) / 2;
+	orientation = droit - gauche;
+}

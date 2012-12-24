@@ -8,8 +8,6 @@
 #ifndef ENCODEURS_H_
 #define ENCODEURS_H_
 
-#include <Arduino.h>
-
 class Encodeurs {
 public:
 	Encodeurs();
@@ -19,8 +17,7 @@ public:
 	double getDistance();
 	double getOrientation();
 
-	void setValeursCodeurDroit();
-	void setValeursCodeurGauche();
+	void setValeursCodeurs(double gauche, double droit);
 };
 
 #endif /* ENCODEURS_H_ */
