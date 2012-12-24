@@ -25,7 +25,8 @@ public:
 	int getAngle();
 
 private:
-	double x, y, angle;
+	double x, y;
+	int angle;
 };
 
 #endif /* ROBOTPOSITION_H_ */
