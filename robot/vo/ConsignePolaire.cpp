@@ -12,12 +12,11 @@ ConsignePolaire::ConsignePolaire() {
 	consigneOrientation = 0;
 	vitesseDistance = 0;
 	vitesseOrientation = 0;
-	disableFrein();
+	enableFrein();
 }
 
 ConsignePolaire::~ConsignePolaire() {
 }
-
 
 void ConsignePolaire::enableFrein() {
 	frein = true;
