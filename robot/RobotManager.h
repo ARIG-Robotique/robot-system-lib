@@ -12,6 +12,7 @@
 
 // Value Object
 #include "vo/RobotPosition.h"
+#include "vo/ConsignePolaire.h"
 
 // Business elements
 #include "system/Encodeurs.h"
@@ -27,6 +28,9 @@ public:
 private:
 	Odometrie odom;
 	Encodeurs enc;
+	ConsignePolaire consigne;
+
+	void calculConsigne();
 };
 
 extern RobotManager RM;

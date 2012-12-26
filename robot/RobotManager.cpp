@@ -7,12 +7,13 @@
 
 #include "RobotManager.h"
 
-// Pre instanciate
+// Pre instanciate (en variable global, c'est mal mais le SDK Arduino marche comme ça).
 RobotManager RM = RobotManager();
 
 RobotManager::RobotManager() {
 	odom = Odometrie();
 	enc = Encodeurs();
+	consigne = ConsignePolaire();
 }
 
 RobotManager::~RobotManager() {
