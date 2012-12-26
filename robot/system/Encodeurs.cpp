@@ -14,8 +14,6 @@
 Encodeurs::Encodeurs() {
 	alternate = false;
 	distance = orientation = 0;
-
-	Wire.begin(); // Initialisation en maitre sur le bus I2C
 }
 
 Encodeurs::~Encodeurs() {
