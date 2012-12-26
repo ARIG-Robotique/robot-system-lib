@@ -14,16 +14,17 @@
 #include "../vo/RobotPosition.h"
 #include "../utils/Convertion.h"
 
-using namespace utils;
-
 class Odometrie {
 public:
 	Odometrie();
 	virtual ~Odometrie();
 
 	void initOdometrie(double x, double y, int angle);
-	void calculPosition(Encodeurs * enc);
+	void calculPosition(Encodeurs *);
 	RobotPosition getPosition();
+
+private:
+	RobotPosition position;
 };
 
 #endif /* ODOMETRIE_H_ */

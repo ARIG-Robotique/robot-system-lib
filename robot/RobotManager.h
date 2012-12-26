@@ -25,10 +25,10 @@ public:
 	void process();
 
 private:
-	RobotPosition positionRobot;
-	Odometrie odometrie;
-
-
+	Odometrie odom;
+	Encodeurs enc;
 };
+
+extern RobotManager RM;
 
 #endif /* ROBOTMANAGER_H_ */

@@ -7,7 +7,12 @@
 
 #include "RobotManager.h"
 
+// Pre instanciate
+RobotManager RM = RobotManager();
+
 RobotManager::RobotManager() {
+	odom = Odometrie();
+	enc = Encodeurs();
 }
 
 RobotManager::~RobotManager() {
@@ -18,10 +23,9 @@ RobotManager::~RobotManager() {
  * Elle doit être schéduler via un timer toutes les x ms
  */
 void RobotManager::process() {
-	// TODO : Ajouter le path finding
-
 	// 1. Calcul de la position du robot
-
+	enc.lectureValeurs();
+	odom.calculPosition(&enc);
 
 	// 2. Calcul des consignes
 

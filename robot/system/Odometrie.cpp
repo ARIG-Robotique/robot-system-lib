@@ -7,9 +7,9 @@
 
 #include "Odometrie.h"
 
-RobotPosition position;
 
 Odometrie::Odometrie() {
+	position = RobotPosition();
 	position.updatePosition(0, 0, 0);
 }
 
@@ -23,7 +23,7 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
 void Odometrie::calculPosition(Encodeurs * enc) {
 	// Approximation linŽaire
 	position.setAngle(position.getAngle() + enc->getOrientation());
-	long double thetaRad = Convertion.pulseToRad(position.getAngle());
+	long double thetaRad = Conv.pulseToRad(position.getAngle());
 	double dX = enc->getDistance() * cos(thetaRad);
 	double dY = enc->getDistance() * sin(thetaRad);
 	position.setX(position.getX() + dX);
