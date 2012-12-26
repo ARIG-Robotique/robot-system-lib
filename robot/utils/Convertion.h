@@ -8,24 +8,30 @@
 #ifndef CONVERTION_H_
 #define CONVERTION_H_
 
-namespace utils {
+// A configurer pour chaque robot;
+//#define COUNT_PER_MM				4.044	 			// Nombre d'impulsion codeur pour 1mm
+//#define COUNT_PER_DEG				11.36 				// 5.68 * 2 Nombre de count pour réalisé 1°
 
-	#define COUNT_PER_MM				4.044	 			// Nombre d'impulsion codeur pour 1mm
-	#define COUNT_PER_DEG				11.36 				// 5.68 * 2 Nombre de count pour réalisé 1°
-	#define COUNT_PER_RAD				325.542 * 2			// Nombre de count pour réalisé 1 radian
+// /!\ Doit être instancié dans le fichier main de l'application
+// Convertion Conv = Convertion(4.044, 11.36);
 
-	class Convertion {
-	public:
-		Convertion();
-		virtual ~Convertion();
+class Convertion {
+public:
+	Convertion(double, double);
+	virtual ~Convertion();
 
-		long int mmToPulse(long int);
-		long int pulseToMm(long int);
-		long int degToPulse(long double);
-		long double pulseToDeg(long int);
-		long double pulseToRad(long int);
-		long int radToPulse(long double);
-	};
+	long int mmToPulse(long int);
+	long int pulseToMm(long int);
+	long int degToPulse(long double);
+	long double pulseToDeg(long int);
+	long double pulseToRad(long int);
+	long int radToPulse(long double);
 
-} /* namespace utils */
+private:
+	double countPerMm;
+	double countPerDegree;
+};
+
+extern Convertion Conv;
+
 #endif /* CONVERTION_H_ */

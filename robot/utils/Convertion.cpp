@@ -7,15 +7,36 @@
 
 #include "Convertion.h"
 
-namespace utils {
+#include <Arduino.h>
 
-	Convertion::Convertion() {
-		// TODO Auto-generated constructor stub
+Convertion::Convertion(double countPerMm, double countPerDegree) {
+	this->countPerMm = countPerMm;
+	this->countPerDegree = countPerDegree;
+}
 
-	}
+Convertion::~Convertion() {
+}
 
-	Convertion::~Convertion() {
-		// TODO Auto-generated destructor stub
-	}
+long int Convertion::mmToPulse(long int val) {
+	return val * countPerMm;
+}
 
-} /* namespace utils */
+long int Convertion::pulseToMm(long int val) {
+	return val / countPerMm;
+}
+
+long int Convertion::degToPulse(long double val) {
+	return val * countPerDegree;
+}
+
+long double Convertion::pulseToDeg(long int val) {
+	return val / countPerDegree;
+}
+
+long double Convertion::pulseToRad(long int val) {
+	return pulseToDeg(val * DEG_TO_RAD);
+}
+
+long int Convertion::radToPulse(long double val) {
+	return degToPulse(val * RAD_TO_DEG);
+}
