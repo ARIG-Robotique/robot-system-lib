@@ -18,6 +18,15 @@ public:
 	double getOrientation();
 
 	void setValeursCodeurs(double gauche, double droit);
+
+protected:
+	double distance, orientation;
+
+private:
+	bool alternate;
+
+	double lectureGauche();
+	double lectureDroit();
 };
 
 #endif /* ENCODEURS_H_ */
