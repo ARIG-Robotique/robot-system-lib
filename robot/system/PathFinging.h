@@ -1,0 +1,19 @@
+/*
+ * PathFinging.h
+ *
+ *  Created on: 1 janv. 2013
+ *      Author: mythril
+ */
+
+#ifndef PATHFINGING_H_
+#define PATHFINGING_H_
+
+// TODO : A implémenter l'algorithme
+
+class PathFinging {
+public:
+	PathFinging();
+	virtual ~PathFinging();
+};
+
+#endif /* PATHFINGING_H_ */
