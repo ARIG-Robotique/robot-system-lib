@@ -8,8 +8,6 @@
 #ifndef ROBOTMANAGER_H_
 #define ROBOTMANAGER_H_
 
-#include <Arduino.h>
-
 // Value Object
 #include "vo/RobotPosition.h"
 #include "vo/ConsignePolaire.h"
