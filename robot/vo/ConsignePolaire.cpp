@@ -10,6 +10,8 @@
 ConsignePolaire::ConsignePolaire() {
 	consigneDistance = 0;
 	consigneOrientation = 0;
+	setPointDistance = 0;
+	setPointOrientation = 0;
 	vitesseDistance = 0;
 	vitesseOrientation = 0;
 	enableFrein();
@@ -36,6 +38,13 @@ double ConsignePolaire::getConsigneDistance() {
 	return consigneDistance;
 }
 
+void ConsignePolaire::setSetPointDistance(double value) {
+	setPointDistance = value;
+}
+double ConsignePolaire::getSetPointDistance() {
+	return setPointDistance;
+}
+
 void ConsignePolaire::setVitesseDistance(double value) {
 	vitesseDistance = value;
 }
@@ -48,6 +57,13 @@ void ConsignePolaire::setConsigneOrientation(double value) {
 }
 double ConsignePolaire::getConsigneOrientation() {
 	return consigneOrientation;
+}
+
+void ConsignePolaire::setSetPointOrientation(double value) {
+	setPointOrientation = value;
+}
+double ConsignePolaire::getSetPointOrientation() {
+	return setPointOrientation;
 }
 
 void ConsignePolaire::setVitesseOrientation(double value) {
