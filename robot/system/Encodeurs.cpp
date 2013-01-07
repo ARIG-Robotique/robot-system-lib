@@ -43,7 +43,7 @@ double Encodeurs::lectureData(int address) {
 	Wire.endTransmission();
 
 	// 2. Demande des infos sur 4 octet
-	double value = 0;
+	int value = 0;
 	Wire.requestFrom(address, 4);
 	while(Wire.available()) {
 	    value += Wire.read();
@@ -64,4 +64,14 @@ double Encodeurs::getOrientation() {
 void Encodeurs::setValeursCodeurs(double gauche, double droit) {
 	distance = (droit + gauche) / 2;
 	orientation = droit - gauche;
+}
+
+void Encodeurs::reset() {
+	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
+	Wire.write(CMD_RESET);
+	Wire.endTransmission();
+
+	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
+	Wire.write(CMD_RESET);
+	Wire.endTransmission();
 }

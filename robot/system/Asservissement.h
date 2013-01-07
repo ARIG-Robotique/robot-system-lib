@@ -8,14 +8,42 @@
 #ifndef ASSERVISSEMENT_H_
 #define ASSERVISSEMENT_H_
 
+#include "../../filters/PID_v1.h"
+#include "../../filters/QuadRamp.h"
 #include "../vo/ConsignePolaire.h"
+#include "Encodeurs.h"
+#include "MD22Moteurs.h"
 
 class Asservissement {
 public:
-	Asservissement();
+	Asservissement(int sampleTime);
 	virtual ~Asservissement();
 
-	void process(ConsignePolaire *);
+	void setSampleTime(int sampleTime);
+	void setPIDDistance(double kp, double ki, double kd);
+	void setPIDOrientation(double kp, double ki, double kd);
+	void setRampAcc(double rampDistance, double rampOrientation);
+	void setRampDec(double rampDistance, double rampOrientation);
+
+	void process(Encodeurs * encodeurs, ConsignePolaire * consignePolaire);
+
+private:
+	MD22Moteurs motors;
+	PID pidOrientation;
+	PID pidDistance;
+	QuadRamp filterDistance;
+	QuadRamp filterOrientation;
+
+	double consigneDistance;
+	double consigneOrientation;
+
+	double outputDistance;
+	double outputOrientation;
+
+	double inputDistance;
+	double inputOrientation;
+
+	int sampleTime;
 };
 
 #endif /* ASSERVISSEMENT_H_ */

@@ -10,19 +10,6 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#define ADD_BOARD			0xB4
-
-#define MODE_REGISTER		0x00
-#define MODE_VALUE			1 // -128 (Reverse) - 0 (Stop) - 127 (Forward)
-
-#define LEFT_MOTOR			1
-#define RIGHT_MOTOR			2
-
-#define VERSION_REGISTER	7
-
-#define ACCEL_REGISTER		3
-#define ACCEL_VALUE			20
-
 MD22Moteurs::MD22Moteurs() {
 	alternate = false;
 }
@@ -83,13 +70,15 @@ void MD22Moteurs::init() {
 
 void MD22Moteurs::printVersion() {
 	Wire.beginTransmission(ADD_BOARD);
-	Wire.write(VERSION_REGISTER); // Calls software register
+	Wire.write(VERSION_REGISTER);
 	Wire.endTransmission();
 
-	Wire.requestFrom(ADD_BOARD, 1); // Requests one byte
-	while(Wire.available() < 1); // Wait for it to arrive
-	int software = Wire.read(); // Get byte
-	Serial.print("MD22 V : ");
-	Serial.println(software);
+	Wire.requestFrom(ADD_BOARD, 1);
+	while(Wire.available() < 1);
+	int software = Wire.read();
+
+	// TODO : GŽrer le mode debug pour l'affichage de la version
+	//Serial.print("MD22 V : ");
+	//Serial.println(software);
 }
 
