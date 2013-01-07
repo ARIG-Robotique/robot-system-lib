@@ -8,9 +8,6 @@
 #include "Encodeurs.h"
 #include <Wire.h>
 
-#define ADD_CARTE_CODEUR_DROIT 0x01;
-#define ADD_CARTE_CODEUR_GAUCHE 0x02;
-
 Encodeurs::Encodeurs() {
 	alternate = false;
 	distance = orientation = 0;
@@ -33,12 +30,27 @@ void Encodeurs::lectureValeurs() {
 }
 
 double Encodeurs::lectureGauche() {
-	// TODO : Interroger les cartes de lecture codeurs
-	return 0;
+	return lectureData(ADD_CARTE_CODEUR_GAUCHE);
 }
 double Encodeurs::lectureDroit() {
-	// TODO : Interroger les cartes de lecture codeurs
-	return 0;
+	return lectureData(ADD_CARTE_CODEUR_DROIT);
+}
+
+double Encodeurs::lectureData(int address) {
+	// 1. Envoi de la commande de lecture
+	Wire.beginTransmission(address);
+	Wire.write(CMD_LECTURE);
+	Wire.endTransmission();
+
+	// 2. Demande des infos sur 4 octet
+	double value = 0;
+	Wire.requestFrom(address, 4);
+	while(Wire.available()) {
+	    value += Wire.read();
+	    value = value << 8;
+	}
+
+	return value;
 }
 
 double Encodeurs::getDistance() {

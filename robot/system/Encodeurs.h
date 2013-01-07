@@ -23,10 +23,16 @@ protected:
 	double distance, orientation;
 
 private:
+	#define CMD_LECTURE 'l'
+
+	#define ADD_CARTE_CODEUR_DROIT 0xB0;
+	#define ADD_CARTE_CODEUR_GAUCHE 0xB2;
+
 	bool alternate;
 
 	double lectureGauche();
 	double lectureDroit();
+	double lectureData(int address);
 };
 
 #endif /* ENCODEURS_H_ */
