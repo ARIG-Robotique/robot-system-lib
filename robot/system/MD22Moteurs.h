@@ -17,10 +17,15 @@ public:
 	void init();
 	void printVersion();
 private:
+	#define MIN_VAL -128
+	#define MAX_VAL	127
+
 	bool alternate;
 
 	void moteurGauche(int);
 	void moteurDroit(int);
+
+	int check(int);
 };
 
 #endif /* MD22MOTEURS_H_ */

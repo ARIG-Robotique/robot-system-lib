@@ -34,14 +34,25 @@ MD22Moteurs::~MD22Moteurs() {
 void MD22Moteurs::moteurGauche(int val) {
 	Wire.beginTransmission(ADD_BOARD);
 	Wire.write(LEFT_MOTOR);
-	Wire.write(val);
+	Wire.write(check(val));
 	Wire.endTransmission();
 }
 void MD22Moteurs::moteurDroit(int val) {
 	Wire.beginTransmission(ADD_BOARD);
 	Wire.write(RIGHT_MOTOR);
-	Wire.write(val);
+	Wire.write(check(val));
 	Wire.endTransmission();
+}
+
+int MD22Moteurs::check(int val) {
+	if (val < MIN_VAL) {
+		val = MIN_VAL;
+	}
+	if (val > MAX_VAL) {
+		val = MAX_VAL;
+	}
+
+	return val;
 }
 
 void MD22Moteurs::generateMouvement(int gauche, int droit) {
