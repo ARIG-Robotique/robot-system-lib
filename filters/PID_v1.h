@@ -15,6 +15,7 @@ class PID
   #define REVERSE  1
 
   //commonly used functions **************************************************************************
+	PID();
     PID(double*, double*, double*,        // * constructor.  links the PID to the Input, Output, and 
         double, double, double, int);     //   Setpoint.  Initial tuning parameters are also set here
 	

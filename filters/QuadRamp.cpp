@@ -7,7 +7,11 @@
 
 #include "QuadRamp.h"
 
+#include <Arduino.h>
 #include "../robot/utils/Convertion.h"
+
+QuadRamp::QuadRamp() {
+}
 
 QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
 
