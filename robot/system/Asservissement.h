@@ -16,6 +16,7 @@
 
 class Asservissement {
 public:
+	Asservissement();
 	Asservissement(int sampleTime);
 	virtual ~Asservissement();
 
@@ -44,6 +45,8 @@ private:
 	double inputOrientation;
 
 	int sampleTime;
+
+	void setup();
 };
 
 #endif /* ASSERVISSEMENT_H_ */

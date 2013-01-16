@@ -14,6 +14,7 @@ RobotManager::RobotManager() {
 	odom = Odometrie();
 	enc = Encodeurs();
 	consigne = ConsignePolaire();
+	asserv = Asservissement();
 }
 
 RobotManager::~RobotManager() {

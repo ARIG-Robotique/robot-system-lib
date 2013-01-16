@@ -9,13 +9,28 @@
 #include "../../filters/PID_v1.h"
 #include "../../filters/QuadRamp.h"
 
+Asservissement::Asservissement() {
+	this->sampleTime = 100;
+	setup();
+}
+
 Asservissement::Asservissement(int sampleTime) {
+	this->sampleTime = sampleTime;
+	setup();
+}
+
+Asservissement::~Asservissement() {
+}
+
+// -------------------------------------------------------------- //
+// ----------------------- BUSINESS METHODS --------------------- //
+// -------------------------------------------------------------- //
+
+void Asservissement::setup() {
 	// Variable
 	inputDistance = inputOrientation = 0;
 	outputDistance = outputOrientation = 0;
 	consigneDistance = consigneOrientation = 0;
-
-	this->sampleTime = sampleTime;
 
 	// Initialisation des élements de l'asservissement
 	motors = MD22Moteurs();
@@ -31,13 +46,6 @@ Asservissement::Asservissement(int sampleTime) {
 	pidDistance.SetOutputLimits(-128, 127);
 	pidOrientation.SetOutputLimits(-128, 127);
 }
-
-Asservissement::~Asservissement() {
-}
-
-// -------------------------------------------------------------- //
-// ----------------------- BUSINESS METHODS --------------------- //
-// -------------------------------------------------------------- //
 
 void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 	// Récupération des valeurs réel
