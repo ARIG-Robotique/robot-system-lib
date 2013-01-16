@@ -11,10 +11,16 @@
 #include "../robot/utils/Convertion.h"
 
 QuadRamp::QuadRamp() {
+	this->sampleTime = 0;
+	this->rampAcc = 0;
+	this->rampDec = 0;
+
+	this->distanceDecel = 0;
+	this->ecartPrecedent = 0;
+	this->vitesseCourante = 0;
 }
 
 QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
-
 	this->sampleTime = sampleTime;
 	this->rampAcc = rampAcc;
 	this->rampDec = rampDec;
@@ -25,7 +31,6 @@ QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
 }
 
 QuadRamp::~QuadRamp() {
-	// TODO Auto-generated destructor stub
 }
 
 // --------------------------------------------------------- //
