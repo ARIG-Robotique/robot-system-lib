@@ -7,9 +7,6 @@
 
 #include "RobotManager.h"
 
-// Pre instanciate (en variable global, c'est mal mais le SDK Arduino marche comme ça).
-RobotManager RM = RobotManager();
-
 RobotManager::RobotManager() {
 	odom = Odometrie();
 	enc = Encodeurs();
@@ -19,6 +16,10 @@ RobotManager::RobotManager() {
 
 RobotManager::~RobotManager() {
 }
+
+/* ------------------------------------------------------------------ */
+/* ------------------------ BUSINESS METHODS ------------------------ */
+/* ------------------------------------------------------------------ */
 
 /*
  * Cette méthode permet de réaliser les fonctions lié aux déplacements.
@@ -32,4 +33,7 @@ void RobotManager::process() {
 	// 2. Calcul des consignes
 
 	// 3. Asservissement sur les consignes
+	asserv.process(&enc, &consigne);
+
+	// 4. Envoi aux moteurs
 }

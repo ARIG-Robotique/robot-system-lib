@@ -31,6 +31,12 @@ public:
 	void setVitesseOrientation(double value);
 	double getVitesseOrientation();
 
+	void setCmdGauche(int value);
+	int getCmdGauche();
+
+	void setCmdDroit(int value);
+	int getCmdDroit();
+
 	void enableFrein();
 	void disableFrein();
 	bool isFreinEnable();
@@ -43,6 +49,9 @@ private:
 	double consigneOrientation;
 	double setPointOrientation;
 	double vitesseOrientation;
+
+	int cmdDroit;
+	int cmdGauche;
 
 	bool frein;
 };
