@@ -9,16 +9,25 @@
 #include "../../filters/PID_v1.h"
 #include "../../filters/QuadRamp.h"
 
+/*
+ * Constructeur
+ */
 Asservissement::Asservissement() {
 	this->sampleTime = 100;
 	setup();
 }
 
+/*
+ * Constructeur
+ */
 Asservissement::Asservissement(int sampleTime) {
 	this->sampleTime = sampleTime;
 	setup();
 }
 
+/*
+ * Destructeur
+ */
 Asservissement::~Asservissement() {
 }
 
@@ -26,6 +35,10 @@ Asservissement::~Asservissement() {
 // ----------------------- BUSINESS METHODS --------------------- //
 // -------------------------------------------------------------- //
 
+/*
+ * Cette mŽthode initialise l'asservissement.
+ * Les valeurs peuvent tre modifiŽ par les accesseurs.
+ */
 void Asservissement::setup() {
 	// Variable
 	inputDistance = inputOrientation = 0;
@@ -33,7 +46,6 @@ void Asservissement::setup() {
 	consigneDistance = consigneOrientation = 0;
 
 	// Initialisation des Žlements de l'asservissement
-	motors = MD22Moteurs();
 	pidDistance = PID(&inputDistance, &outputDistance, &consigneDistance, 1, 0, 0, DIRECT);
 	pidOrientation = PID(&inputOrientation, &outputOrientation, &consigneOrientation, 1, 0, 0, DIRECT);
 	filterDistance = QuadRamp(sampleTime, 100, 100);
@@ -65,9 +77,8 @@ void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 	pidOrientation.Compute();
 
 	// Envoi des consignes aux moteurs
-	int cmdDroit = outputDistance + outputOrientation;
-	int cmdGauche = outputDistance - outputOrientation;
-	motors.generateMouvement(cmdGauche, cmdDroit);
+	cp->setCmdDroit(outputDistance + outputOrientation);
+	cp->setCmdGauche(outputDistance - outputOrientation);
 }
 
 // -------------------------------------------------------------- //

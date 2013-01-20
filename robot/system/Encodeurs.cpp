@@ -8,14 +8,37 @@
 #include "Encodeurs.h"
 #include <Wire.h>
 
+/*
+ * Constructeur
+ */
 Encodeurs::Encodeurs() {
 	alternate = false;
 	distance = orientation = 0;
 }
 
+/*
+ * Destructeur
+ */
 Encodeurs::~Encodeurs() {
 }
 
+/*
+ * Reset des valeurs codeurs
+ */
+void Encodeurs::reset() {
+	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
+	Wire.write(CMD_RESET);
+	Wire.endTransmission();
+
+	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
+	Wire.write(CMD_RESET);
+	Wire.endTransmission();
+}
+
+/*
+ * Lecture de la valeurs des codeurs.
+ * La lecture est alterné afin de ne pas inclure d'érreur du au temps de lecture.
+ */
 void Encodeurs::lectureValeurs() {
 	alternate = !alternate;
 	double gauche, droit;
@@ -29,13 +52,25 @@ void Encodeurs::lectureValeurs() {
 	setValeursCodeurs(gauche, droit);
 }
 
+/*
+ * Lecture de la valeur du codeur de la roue gauche
+ */
 double Encodeurs::lectureGauche() {
 	return lectureData(ADD_CARTE_CODEUR_GAUCHE);
 }
+
+/*
+ * Lecture de la valeur du codeur de la roue droite
+ */
 double Encodeurs::lectureDroit() {
 	return lectureData(ADD_CARTE_CODEUR_DROIT);
 }
 
+/*
+ * Fonction de lecture depuis une des carte codeurs.
+ * 1) On envoi la commande de lecture.
+ * 2) On demande la récupération de 4 octets.
+ */
 double Encodeurs::lectureData(int address) {
 	// 1. Envoi de la commande de lecture
 	Wire.beginTransmission(address);
@@ -64,14 +99,4 @@ double Encodeurs::getOrientation() {
 void Encodeurs::setValeursCodeurs(double gauche, double droit) {
 	distance = (droit + gauche) / 2;
 	orientation = droit - gauche;
-}
-
-void Encodeurs::reset() {
-	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
-	Wire.write(CMD_RESET);
-	Wire.endTransmission();
-
-	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
-	Wire.write(CMD_RESET);
-	Wire.endTransmission();
 }

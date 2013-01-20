@@ -11,8 +11,8 @@
 #include "../../filters/PID_v1.h"
 #include "../../filters/QuadRamp.h"
 #include "../vo/ConsignePolaire.h"
+#include "../vo/ConsigneMoteursPropulsion.h"
 #include "Encodeurs.h"
-#include "MD22Moteurs.h"
 
 class Asservissement {
 public:
@@ -29,7 +29,6 @@ public:
 	void process(Encodeurs * encodeurs, ConsignePolaire * consignePolaire);
 
 private:
-	MD22Moteurs motors;
 	PID pidOrientation;
 	PID pidDistance;
 	QuadRamp filterDistance;

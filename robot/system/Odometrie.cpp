@@ -7,19 +7,34 @@
 
 #include "Odometrie.h"
 
-
+/*
+ * Constructeur
+ */
 Odometrie::Odometrie() {
 	position = RobotPosition();
 	position.updatePosition(0, 0, 0);
 }
 
+/*
+ * Destructeur
+ */
 Odometrie::~Odometrie() {
 }
 
+/*
+ * Initialisation de l'odométrie avec une position.
+ */
 void Odometrie::initOdometrie(double x, double y, int angle) {
 	position.updatePosition(x, y, angle);
 }
 
+/*
+ * Calcul de la position en fonction de la valeurs des codeurs.
+ * Ce calcul est effectué avec le postulat que durant le labs de temps écoulé le robot a roulé droit (pas en courbe).
+ * On parle donc d'approximation linéaire.
+ *
+ * /!\ Cette méthode doit être appelé après la lecture des valeurs codeurs toutes les x ms.
+ */
 void Odometrie::calculPosition(Encodeurs * enc) {
 	// Approximation linéaire
 	position.setAngle(position.getAngle() + enc->getOrientation());
@@ -37,6 +52,9 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 	positionCourrante.theta += arcAngle;*/
 }
 
+/*
+ * Renvoi la position calculé.
+ */
 RobotPosition Odometrie::getPosition() {
 	return position;
 }
