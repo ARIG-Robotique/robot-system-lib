@@ -11,8 +11,3 @@ LMD18200Moteurs::LMD18200Moteurs() {
 	// TODO Auto-generated constructor stub
 
 }
-
-LMD18200Moteurs::~LMD18200Moteurs() {
-	// TODO Auto-generated destructor stub
-}
-

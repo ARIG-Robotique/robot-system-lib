@@ -11,14 +11,12 @@
 #include "../../filters/PID_v1.h"
 #include "../../filters/QuadRamp.h"
 #include "../vo/ConsignePolaire.h"
-#include "../vo/ConsigneMoteursPropulsion.h"
 #include "Encodeurs.h"
 
 class Asservissement {
 public:
 	Asservissement();
 	Asservissement(int sampleTime);
-	virtual ~Asservissement();
 
 	void setSampleTime(int sampleTime);
 	void setPIDDistance(double kp, double ki, double kd);

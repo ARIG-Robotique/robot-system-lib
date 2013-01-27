@@ -11,7 +11,6 @@
 class RobotPosition {
 public:
 	RobotPosition();
-	virtual ~RobotPosition();
 
 	void updatePosition(double x, double y, int angle);
 

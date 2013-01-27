@@ -11,7 +11,6 @@
 class Encodeurs {
 public:
 	Encodeurs();
-	virtual ~Encodeurs();
 
 	void lectureValeurs();
 	double getDistance();

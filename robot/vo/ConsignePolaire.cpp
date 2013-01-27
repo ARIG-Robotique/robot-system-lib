@@ -19,9 +19,6 @@ ConsignePolaire::ConsignePolaire() {
 	enableFrein();
 }
 
-ConsignePolaire::~ConsignePolaire() {
-}
-
 void ConsignePolaire::enableFrein() {
 	frein = true;
 }

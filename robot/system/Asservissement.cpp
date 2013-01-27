@@ -25,12 +25,6 @@ Asservissement::Asservissement(int sampleTime) {
 	setup();
 }
 
-/*
- * Destructeur
- */
-Asservissement::~Asservissement() {
-}
-
 // -------------------------------------------------------------- //
 // ----------------------- BUSINESS METHODS --------------------- //
 // -------------------------------------------------------------- //

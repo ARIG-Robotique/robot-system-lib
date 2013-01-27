@@ -20,7 +20,6 @@
 class RobotManager {
 public:
 	RobotManager();
-	virtual ~RobotManager();
 
 	void process();
 

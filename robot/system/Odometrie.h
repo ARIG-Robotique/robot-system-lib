@@ -17,7 +17,6 @@
 class Odometrie {
 public:
 	Odometrie();
-	virtual ~Odometrie();
 
 	void initOdometrie(double x, double y, int angle);
 	void calculPosition(Encodeurs *);

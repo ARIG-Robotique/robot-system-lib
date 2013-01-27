@@ -18,7 +18,6 @@
 class Convertion {
 public:
 	Convertion(double, double);
-	virtual ~Convertion();
 
 	long int mmToPulse(long int);
 	long int pulseToMm(long int);

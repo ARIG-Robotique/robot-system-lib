@@ -16,12 +16,6 @@ Odometrie::Odometrie() {
 }
 
 /*
- * Destructeur
- */
-Odometrie::~Odometrie() {
-}
-
-/*
  * Initialisation de l'odométrie avec une position.
  */
 void Odometrie::initOdometrie(double x, double y, int angle) {

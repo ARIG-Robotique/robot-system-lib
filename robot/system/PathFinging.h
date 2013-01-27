@@ -13,7 +13,6 @@
 class PathFinging {
 public:
 	PathFinging();
-	virtual ~PathFinging();
 };
 
 #endif /* PATHFINGING_H_ */
