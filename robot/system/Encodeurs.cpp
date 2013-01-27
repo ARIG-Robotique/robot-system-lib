@@ -17,12 +17,6 @@ Encodeurs::Encodeurs() {
 }
 
 /*
- * Destructeur
- */
-Encodeurs::~Encodeurs() {
-}
-
-/*
  * Reset des valeurs codeurs
  */
 void Encodeurs::reset() {

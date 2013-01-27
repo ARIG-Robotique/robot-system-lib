@@ -14,9 +14,6 @@ Convertion::Convertion(double countPerMm, double countPerDegree) {
 	this->countPerDegree = countPerDegree;
 }
 
-Convertion::~Convertion() {
-}
-
 long int Convertion::mmToPulse(long int val) {
 	return val * countPerMm;
 }

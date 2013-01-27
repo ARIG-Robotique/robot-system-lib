@@ -11,7 +11,6 @@
 class ConsignePolaire {
 public:
 	ConsignePolaire();
-	virtual ~ConsignePolaire();
 
 	void setConsigneDistance(double value);
 	double getConsigneDistance();

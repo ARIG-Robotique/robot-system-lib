@@ -13,7 +13,6 @@
 class LMD18200Moteurs {
 public:
 	LMD18200Moteurs();
-	virtual ~LMD18200Moteurs();
 };
 
 #endif /* LMD18200MOTEURS_H_ */

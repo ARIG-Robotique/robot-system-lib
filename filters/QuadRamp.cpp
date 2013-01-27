@@ -36,12 +36,6 @@ QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
 	this->vitesseCourante = 0;
 }
 
-/*
- * Destructeur
- */
-QuadRamp::~QuadRamp() {
-}
-
 // --------------------------------------------------------- //
 // --------------------- BUSINESS METHODS ------------------ //
 // --------------------------------------------------------- //

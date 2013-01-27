@@ -13,7 +13,6 @@ class MD22Moteurs {
 public:
 	MD22Moteurs();
 	MD22Moteurs(int mode, int accel);
-	virtual ~MD22Moteurs();
 
 	void generateMouvement(int gauche, int droit);
 	void stop();

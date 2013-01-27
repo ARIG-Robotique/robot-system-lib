@@ -26,12 +26,6 @@ MD22Moteurs::MD22Moteurs(int mode, int accel) {
 }
 
 /*
- * Destructeur
- */
-MD22Moteurs::~MD22Moteurs() {
-}
-
-/*
  * Envoi d'une consigne sur le moteur Gauche
  */
 void MD22Moteurs::moteurGauche(int val) {

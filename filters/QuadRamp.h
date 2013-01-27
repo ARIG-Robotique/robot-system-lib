@@ -12,7 +12,6 @@ class QuadRamp {
 public:
 	QuadRamp();
 	QuadRamp(int sampleTime, double rampAcc, double rampDec);
-	virtual ~QuadRamp();
 
 	void setSampleTime(int value);
 	void setRampAcc(double value);

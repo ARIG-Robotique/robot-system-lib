@@ -11,8 +11,3 @@ PathFinging::PathFinging() {
 	// TODO Auto-generated constructor stub
 
 }
-
-PathFinging::~PathFinging() {
-	// TODO Auto-generated destructor stub
-}
-
