@@ -129,12 +129,15 @@
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/robot-system-lib"/>
 		</configuration>
-		<configuration configurationName="Release Standard">
-			<resource resourceType="PROJECT" workspacePath="/robot-system-lib"/>
-		</configuration>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/robot-system-lib"/>
 		</configuration>
+		<configuration configurationName="Release Standard">
+			<resource resourceType="PROJECT" workspacePath="/robot-system-lib"/>
+			<resource resourceType="PROJECT" workspacePath="/robot-main-small"/>
+			<resource resourceType="PROJECT" workspacePath="/robot-main-big"/>
+		</configuration>
+		<configuration configurationName="Release Mega"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="scannerConfiguration">
