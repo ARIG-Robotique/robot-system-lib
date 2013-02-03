@@ -31,7 +31,7 @@ void Encodeurs::reset() {
 
 /*
  * Lecture de la valeurs des codeurs.
- * La lecture est altern afin de ne pas inclure d'rreur du au temps de lecture.
+ * La lecture est altern afin de ne pas inclure d'erreur du au temps de lecture.
  */
 void Encodeurs::lectureValeurs() {
 	alternate = !alternate;
