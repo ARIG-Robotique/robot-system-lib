@@ -1,13 +1,13 @@
 /*
- * LMD18200Moteurs.cpp
+ * LMD18200.cpp
  *
  *  Created on: 20 janv. 2013
  *      Author: mythril
  */
 
-#include "LMD18200Moteurs.h"
+#include "LMD18200.h"
 
-LMD18200Moteurs::LMD18200Moteurs() {
+LMD18200::LMD18200() {
 	// TODO Auto-generated constructor stub
 
 }

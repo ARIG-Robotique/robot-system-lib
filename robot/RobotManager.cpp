@@ -12,6 +12,7 @@ RobotManager::RobotManager() {
 	enc = Encodeurs();
 	consigne = ConsignePolaire();
 	asserv = Asservissement();
+	moteurs = MD22();
 }
 
 /* ------------------------------------------------------------------ */
@@ -28,9 +29,13 @@ void RobotManager::process() {
 	odom.calculPosition(&enc);
 
 	// 2. Calcul des consignes
+	// 	-> a : Gestion en fonction de l'odomŽtrie
+	//	-> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
+	// TODO
 
 	// 3. Asservissement sur les consignes
 	asserv.process(&enc, &consigne);
 
 	// 4. Envoi aux moteurs
+	moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
 }
