@@ -26,7 +26,7 @@ char Board2007NoMux::readCapteurValue(char capteurId) {
 }
 
 boolean Board2007NoMux::check(char capteurId) {
-	if (capteurId >= 0 && capteurId <= 24) {
+	if (capteurId >= 0 && capteurId < NB_CAPTEUR) {
 		return true;
 	}
 
