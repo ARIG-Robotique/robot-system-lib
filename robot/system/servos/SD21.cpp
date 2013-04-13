@@ -83,7 +83,7 @@ void SD21::printVersion() {
  * MŽthode pour le contr™le du numŽro du servo
  * Renvoi true si entre 1 et 21 inclus, false sinon
  */
-boolean checkServo(char servoNb) {
+boolean SD21::checkServo(char servoNb) {
 	if (servoNb >= 1 && servoNb <= 21) {
 		return true;
 	}
@@ -98,6 +98,6 @@ boolean checkServo(char servoNb) {
  *  1 : LOW BYTE POSITION REGISTER
  *  2 : HIGH BYTE POSITION REGISTER
  */
-char getBaseRegister(char servoNb) {
+char SD21::getBaseRegister(char servoNb) {
 	return servoNb * 3 - 3;
 }
