@@ -14,23 +14,29 @@ public:
 	MD22();
 	MD22(int mode, int accel);
 
+	void init();
+	void printVersion();
 	void generateMouvement(int gauche, int droit);
 	void moteurGauche(int);
 	void moteurDroit(int);
+	void moteur1(int);
+	void moteur2(int);
 	void stopAll();
 	void stopGauche();
 	void stopDroit();
+	void stop1();
+	void stop2();
 	void setMode(char value);
 	void setAccel(char value);
 
 private:
-	#define ADD_BOARD				0x58
+	#define MD22_ADD_BOARD				0x58
 
 	#define MODE_REGISTER			0x00
 	#define ACCEL_REGISTER			0x03
 	#define LEFT_MOTOR_REGISTER		0x01
 	#define RIGHT_MOTOR_REGISTER	0x02
-	#define VERSION_REGISTER		0x07
+	#define MD22_VERSION_REGISTER	0x07
 
 	#define MODE_0					0 // 0 (Reverse) - 128 (Stop) - 255 (Forward)
 	#define MODE_1					1 // -128 (Reverse) - 0 (Stop) - 127 (Forward)
@@ -53,9 +59,7 @@ private:
 	int maxVal;
 	int stopVal;
 
-	void init();
 	int check(int);
-	void printVersion();
 };
 
 #endif /* MD22_H_ */

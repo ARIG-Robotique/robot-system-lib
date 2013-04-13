@@ -17,36 +17,40 @@ MD22::MD22() {
 	alternate = false;
 	modeValue = DEFAULT_MODE_VALUE;
 	accelValue = DEFAULT_ACCEL_VALUE;
-
-	init();
 }
 
 MD22::MD22(int mode, int accel) {
 	alternate = false;
 	modeValue = mode;
 	accelValue = accel;
-
-	init();
 }
 
 /*
  * Envoi d'une consigne sur le moteur Gauche
  */
 void MD22::moteurGauche(int val) {
-	Wire.beginTransmission(ADD_BOARD);
+	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(LEFT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	Wire.endTransmission();
+}
+
+void MD22::moteur1(int val) {
+	moteurGauche(val);
 }
 
 /*
  * Envoi d'une consigne sur le moteur Droit
  */
 void MD22::moteurDroit(int val) {
-	Wire.beginTransmission(ADD_BOARD);
+	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(RIGHT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	Wire.endTransmission();
+}
+
+void MD22::moteur2(int val) {
+	moteurDroit(val);
 }
 
 /*
@@ -95,6 +99,10 @@ void MD22::stopDroit() {
 	moteurDroit(stopVal);
 }
 
+void MD22::stop2() {
+	stopDroit();
+}
+
 /*
  * Stop le moteur gauche
  */
@@ -102,16 +110,20 @@ void MD22::stopGauche() {
 	moteurGauche(stopVal);
 }
 
+void MD22::stop1() {
+	stopGauche();
+}
+
 /*
  * Initialisation de la carte MD22.
  * La configuration du mode
  */
 void MD22::init() {
-	printVersion();
-
 	setMode(modeValue);
 	delayMicroseconds(100);
 	setAccel(accelValue);
+
+	stopAll();
 }
 
 /*
@@ -159,7 +171,7 @@ void MD22::setAccel(char value) {
 	accelValue = value;
 
 	// Set accelleration
-	Wire.beginTransmission(ADD_BOARD);
+	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(ACCEL_REGISTER);
 	Wire.write(value);
 	Wire.endTransmission();
@@ -187,7 +199,7 @@ void MD22::setMode(char value) {
 	}
 
 	// Set mode
-	Wire.beginTransmission(ADD_BOARD);
+	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(MODE_REGISTER);
 	Wire.write(modeValue);
 	Wire.endTransmission();
@@ -197,17 +209,16 @@ void MD22::setMode(char value) {
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */
 void MD22::printVersion() {
-#ifdef DEBUG_MODE
-	Wire.beginTransmission(ADD_BOARD);
-	Wire.write(VERSION_REGISTER);
+	Wire.beginTransmission(MD22_ADD_BOARD);
+	Wire.write(MD22_VERSION_REGISTER);
 	Wire.endTransmission();
 
-	Wire.requestFrom(ADD_BOARD, 1);
+	Wire.requestFrom(MD22_ADD_BOARD, 1);
 	while(Wire.available() < 1);
 	int software = Wire.read();
 
-	Serial.print("MD22 software V : ");
-	Serial.println(software);
-#endif
+	Serial.print(" - MD22 [OK] (V : ");
+	Serial.print(software);
+	Serial.println(")");
 }
 

@@ -14,20 +14,19 @@ class SD21 {
 public:
 	SD21();
 
+	void printVersion();
 	void setPosition(char servoNb, int position);
 	void setSpeed(char servoNb, char speed);
 	void setPositionAndSpeed(int servoNb, char speed, int position);
 
 
 private:
-	#define ADD_BOARD				0x61
+	#define SD21_ADD_BOARD				0x61
 
-	#define VERSION_REGISTER		0x40
+	#define SD21_VERSION_REGISTER		0x40
 
-	void init();
 	boolean checkServo(char servoNb);
 	char getBaseRegister(char servoNb);
-	void printVersion();
 };
 
 #endif /* SD21_H_ */

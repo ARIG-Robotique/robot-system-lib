@@ -11,15 +11,6 @@
 #include <Wire.h>
 
 SD21::SD21() {
-	init();
-}
-
-/*
- * Initialisation de la carte MD22.
- * La configuration du mode
- */
-void SD21::init() {
-	printVersion();
 }
 
 /*
@@ -27,7 +18,7 @@ void SD21::init() {
  */
 void SD21::setPosition(char servoNb, int position) {
 	if (checkServo(servoNb)) {
-		Wire.beginTransmission(ADD_BOARD);
+		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb) + 1);
 		Wire.write(position & 0xFF);
 		Wire.write(position >> 8);
@@ -40,7 +31,7 @@ void SD21::setPosition(char servoNb, int position) {
  */
 void SD21::setSpeed(char servoNb, char speed) {
 	if (checkServo(servoNb)) {
-		Wire.beginTransmission(ADD_BOARD);
+		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb));
 		Wire.write(speed);
 		Wire.endTransmission();
@@ -52,7 +43,7 @@ void SD21::setSpeed(char servoNb, char speed) {
  */
 void SD21::setPositionAndSpeed(int servoNb, char speed, int position) {
 	if (checkServo(servoNb)) {
-		Wire.beginTransmission(ADD_BOARD);
+		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb));
 		Wire.write(speed);
 		Wire.write(position & 0xFF);
@@ -65,18 +56,17 @@ void SD21::setPositionAndSpeed(int servoNb, char speed, int position) {
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */
 void SD21::printVersion() {
-#ifdef DEBUG_MODE
-	Wire.beginTransmission(ADD_BOARD);
-	Wire.write(VERSION_REGISTER);
+	Wire.beginTransmission(SD21_ADD_BOARD);
+	Wire.write(SD21_VERSION_REGISTER);
 	Wire.endTransmission();
 
-	Wire.requestFrom(ADD_BOARD, 1);
+	Wire.requestFrom(SD21_ADD_BOARD, 1);
 	while(Wire.available() < 1);
 	int software = Wire.read();
 
-	Serial.print("SD21 software V : ");
-	Serial.println(software);
-#endif
+	Serial.print(" - SD21 [OK] (V : ");
+	Serial.print(software);
+	Serial.println(")");
 }
 
 /*
