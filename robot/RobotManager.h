@@ -16,6 +16,7 @@
 #include "system/Encodeurs.h"
 #include "system/Odometrie.h"
 #include "system/Asservissement.h"
+#include "system/motors/MD22.h"
 
 class RobotManager {
 public:
@@ -28,6 +29,7 @@ private:
 	Encodeurs enc;
 	ConsignePolaire consigne;
 	Asservissement asserv;
+	MD22 moteurs;
 
 	void calculConsigne();
 };
