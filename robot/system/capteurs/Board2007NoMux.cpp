@@ -8,24 +8,40 @@
 #include "Board2007NoMux.h"
 
 Board2007NoMux::Board2007NoMux() {
+	// Initialisation
+	for (int i = 0 ; i < NB_CAPTEUR ; i++) {
+		capteurPins[i] = UNDEF_PIN;
+	}
 }
 
-void Board2007NoMux::setPinForCapteur(char capteurId, char pin) {
+/*
+ * Fonction permettant d'associer un idCapteur a un pin de la carte.
+ * Le configuration de l'IO est fait en mme temps.
+ */
+void Board2007NoMux::setPinForCapteur(byte capteurId, byte pin) {
 	if (check(capteurId)) {
 		pinMode(pin, INPUT);
-		this->capteurPins[capteurId] = pin;
+		capteurPins[capteurId] = pin;
 	}
 }
 
-char Board2007NoMux::readCapteurValue(char capteurId) {
-	if (check(capteurId)) {
-		return digitalRead(this->capteurPins[capteurId]);
+/*
+ * Fonction de lecture de la valeur d'un capteur.
+ * La rŽcupŽration se fait par l'ID du capteur.
+ */
+char Board2007NoMux::readCapteurValue(byte capteurId) {
+	if (check(capteurId) && capteurPins[capteurId] != UNDEF_PIN) {
+		return digitalRead(capteurPins[capteurId]);
 	}
 
-	return -1;
+	return UNDEF_VAL;
 }
 
-boolean Board2007NoMux::check(char capteurId) {
+/*
+ * Contr™le que l'ID du capteur est bien dans les bornes pour eviter
+ * une erreur de lecture du tableau des pin des capteurs
+ */
+boolean Board2007NoMux::check(byte capteurId) {
 	if (capteurId >= 0 && capteurId < NB_CAPTEUR) {
 		return true;
 	}
