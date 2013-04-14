@@ -30,6 +30,14 @@ void RobotManager::init() {
 
 	// Initialisation du contrôle moteurs
 	moteurs.init();
+	moteurs.printVersion();
+}
+
+/*
+ * Fonction permettant de gérer l'arret des actionneur du manageur
+ */
+void RobotManager::stop() {
+	moteurs.stopAll();
 }
 
 /*
@@ -43,6 +51,8 @@ void RobotManager::process() {
 		timePrec = time;
 		Serial.print("RM PROCESS : ");
 		Serial.println(timePrec, DEC);
+
+		moteurs.generateMouvement(20, 20);
 		/*
 		// 1. Calcul de la position du robot
 		enc.lectureValeurs();

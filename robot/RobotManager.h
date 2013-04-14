@@ -24,6 +24,7 @@ public:
 
 	void init();
 	void process();
+	void stop();
 
 	// Configuration de l'asservissement
 	void setSampleTime(int sampleTime);
@@ -44,7 +45,5 @@ private:
 
 	void calculConsigne();
 };
-
-extern RobotManager RM;
 
 #endif /* ROBOTMANAGER_H_ */
