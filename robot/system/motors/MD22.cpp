@@ -120,7 +120,7 @@ void MD22::stop1() {
 
 /*
  * Initialisation de la carte MD22.
- * La configuration du mode
+ * Configuration du mode et de l'acceleration du moteur.
  */
 void MD22::init() {
 	init(true);
