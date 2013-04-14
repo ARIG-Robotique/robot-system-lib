@@ -71,12 +71,12 @@ double Encodeurs::lectureData(int address) {
 	Wire.write(CMD_LECTURE);
 	Wire.endTransmission();
 
-	// 2. Demande des infos sur 4 octet
+	// 2. Demande des infos sur 2 octets (int sur 2 byte avec un AVR 8 bits)
 	int value = 0;
-	Wire.requestFrom(address, 4);
+	Wire.requestFrom(address, 2);
 	while(Wire.available()) {
 	    value += Wire.read();
-	    value = value << 8;
+	    value = value << 8; // DŽcalage a gauche. L'envoi est fait du MSB au LSB
 	}
 
 	return value;
