@@ -22,6 +22,11 @@ void Board2007NoMux::setPinForCapteur(byte capteurId, byte pin) {
 	if (check(capteurId)) {
 		pinMode(pin, INPUT);
 		capteurPins[capteurId] = pin;
+
+		Serial.print(" * Configuration capteur ");
+		Serial.print(capteurId, DEC);
+		Serial.print(" sur la pin ");
+		Serial.println(pin, DEC);
 	}
 }
 
