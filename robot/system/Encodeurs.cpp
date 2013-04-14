@@ -5,8 +5,9 @@
  *      Author: mythril
  */
 
-#include "Encodeurs.h"
+#include <Arduino.h>
 #include <Wire.h>
+#include "Encodeurs.h"
 
 /*
  * Constructeur
@@ -20,10 +21,12 @@ Encodeurs::Encodeurs() {
  * Reset des valeurs codeurs
  */
 void Encodeurs::reset() {
+	Serial.println(" * Reset carte codeur droit");
 	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
 	Wire.write(CMD_RESET);
 	Wire.endTransmission();
 
+	Serial.println(" * Reset carte codeur gauche");
 	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
 	Wire.write(CMD_RESET);
 	Wire.endTransmission();
