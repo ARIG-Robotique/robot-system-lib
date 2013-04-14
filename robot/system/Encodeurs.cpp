@@ -8,6 +8,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "Encodeurs.h"
+#include "../utils/I2CUtils.h"
 
 /*
  * Constructeur
@@ -15,6 +16,7 @@
 Encodeurs::Encodeurs() {
 	alternate = false;
 	distance = orientation = 0;
+	retCode = I2C_ACK;
 }
 
 /*
@@ -24,12 +26,18 @@ void Encodeurs::reset() {
 	Serial.println(" * Reset carte codeur droit");
 	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
 	Wire.write(CMD_RESET);
-	Wire.endTransmission();
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
 
 	Serial.println(" * Reset carte codeur gauche");
 	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
 	Wire.write(CMD_RESET);
-	Wire.endTransmission();
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
 }
 
 /*
@@ -72,17 +80,22 @@ double Encodeurs::lectureData(int address) {
 	// 1. Envoi de la commande de lecture
 	Wire.beginTransmission(address);
 	Wire.write(CMD_LECTURE);
-	Wire.endTransmission();
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+		return 0;
+	} else {
 
-	// 2. Demande des infos sur 2 octets (int sur 2 byte avec un AVR 8 bits)
-	int value = 0;
-	Wire.requestFrom(address, 2);
-	while(Wire.available()) {
-	    value += Wire.read();
-	    value = value << 8; // DŽcalage a gauche. L'envoi est fait du MSB au LSB
+		// 2. Demande des infos sur 2 octets (int sur 2 byte avec un AVR 8 bits)
+		int value = 0;
+		Wire.requestFrom(address, 2);
+		while(Wire.available()) {
+			value += Wire.read();
+			value = value << 8; // DŽcalage a gauche. L'envoi est fait du MSB au LSB
+		}
+
+		return value;
 	}
-
-	return value;
 }
 
 double Encodeurs::getDistance() {
@@ -96,4 +109,41 @@ double Encodeurs::getOrientation() {
 void Encodeurs::setValeursCodeurs(double gauche, double droit) {
 	distance = (droit + gauche) / 2;
 	orientation = droit - gauche;
+}
+
+/*
+ * Cette mŽthode affiche la version de la carte sur la liaison sŽrie
+ */
+void Encodeurs::printVersion() {
+	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
+	Wire.write(CMD_VERSION);
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isOk(retCode)) {
+		Wire.requestFrom(ADD_CARTE_CODEUR_DROIT, 1);
+		while(Wire.available() < 1);
+		int software = Wire.read();
+
+		Serial.print(" - Codeur droit [OK] (V : ");
+		Serial.print(software);
+		Serial.println(")");
+	} else {
+		Serial.println(" - Codeur droit [KO]");
+		i2cUtils.printReturnCode(retCode);
+	}
+
+	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
+	Wire.write(CMD_VERSION);
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isOk(retCode)) {
+		Wire.requestFrom(ADD_CARTE_CODEUR_GAUCHE, 1);
+		while(Wire.available() < 1);
+		int software = Wire.read();
+
+		Serial.print(" - Codeur gauche [OK] (V : ");
+		Serial.print(software);
+		Serial.println(")");
+	} else {
+		Serial.println(" - Codeur gauche [KO]");
+		i2cUtils.printReturnCode(retCode);
+	}
 }
