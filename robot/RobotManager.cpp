@@ -13,6 +13,8 @@ RobotManager::RobotManager() {
 	consigne = ConsignePolaire();
 	asserv = Asservissement();
 	moteurs = MD22();
+
+	timePrec = time = 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -36,8 +38,12 @@ void RobotManager::init() {
  * tre appŽlŽ depuis la loop principale.
  */
 void RobotManager::process() {
-	// TODO : Ajouter le schŽduling avec millis()
-	if (true) {
+	time = millis();
+	if ((time - timePrec) >= asserv.getSampleTime()) {
+		timePrec = time;
+		Serial.print("RM PROCESS : ");
+		Serial.println(timePrec, DEC);
+		/*
 		// 1. Calcul de la position du robot
 		enc.lectureValeurs();
 		odom.calculPosition(&enc);
@@ -52,6 +58,7 @@ void RobotManager::process() {
 
 		// 4. Envoi aux moteurs
 		moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
+		*/
 	}
 }
 

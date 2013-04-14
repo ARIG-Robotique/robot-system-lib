@@ -39,6 +39,9 @@ private:
 	Asservissement asserv;
 	MD22 moteurs;
 
+	unsigned long timePrec;
+	unsigned long time;
+
 	void calculConsigne();
 };
 
