@@ -22,6 +22,7 @@ class RobotManager {
 public:
 	RobotManager();
 
+	void init();
 	void process();
 
 private:
