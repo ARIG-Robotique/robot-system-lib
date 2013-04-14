@@ -9,6 +9,7 @@
 #define MD22_H_
 
 #include <Arduino.h>
+#include "../../utils/I2CUtils.h"
 
 class MD22 {
 
@@ -54,6 +55,7 @@ private:
 	#define STOP_VAL_MODE_1			0
 	#define MAX_VAL_MODE_1			127
 
+	byte retCode;
 	bool alternate;
 	char modeValue;
 	char accelValue;
