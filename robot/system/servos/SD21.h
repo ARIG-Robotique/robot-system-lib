@@ -9,6 +9,7 @@
 #define SD21_H_
 
 #include <Arduino.h>
+#include "../../utils/I2CUtils.h"
 
 class SD21 {
 public:
@@ -25,6 +26,7 @@ private:
 
 	#define SD21_VERSION_REGISTER		0x40
 
+	byte retCode;
 	boolean checkServo(byte servoNb);
 	char getBaseRegister(byte servoNb);
 };

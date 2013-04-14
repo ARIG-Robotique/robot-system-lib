@@ -11,6 +11,7 @@
 #include <Wire.h>
 
 SD21::SD21() {
+	retCode = I2C_ACK;
 }
 
 /*
@@ -18,11 +19,19 @@ SD21::SD21() {
  */
 void SD21::setPosition(byte servoNb, word position) {
 	if (checkServo(servoNb)) {
+		Serial.print("[Servo] ");
+		Serial.print(servoNb);
+		Serial.print(" -> P:");
+		Serial.println(position, DEC);
+
 		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb) + 1);
 		Wire.write(position & 0xFF);
 		Wire.write(position >> 8);
-		Wire.endTransmission();
+		retCode = Wire.endTransmission();
+		if (i2cUtils.isError(retCode)) {
+			i2cUtils.printReturnCode(retCode);
+		}
 	}
 }
 
@@ -31,10 +40,18 @@ void SD21::setPosition(byte servoNb, word position) {
  */
 void SD21::setSpeed(byte servoNb, byte speed) {
 	if (checkServo(servoNb)) {
+		Serial.print("[Servo] ");
+		Serial.print(servoNb);
+		Serial.print(" -> S:");
+		Serial.println(speed, DEC);
+
 		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb));
 		Wire.write(speed);
-		Wire.endTransmission();
+		retCode = Wire.endTransmission();
+		if (i2cUtils.isError(retCode)) {
+			i2cUtils.printReturnCode(retCode);
+		}
 	}
 }
 
@@ -43,12 +60,22 @@ void SD21::setSpeed(byte servoNb, byte speed) {
  */
 void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 	if (checkServo(servoNb)) {
+		Serial.print("[Servo] ");
+		Serial.print(servoNb);
+		Serial.print(" -> S:");
+		Serial.print(speed, DEC);
+		Serial.print(" -> P:");
+		Serial.println(position, DEC);
+
 		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb));
 		Wire.write(speed);
 		Wire.write(position & 0xFF);
 		Wire.write(position >> 8);
-		Wire.endTransmission();
+		retCode = Wire.endTransmission();
+		if (i2cUtils.isError(retCode)) {
+			i2cUtils.printReturnCode(retCode);
+		}
 	}
 }
 
@@ -58,15 +85,19 @@ void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 void SD21::printVersion() {
 	Wire.beginTransmission(SD21_ADD_BOARD);
 	Wire.write(SD21_VERSION_REGISTER);
-	Wire.endTransmission();
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isOk(retCode)) {
+		Wire.requestFrom(SD21_ADD_BOARD, 1);
+		while(Wire.available() < 1);
+		int software = Wire.read();
 
-	Wire.requestFrom(SD21_ADD_BOARD, 1);
-	while(Wire.available() < 1);
-	int software = Wire.read();
-
-	Serial.print(" - SD21 [OK] (V : ");
-	Serial.print(software);
-	Serial.println(")");
+		Serial.print(" - SD21 [OK] (V : ");
+		Serial.print(software);
+		Serial.println(")");
+	} else {
+		Serial.println(" - SD21 [KO]");
+		i2cUtils.printReturnCode(retCode);
+	}
 }
 
 /*

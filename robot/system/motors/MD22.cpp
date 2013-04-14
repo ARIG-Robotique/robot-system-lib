@@ -36,7 +36,11 @@ void MD22::moteurGauche(char val) {
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(LEFT_MOTOR_REGISTER);
 	Wire.write(check(val));
-	Wire.endTransmission();
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isError(retCode)) {
+		Serial.println(" * Commande moteur gauche");
+		i2cUtils.printReturnCode(retCode);
+	}
 }
 
 void MD22::moteur1(char val) {
@@ -50,7 +54,11 @@ void MD22::moteurDroit(char val) {
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(RIGHT_MOTOR_REGISTER);
 	Wire.write(check(val));
-	Wire.endTransmission();
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isError(retCode)) {
+		Serial.println(" * Commande moteur droit");
+		i2cUtils.printReturnCode(retCode);
+	}
 }
 
 void MD22::moteur2(char val) {
@@ -189,7 +197,11 @@ void MD22::setAccel(byte value, boolean transmit) {
 		Wire.beginTransmission(MD22_ADD_BOARD);
 		Wire.write(ACCEL_REGISTER);
 		Wire.write(value);
-		Wire.endTransmission();
+		retCode = Wire.endTransmission();
+		if (i2cUtils.isError(retCode)) {
+			Serial.println(" * Set accelleration");
+			i2cUtils.printReturnCode(retCode);
+		}
 	}
 }
 
@@ -223,7 +235,11 @@ void MD22::setMode(byte value, boolean transmit) {
 		Wire.beginTransmission(MD22_ADD_BOARD);
 		Wire.write(MODE_REGISTER);
 		Wire.write(modeValue);
-		Wire.endTransmission();
+		retCode = Wire.endTransmission();
+		if (i2cUtils.isError(retCode)) {
+			Serial.println(" * Set mode");
+			i2cUtils.printReturnCode(retCode);
+		}
 	}
 }
 
@@ -233,14 +249,18 @@ void MD22::setMode(byte value, boolean transmit) {
 void MD22::printVersion() {
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(MD22_VERSION_REGISTER);
-	Wire.endTransmission();
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isOk(retCode)) {
+		Wire.requestFrom(MD22_ADD_BOARD, 1);
+		while(Wire.available() < 1);
+		int software = Wire.read();
 
-	Wire.requestFrom(MD22_ADD_BOARD, 1);
-	while(Wire.available() < 1);
-	int software = Wire.read();
-
-	Serial.print(" - MD22 [OK] (V : ");
-	Serial.print(software);
-	Serial.println(")");
+		Serial.print(" - MD22 [OK] (V : ");
+		Serial.print(software);
+		Serial.println(")");
+	} else {
+		Serial.println(" - MD22 [KO]");
+		i2cUtils.printReturnCode(retCode);
+	}
 }
 
