@@ -11,6 +11,7 @@ Board2007NoMux::Board2007NoMux() {
 	// Initialisation
 	for (int i = 0 ; i < NB_CAPTEUR ; i++) {
 		capteurPins[i] = UNDEF_PIN;
+		capteurReverse[i] = false;
 	}
 }
 
@@ -19,9 +20,14 @@ Board2007NoMux::Board2007NoMux() {
  * Le configuration de l'IO est fait en mme temps.
  */
 void Board2007NoMux::setPinForCapteur(char capteurId, char pin) {
+	setPinForCapteur(capteurId, pin, false);
+}
+
+void Board2007NoMux::setPinForCapteur(char capteurId, char pin, boolean reverse) {
 	if (check(capteurId)) {
 		pinMode(pin, INPUT);
 		capteurPins[capteurId] = pin;
+		capteurReverse[capteurId] = reverse;
 
 		Serial.print(" * Configuration capteur ");
 		Serial.print(capteurId, DEC);
@@ -36,7 +42,11 @@ void Board2007NoMux::setPinForCapteur(char capteurId, char pin) {
  */
 char Board2007NoMux::readCapteurValue(char capteurId) {
 	if (check(capteurId) && capteurPins[capteurId] != UNDEF_PIN) {
-		return digitalRead(capteurPins[capteurId]);
+		int val = digitalRead(capteurPins[capteurId]);
+		if (capteurReverse[capteurId] == true) {
+			val = !val;
+		}
+		return val;
 	}
 
 	return UNDEF_VAL;

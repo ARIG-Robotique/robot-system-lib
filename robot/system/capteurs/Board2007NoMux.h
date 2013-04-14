@@ -18,10 +18,12 @@ public:
 	Board2007NoMux();
 
 	void setPinForCapteur(char capteurId, char pin);
+	void setPinForCapteur(char capteurId, char pin, boolean reverse);
 	char readCapteurValue(char capteurId);
 
 private:
 	char capteurPins[NB_CAPTEUR];
+	boolean capteurReverse[NB_CAPTEUR];
 
 	boolean check(char capteurId);
 };
