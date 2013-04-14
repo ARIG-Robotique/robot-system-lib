@@ -54,3 +54,27 @@ void RobotManager::process() {
 		moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
 	}
 }
+
+/* ------------------------------------------------------------------ */
+/* ------------------------ GETTERS / SETTERS ----------------------- */
+/* ------------------------------------------------------------------ */
+
+void RobotManager::setSampleTime(int sampleTime) {
+	asserv.setSampleTime(sampleTime);
+}
+
+void RobotManager::setPIDDistance(double kp, double ki, double kd) {
+	asserv.setPIDDistance(kp, ki, kd);
+}
+
+void RobotManager::setPIDOrientation(double kp, double ki, double kd) {
+	asserv.setPIDOrientation(kp, ki, kd);
+}
+
+void RobotManager::setRampAcc(double rampDistance, double rampOrientation) {
+	asserv.setRampAcc(rampDistance, rampOrientation);
+}
+
+void RobotManager::setRampDec(double rampDistance, double rampOrientation) {
+	asserv.setRampDec(rampDistance, rampOrientation);
+}
