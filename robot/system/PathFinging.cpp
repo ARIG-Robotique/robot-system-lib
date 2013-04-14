@@ -8,6 +8,4 @@
 #include "PathFinging.h"
 
 PathFinging::PathFinging() {
-	// TODO Auto-generated constructor stub
-
 }

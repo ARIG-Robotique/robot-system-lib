@@ -8,6 +8,4 @@
 #include "LMD18200.h"
 
 LMD18200::LMD18200() {
-	// TODO Auto-generated constructor stub
-
 }

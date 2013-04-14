@@ -15,9 +15,9 @@ public:
 	SD21();
 
 	void printVersion();
-	void setPosition(char servoNb, int position);
-	void setSpeed(char servoNb, char speed);
-	void setPositionAndSpeed(int servoNb, char speed, int position);
+	void setPosition(byte servoNb, word position);
+	void setSpeed(byte servoNb, byte speed);
+	void setPositionAndSpeed(byte servoNb, byte speed, word position);
 
 
 private:
@@ -25,8 +25,8 @@ private:
 
 	#define SD21_VERSION_REGISTER		0x40
 
-	boolean checkServo(char servoNb);
-	char getBaseRegister(char servoNb);
+	boolean checkServo(byte servoNb);
+	char getBaseRegister(byte servoNb);
 };
 
 #endif /* SD21_H_ */

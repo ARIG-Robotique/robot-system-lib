@@ -17,46 +17,50 @@ MD22::MD22() {
 	alternate = false;
 	modeValue = DEFAULT_MODE_VALUE;
 	accelValue = DEFAULT_ACCEL_VALUE;
+
+	init(false);
 }
 
-MD22::MD22(int mode, int accel) {
+MD22::MD22(byte mode, byte accel) {
 	alternate = false;
 	modeValue = mode;
 	accelValue = accel;
+
+	init(false);
 }
 
 /*
  * Envoi d'une consigne sur le moteur Gauche
  */
-void MD22::moteurGauche(int val) {
+void MD22::moteurGauche(char val) {
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(LEFT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	Wire.endTransmission();
 }
 
-void MD22::moteur1(int val) {
+void MD22::moteur1(char val) {
 	moteurGauche(val);
 }
 
 /*
  * Envoi d'une consigne sur le moteur Droit
  */
-void MD22::moteurDroit(int val) {
+void MD22::moteurDroit(char val) {
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(RIGHT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	Wire.endTransmission();
 }
 
-void MD22::moteur2(int val) {
+void MD22::moteur2(char val) {
 	moteurDroit(val);
 }
 
 /*
  * Cette fonction permet de controler les bornes min et max en fonction du mode.
  */
-int MD22::check(int val) {
+char MD22::check(char val) {
 	if (val < minVal) {
 		val = minVal;
 	}
@@ -73,7 +77,7 @@ int MD22::check(int val) {
  * Cela est fait pour ne pas pénalisé un coté vis a vis d'un autre.
  * Normalement le PID devrais gérer ça, mais bon ceinture et bretelle.
  */
-void MD22::generateMouvement(int gauche, int droit) {
+void MD22::generateMouvement(char gauche, char droit) {
 	alternate = !alternate;
 	if (alternate) {
 		moteurGauche(gauche);
@@ -116,14 +120,20 @@ void MD22::stop1() {
 
 /*
  * Initialisation de la carte MD22.
- * La configuration du mode
+ * Configuration du mode et de l'acceleration du moteur.
  */
 void MD22::init() {
-	setMode(modeValue);
-	delayMicroseconds(100);
-	setAccel(accelValue);
+	init(true);
+}
 
-	stopAll();
+void MD22::init(boolean transmit) {
+	setMode(modeValue, transmit);
+	delayMicroseconds(100);
+	setAccel(accelValue, transmit);
+
+	if (transmit) {
+		stopAll();
+	}
 }
 
 /*
@@ -162,7 +172,11 @@ void MD22::init() {
  * | 255		| 16.32ms	| 65			| 150		| 85	| 1.39s				|
  * ----------------------------------------------------------------------------------
  */
-void MD22::setAccel(char value) {
+void MD22::setAccel(byte value) {
+	setAccel(value, true);
+}
+
+void MD22::setAccel(byte value, boolean transmit) {
 	if (value < 0)
 		value = 0;
 	if (value > 255)
@@ -171,17 +185,23 @@ void MD22::setAccel(char value) {
 	accelValue = value;
 
 	// Set accelleration
-	Wire.beginTransmission(MD22_ADD_BOARD);
-	Wire.write(ACCEL_REGISTER);
-	Wire.write(value);
-	Wire.endTransmission();
+	if (transmit) {
+		Wire.beginTransmission(MD22_ADD_BOARD);
+		Wire.write(ACCEL_REGISTER);
+		Wire.write(value);
+		Wire.endTransmission();
+	}
 }
 
 /*
  * Configuration du mode de la carte MD22.
  * Les modes 0 et 1 sont géré uniquement.
  */
-void MD22::setMode(char value) {
+void MD22::setMode(byte value) {
+	setMode(value, true);
+}
+
+void MD22::setMode(byte value, boolean transmit) {
 	modeValue = value;
 	switch (modeValue) {
 		case MODE_0:
@@ -199,14 +219,16 @@ void MD22::setMode(char value) {
 	}
 
 	// Set mode
-	Wire.beginTransmission(MD22_ADD_BOARD);
-	Wire.write(MODE_REGISTER);
-	Wire.write(modeValue);
-	Wire.endTransmission();
+	if (transmit) {
+		Wire.beginTransmission(MD22_ADD_BOARD);
+		Wire.write(MODE_REGISTER);
+		Wire.write(modeValue);
+		Wire.endTransmission();
+	}
 }
 
 /*
- * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
+ * Cette méthode affiche la version de la carte sur la liaison série
  */
 void MD22::printVersion() {
 	Wire.beginTransmission(MD22_ADD_BOARD);

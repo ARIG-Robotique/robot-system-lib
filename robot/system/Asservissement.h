@@ -18,7 +18,8 @@ public:
 	Asservissement();
 	Asservissement(int sampleTime);
 
-	void setSampleTime(int sampleTime);
+	void setSampleTime(unsigned int sampleTime);
+	unsigned int getSampleTime();
 	void setPIDDistance(double kp, double ki, double kd);
 	void setPIDOrientation(double kp, double ki, double kd);
 	void setRampAcc(double rampDistance, double rampOrientation);
@@ -41,7 +42,7 @@ private:
 	double inputDistance;
 	double inputOrientation;
 
-	int sampleTime;
+	unsigned int sampleTime;
 
 	void setup();
 };

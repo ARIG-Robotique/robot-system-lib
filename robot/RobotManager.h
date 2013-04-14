@@ -22,7 +22,16 @@ class RobotManager {
 public:
 	RobotManager();
 
+	void init();
 	void process();
+	void stop();
+
+	// Configuration de l'asservissement
+	void setSampleTime(int sampleTime);
+	void setPIDDistance(double kp, double ki, double kd);
+	void setPIDOrientation(double kp, double ki, double kd);
+	void setRampAcc(double rampDistance, double rampOrientation);
+	void setRampDec(double rampDistance, double rampOrientation);
 
 private:
 	Odometrie odom;
@@ -31,9 +40,10 @@ private:
 	Asservissement asserv;
 	MD22 moteurs;
 
+	unsigned long timePrec;
+	unsigned long time;
+
 	void calculConsigne();
 };
-
-extern RobotManager RM;
 
 #endif /* ROBOTMANAGER_H_ */

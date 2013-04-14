@@ -10,9 +10,22 @@
 #ifndef BOARD2007NOMUX_H_
 #define BOARD2007NOMUX_H_
 
+#include <Arduino.h>
+#include "CapteurDefine.h"
+
 class Board2007NoMux {
 public:
 	Board2007NoMux();
+
+	void setPinForCapteur(char capteurId, char pin);
+	void setPinForCapteur(char capteurId, char pin, boolean reverse);
+	char readCapteurValue(char capteurId);
+
+private:
+	char capteurPins[NB_CAPTEUR];
+	boolean capteurReverse[NB_CAPTEUR];
+
+	boolean check(char capteurId);
 };
 
 #endif /* BOARD2007NOMUX_H_ */
