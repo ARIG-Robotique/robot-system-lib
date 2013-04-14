@@ -8,26 +8,28 @@
 #ifndef MD22_H_
 #define MD22_H_
 
+#include <Arduino.h>
+
 class MD22 {
 
 public:
 	MD22();
-	MD22(int mode, int accel);
+	MD22(byte mode, byte accel);
 
 	void init();
 	void printVersion();
-	void generateMouvement(int gauche, int droit);
-	void moteurGauche(int);
-	void moteurDroit(int);
-	void moteur1(int);
-	void moteur2(int);
+	void generateMouvement(char gauche, char droit);
+	void moteurGauche(char);
+	void moteurDroit(char);
+	void moteur1(char);
+	void moteur2(char);
 	void stopAll();
 	void stopGauche();
 	void stopDroit();
 	void stop1();
 	void stop2();
-	void setMode(char value);
-	void setAccel(char value);
+	void setMode(byte value);
+	void setAccel(byte value);
 
 private:
 	#define MD22_ADD_BOARD				0x58
@@ -59,7 +61,10 @@ private:
 	int maxVal;
 	int stopVal;
 
-	int check(int);
+	char check(char);
+	void setMode(byte value, boolean transmit);
+	void setAccel(byte value, boolean transmit);
+	void init(boolean transmit);
 };
 
 #endif /* MD22_H_ */
