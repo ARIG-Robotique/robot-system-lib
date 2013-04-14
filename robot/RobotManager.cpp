@@ -26,11 +26,12 @@ RobotManager::RobotManager() {
  */
 void RobotManager::init() {
 	// Initialisation des cartes codeurs
+	enc.printVersion();
 	enc.reset();
 
 	// Initialisation du contr™le moteurs
-	moteurs.init();
 	moteurs.printVersion();
+	moteurs.init();
 }
 
 /*
