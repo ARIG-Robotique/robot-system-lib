@@ -8,33 +8,32 @@
 #ifndef CAPTEURDEFINE_H_
 #define CAPTEURDEFINE_H_
 
-#define	NB_CAPTEUR			24
-#define UNDEF_PIN		 	-1
-#define UNDEF_VAL			UNDEF_PIN
+#define	NB_CAPTEUR	23
+#define UNDEF_PIN	-1
+#define UNDEF_VAL	UNDEF_PIN
 
-#define CAPTEUR_01	0
-#define CAPTEUR_02	1
-#define CAPTEUR_03	2
-#define CAPTEUR_04	3
-#define CAPTEUR_05	4
-#define CAPTEUR_06	5
-#define CAPTEUR_07	6
-#define CAPTEUR_08	7
-#define CAPTEUR_09	8
-#define CAPTEUR_10	9
-#define CAPTEUR_11	10
-#define CAPTEUR_12	11
-#define CAPTEUR_13	12
-#define CAPTEUR_14	13
-#define CAPTEUR_15	14
-#define CAPTEUR_16	15
-#define CAPTEUR_17	16
-#define CAPTEUR_18	17
-#define CAPTEUR_19	18
-#define CAPTEUR_20	19
-#define CAPTEUR_21	20
-#define CAPTEUR_22	21
-#define CAPTEUR_23	22
-#define CAPTEUR_24	23
+#define GP2D_01		0
+#define GP2D_02		1
+#define GP2D_03		2
+#define GP2D_04		3
+#define GP2D_05		4
+#define GP2D_06		5
+#define GP2D_07		6
+#define GP2D_08		7
+#define GP2D_09		8
+#define GP2D_10		9
+#define SWITCH_01	10
+#define SWITCH_02	11
+#define SWITCH_03	12
+#define SWITCH_04	13
+#define SWITCH_05	14
+#define SWITCH_06	15
+#define LUM_01		16
+#define LUM_02		17
+#define LUM_03		18
+#define LUM_04		19
+#define IND_01		20
+#define IND_02		21
+#define EQUIPE		22
 
 #endif /* CAPTEURDEFINE_H_ */
