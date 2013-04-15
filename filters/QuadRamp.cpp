@@ -42,10 +42,10 @@ QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
 
 /*
  * Application du filtre.
- * Cette mŽthode est appelŽ depuis la sub routine d'asservissement
+ * Cette mÃ©thode est appelÃ© depuis la sub routine d'asservissement
  */
 double QuadRamp::filter(double vitesse, double consigne, double mesure, bool frein) {
-	// Calcul de la distance de dŽcŽleration en fonction des parametres
+	// Calcul de la distance de dÃ©cÃ©leration en fonction des parametres
 	distanceDecel = Conv.mmToPulse((this->vitesseCourante * this->vitesseCourante) / (2 * this->rampDec));
 	if (vitesseCourante > vitesse	|| (abs(consigne) <= distanceDecel && frein)) {
 		vitesseCourante -= rampDec * sampleTime;
@@ -53,13 +53,13 @@ double QuadRamp::filter(double vitesse, double consigne, double mesure, bool fre
 		vitesseCourante += rampAcc * sampleTime;
 	}
 
-	// Controle pour interdire les valeurs nŽgatives
+	// Controle pour interdire les valeurs nÃ©gatives
 	vitesseCourante = fmax(vitesseCourante, 0);
 
-	// Calcul de la valeur thŽorique en fonction de la vitesse.
+	// Calcul de la valeur thÃ©orique en fonction de la vitesse.
 	double pulseForVitesse = Conv.mmToPulse(vitesseCourante) * sampleTime;
 
-	// Consigne thŽorique en de la vitesse et du temps ŽcoulŽ
+	// Consigne thÃ©orique en de la vitesse et du temps Ã©coulÃ©
 	double ecartTheorique = pulseForVitesse + abs(ecartPrecedent);
 	if (consigne < 0) {
 		ecartTheorique = -ecartTheorique;

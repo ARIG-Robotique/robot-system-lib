@@ -1,7 +1,7 @@
 /*
  * Asservissement.cpp
  *
- *  Created on: 26 dŽc. 2012
+ *  Created on: 26 dÃ©c. 2012
  *      Author: mythril
  */
 
@@ -30,8 +30,8 @@ Asservissement::Asservissement(int sampleTime) {
 // -------------------------------------------------------------- //
 
 /*
- * Cette mŽthode initialise l'asservissement.
- * Les valeurs peuvent tre modifiŽ par les accesseurs.
+ * Cette mÃ©thode initialise l'asservissement.
+ * Les valeurs peuvent Ãªtre modifiÃ© par les accesseurs.
  */
 void Asservissement::setup() {
 	// Variable
@@ -39,7 +39,7 @@ void Asservissement::setup() {
 	outputDistance = outputOrientation = 0;
 	consigneDistance = consigneOrientation = 0;
 
-	// Initialisation des Žlements de l'asservissement
+	// Initialisation des Ã©lements de l'asservissement
 	pidDistance = PID(&inputDistance, &outputDistance, &consigneDistance, 1, 0, 0, DIRECT);
 	pidOrientation = PID(&inputOrientation, &outputOrientation, &consigneOrientation, 1, 0, 0, DIRECT);
 	filterDistance = QuadRamp(sampleTime, 100, 100);
@@ -48,21 +48,21 @@ void Asservissement::setup() {
 	pidDistance.SetSampleTime(sampleTime);
 	pidOrientation.SetSampleTime(sampleTime);
 
-	// DŽfinitions des bornes pour la compatibilitŽ avec la carte MD22
+	// DÃ©finitions des bornes pour la compatibilitÃ© avec la carte MD22
 	pidDistance.SetOutputLimits(-128, 127);
 	pidOrientation.SetOutputLimits(-128, 127);
 }
 
 void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
-	// RŽcupŽration des valeurs rŽel
+	// RÃ©cupÃ©ration des valeurs rÃ©el
 	inputDistance = enc->getDistance();
 	inputOrientation = enc->getOrientation();
 
-	// Application du filtre pour la gŽnŽration du profil trapŽzoidale
+	// Application du filtre pour la gÃ©nÃ©ration du profil trapÃ©zoidale
 	cp->setSetPointDistance(filterDistance.filter(cp->getVitesseDistance(), cp->getConsigneDistance(), enc->getDistance(), cp->isFreinEnable()));
 	cp->setSetPointOrientation(filterOrientation.filter(cp->getVitesseOrientation(), cp->getConsigneOrientation(), enc->getOrientation(), cp->isFreinEnable()));
 
-	// DŽfinition des consignes
+	// DÃ©finition des consignes
 	consigneDistance = cp->getSetPointDistance();
 	consigneOrientation = cp->getSetPointOrientation();
 

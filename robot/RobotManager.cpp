@@ -1,7 +1,7 @@
 /*
  * RobotManager.cpp
  *
- *  Created on: 22 dŽc. 2012
+ *  Created on: 22 dÃ©c. 2012
  *      Author: mythril
  */
 
@@ -15,6 +15,8 @@ RobotManager::RobotManager() {
 	moteurs = MD22();
 
 	timePrec = time = 0;
+	trajetAtteint = false;
+	trajetEnApproche = false;
 }
 
 /* ------------------------------------------------------------------ */
@@ -29,48 +31,85 @@ void RobotManager::init() {
 	enc.printVersion();
 	enc.reset();
 
-	// Initialisation du contr™le moteurs
+	// Initialisation du contrÃ´le moteurs
 	moteurs.printVersion();
 	moteurs.init();
 }
 
 /*
- * Fonction permettant de gŽrer l'arret des actionneur du manageur
+ * Fonction permettant de gÃ©rer l'arret des actionneur du manageur
  */
 void RobotManager::stop() {
 	moteurs.stopAll();
 }
 
 /*
- * Cette mŽthode permet de rŽaliser les fonctions liŽ aux dŽplacements.
- * Le schŽduling est assurŽ par la mŽthode elle mme. De ce fait elle peut
- * tre appŽlŽ depuis la loop principale.
+ * Cette mÃ©thode permet de rÃ©aliser les fonctions liÃ© aux dÃ©placements.
+ * Le schÃ©duling est assurÃ© par la mÃ©thode elle mÃªme. De ce fait elle peut
+ * Ãªtre appÃ©lÃ© depuis la loop principale.
  */
 void RobotManager::process() {
 	time = millis();
 	if ((time - timePrec) >= asserv.getSampleTime()) {
 		timePrec = time;
-		Serial.print("RM PROCESS : ");
-		Serial.println(timePrec, DEC);
 
-		moteurs.generateMouvement(20, 20);
-		/*
+		//Serial.print("RM PROCESS : ");
+		//Serial.println((millis() - timePrec), DEC);
+
 		// 1. Calcul de la position du robot
 		enc.lectureValeurs();
 		odom.calculPosition(&enc);
 
 		// 2. Calcul des consignes
-		// 	-> a : Gestion en fonction de l'odomŽtrie
-		//	-> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
-		//  TODO : Algorithme de calcul des consigne
+		calculConsigne();
 
 		// 3. Asservissement sur les consignes
 		asserv.process(&enc, &consigne);
 
 		// 4. Envoi aux moteurs
 		moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
+
+		// 5. Gestion des flags pour le sÃ©quencement
+		trajetAtteint = false;
+		trajetEnApproche = false;
+		/*
+		if (consignePolaire.activeFrein == ACTIVE_FREIN
+				&& abs(consignePolaire.consignePulseDistance) < FENETRE_ARRET_DISTANCE
+				&& abs(consignePolaire.consignePulseOrientation) < FENETRE_ARRET_ORIENTATION) {
+
+			flags.flagTrajetAtteint = 1;
+
+		} else if (consignePolaire.activeFrein == DESACTIVE_FREIN
+				&& abs(consignePolaire.consignePulseDistance) < FENETRE_EN_APPROCHE_DISTANCE
+				&& abs(consignePolaire.consignePulseOrientation) < FENETRE_EN_APPROCHE_ORIENTATION) {
+
+			flags.flagApproche = 1;
+		}
 		*/
 	}
+}
+
+/*
+ * Calcul des consigne d'asservissement
+ * -> a : Gestion en fonction de l'odomÃ©trie
+ * -> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
+ */
+void RobotManager::calculConsigne() {
+	/*if (trajetAtteint == false) {
+		// Calcul en fonction de l'odomÃ©ÂŽtrie
+		double dX = consigneTable.pos.x - positionCourrante.x;
+		double dY = consigneTable.pos.y - positionCourrante.y;
+
+		long int alpha = radToPulse(atan2(pulseToRad(dY), pulseToRad(dX)));
+
+		consignePolaire.consignePulseDistance = sqrt(pow(dX, 2) + pow(dY, 2));
+		consignePolaire.consignePulseOrientation = alpha - positionCourrante.theta;
+	} else {*/
+		consigne.setConsigneDistance(consigne.getConsigneDistance() - enc.getDistance());
+		consigne.setConsigneOrientation(consigne.getConsigneOrientation() - enc.getOrientation());
+	//}
+	// TODO : Gerer le frein
+	//consignePolaire.activeFrein = consigneTable.frein;
 }
 
 /* ------------------------------------------------------------------ */

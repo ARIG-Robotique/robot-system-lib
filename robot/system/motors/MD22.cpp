@@ -1,7 +1,7 @@
 /*
  * MD22.cpp
  *
- *  Created on: 26 déc. 2012
+ *  Created on: 26 d√©c. 2012
  *      Author: mythril
  */
 
@@ -81,9 +81,9 @@ char MD22::check(char val) {
 
 /*
  * Generation des mouvements pour le robot.
- * La commande de chacun des moteurs est alterné a chaque commande.
- * Cela est fait pour ne pas pénalisé un coté vis a vis d'un autre.
- * Normalement le PID devrais gérer ça, mais bon ceinture et bretelle.
+ * La commande de chacun des moteurs est altern√© a chaque commande.
+ * Cela est fait pour ne pas p√©naliser un cot√© vis a vis d'un autre.
+ * Normalement le PID devrais g√©rer √ßa, mais bon ceinture et bretelle.
  */
 void MD22::generateMouvement(char gauche, char droit) {
 	alternate = !alternate;
@@ -145,8 +145,8 @@ void MD22::init(boolean transmit) {
 }
 
 /*
- * Configuration de la valeur d'accéleration des moteurs.
- * L'accéleration fonctionne comme suit :
+ * Configuration de la valeur d'acc√©leration des moteurs.
+ * L'acc√©leration fonctionne comme suit :
  *
  * If you require a controlled acceleration period for the attached motors to reach there ultimate speed,
  * the MD22 has a register to provide this. It works by inputting a value into the acceleration register
@@ -207,7 +207,7 @@ void MD22::setAccel(byte value, boolean transmit) {
 
 /*
  * Configuration du mode de la carte MD22.
- * Les modes 0 et 1 sont géré uniquement.
+ * Les modes 0 et 1 sont g√©r√© uniquement.
  */
 void MD22::setMode(byte value) {
 	setMode(value, true);
@@ -244,7 +244,7 @@ void MD22::setMode(byte value, boolean transmit) {
 }
 
 /*
- * Cette méthode affiche la version de la carte sur la liaison série
+ * Cette m√©thode affiche la version de la carte sur la liaison s√©rie
  */
 void MD22::printVersion() {
 	Wire.beginTransmission(MD22_ADD_BOARD);

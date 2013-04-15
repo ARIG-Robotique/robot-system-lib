@@ -1,7 +1,7 @@
 /*
  * RobotPosition.h
  *
- *  Created on: 22 déc. 2012
+ *  Created on: 22 d√©c. 2012
  *      Author: mythril
  */
 

@@ -4,7 +4,7 @@
  *  Created on: 13 avr. 2013
  *      Author: mythril
  *
- * Gestion des capteurs de la carte de 2007 en accès direct (sans les MUX)
+ * Gestion des capteurs de la carte de 2007 en acc√®s direct (sans les MUX)
  */
 
 #ifndef BOARD2007NOMUX_H_

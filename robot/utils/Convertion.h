@@ -1,7 +1,7 @@
 /*
  * Convertion.h
  *
- *  Created on: 24 déc. 2012
+ *  Created on: 24 d√©c. 2012
  *      Author: mythril
  */
 
@@ -10,9 +10,9 @@
 
 // A configurer pour chaque robot;
 //#define COUNT_PER_MM				4.044	 			// Nombre d'impulsion codeur pour 1mm
-//#define COUNT_PER_DEG				11.36 				// 5.68 * 2 Nombre de count pour réalisé 1°
+//#define COUNT_PER_DEG				11.36 				// 5.68 * 2 Nombre de count pour r√©alis√© 1¬∞
 
-// /!\ Doit être instancié dans le fichier main de l'application
+// /!\ Doit √™tre instanci√© dans le fichier main de l'application
 // Convertion Conv = Convertion(4.044, 11.36);
 
 class Convertion {

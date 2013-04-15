@@ -1,12 +1,14 @@
 /*
  * ConsignePolaire.h
  *
- *  Created on: 22 déc. 2012
+ *  Created on: 22 d√©c. 2012
  *      Author: mythril
  */
 
 #ifndef CONSIGNEPOLAIRE_H_
 #define CONSIGNEPOLAIRE_H_
+
+#include <Arduino.h>
 
 class ConsignePolaire {
 public:
@@ -38,7 +40,7 @@ public:
 
 	void enableFrein();
 	void disableFrein();
-	bool isFreinEnable();
+	boolean isFreinEnable();
 
 private:
 	double consigneDistance;
@@ -52,7 +54,7 @@ private:
 	int cmdDroit;
 	int cmdGauche;
 
-	bool frein;
+	boolean frein;
 };
 
 #endif /* CONSIGNEPOLAIRE_H_ */

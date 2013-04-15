@@ -9,7 +9,3 @@
 
 Board2007Mux::Board2007Mux() {
 }
-
-Board2007Mux::~Board2007Mux() {
-}
-

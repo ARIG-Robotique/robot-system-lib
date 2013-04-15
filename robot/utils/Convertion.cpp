@@ -1,7 +1,7 @@
 /*
  * Convertion.cpp
  *
- *  Created on: 24 déc. 2012
+ *  Created on: 24 d√©c. 2012
  *      Author: mythril
  */
 

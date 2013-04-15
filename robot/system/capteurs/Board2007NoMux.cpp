@@ -17,7 +17,9 @@ Board2007NoMux::Board2007NoMux() {
 
 /*
  * Fonction permettant d'associer un idCapteur a un pin de la carte.
- * Le configuration de l'IO est fait en mme temps.
+ * Le configuration de l'IO est fait en mÃªme temps.
+ *
+ * /!\ A appeler depuis la fonction setup().
  */
 void Board2007NoMux::setPinForCapteur(char capteurId, char pin) {
 	setPinForCapteur(capteurId, pin, false);
@@ -38,7 +40,7 @@ void Board2007NoMux::setPinForCapteur(char capteurId, char pin, boolean reverse)
 
 /*
  * Fonction de lecture de la valeur d'un capteur.
- * La rŽcupŽration se fait par l'ID du capteur.
+ * La rÃ©cupÃ©ration se fait par l'ID du capteur.
  */
 char Board2007NoMux::readCapteurValue(char capteurId) {
 	if (check(capteurId) && capteurPins[capteurId] != UNDEF_PIN) {
@@ -53,8 +55,8 @@ char Board2007NoMux::readCapteurValue(char capteurId) {
 }
 
 /*
- * Contr™le que l'ID du capteur est bien dans les bornes pour eviter
- * une erreur de lecture du tableau des pin des capteurs
+ * ContrÃ´le que l'ID du capteur est bien dans les bornes pour eviter
+ * une erreur de lecture du tableau des pins des capteurs
  */
 boolean Board2007NoMux::check(char capteurId) {
 	if (capteurId >= 0 && capteurId < NB_CAPTEUR) {

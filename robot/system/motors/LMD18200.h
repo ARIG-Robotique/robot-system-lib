@@ -8,7 +8,7 @@
 #ifndef LMD18200_H_
 #define LMD18200_H_
 
-// TODO : Implémenter la gestion des moteurs sur carte LMD18200
+// TODO : Impl√©menter la gestion des moteurs sur carte LMD18200
 // Penser a regrouper le code communs de la gestion moteur dans une classe abstraite
 
 class LMD18200 {
