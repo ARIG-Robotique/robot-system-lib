@@ -21,11 +21,11 @@ Board2007NoMux::Board2007NoMux() {
  *
  * /!\ A appeler depuis la fonction setup().
  */
-void Board2007NoMux::setPinForCapteur(char capteurId, char pin) {
+void Board2007NoMux::setPinForCapteur(unsigned char capteurId, char pin) {
 	setPinForCapteur(capteurId, pin, false);
 }
 
-void Board2007NoMux::setPinForCapteur(char capteurId, char pin, boolean reverse) {
+void Board2007NoMux::setPinForCapteur(unsigned char capteurId, char pin, boolean reverse) {
 	if (check(capteurId)) {
 		pinMode(pin, INPUT);
 		capteurPins[capteurId] = pin;
@@ -42,7 +42,7 @@ void Board2007NoMux::setPinForCapteur(char capteurId, char pin, boolean reverse)
  * Fonction de lecture de la valeur d'un capteur.
  * La récupération se fait par l'ID du capteur.
  */
-char Board2007NoMux::readCapteurValue(char capteurId) {
+char Board2007NoMux::readCapteurValue(unsigned char capteurId) {
 	if (check(capteurId) && capteurPins[capteurId] != UNDEF_PIN) {
 		int val = digitalRead(capteurPins[capteurId]);
 		if (capteurReverse[capteurId] == true) {
@@ -58,7 +58,7 @@ char Board2007NoMux::readCapteurValue(char capteurId) {
  * Contrôle que l'ID du capteur est bien dans les bornes pour eviter
  * une erreur de lecture du tableau des pins des capteurs
  */
-boolean Board2007NoMux::check(char capteurId) {
+boolean Board2007NoMux::check(unsigned char capteurId) {
 	if (capteurId >= 0 && capteurId < NB_CAPTEUR) {
 		return true;
 	}

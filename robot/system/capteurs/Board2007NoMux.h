@@ -17,15 +17,15 @@ class Board2007NoMux {
 public:
 	Board2007NoMux();
 
-	void setPinForCapteur(char capteurId, char pin);
-	void setPinForCapteur(char capteurId, char pin, boolean reverse);
-	char readCapteurValue(char capteurId);
+	void setPinForCapteur(unsigned char capteurId, char pin);
+	void setPinForCapteur(unsigned char capteurId, char pin, boolean reverse);
+	char readCapteurValue(unsigned char capteurId);
 
 private:
 	char capteurPins[NB_CAPTEUR];
 	boolean capteurReverse[NB_CAPTEUR];
 
-	boolean check(char capteurId);
+	boolean check(unsigned char capteurId);
 };
 
 #endif /* BOARD2007NOMUX_H_ */
