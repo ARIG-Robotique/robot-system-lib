@@ -6,6 +6,7 @@
  */
 
 #include "RobotManager.h"
+#include "utils/Convertion.h"
 
 RobotManager::RobotManager() {
 	odom = Odometrie();
@@ -53,7 +54,7 @@ void RobotManager::process() {
 	if ((time - timePrec) >= asserv.getSampleTime()) {
 		timePrec = time;
 
-		//Serial.print("RM PROCESS : ");
+		//Serial.print(" -> RM PROCESS : ");
 		//Serial.println((millis() - timePrec), DEC);
 
 		// 1. Calcul de la position du robot
@@ -69,23 +70,21 @@ void RobotManager::process() {
 		// 4. Envoi aux moteurs
 		moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
 
-		// 5. Gestion des flags pour le séquencement
+		// 5. Gestion des flags pour le séquencement du calcul de la position
 		trajetAtteint = false;
 		trajetEnApproche = false;
-		/*
-		if (consignePolaire.activeFrein == ACTIVE_FREIN
-				&& abs(consignePolaire.consignePulseDistance) < FENETRE_ARRET_DISTANCE
-				&& abs(consignePolaire.consignePulseOrientation) < FENETRE_ARRET_ORIENTATION) {
+		if (consigne.isFreinEnable()
+				&& abs(consigne.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
+				&& abs(consigne.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
 
-			flags.flagTrajetAtteint = 1;
+			trajetAtteint = true;
 
-		} else if (consignePolaire.activeFrein == DESACTIVE_FREIN
-				&& abs(consignePolaire.consignePulseDistance) < FENETRE_EN_APPROCHE_DISTANCE
-				&& abs(consignePolaire.consignePulseOrientation) < FENETRE_EN_APPROCHE_ORIENTATION) {
+		} else if (!consigne.isFreinEnable()
+				&& abs(consigne.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
+				&& abs(consigne.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
 
-			flags.flagApproche = 1;
+			trajetEnApproche = true;
 		}
-		*/
 	}
 }
 
@@ -95,26 +94,38 @@ void RobotManager::process() {
  * -> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
  */
 void RobotManager::calculConsigne() {
-	/*if (trajetAtteint == false) {
+	if (trajetAtteint == false) {
 		// Calcul en fonction de l'odométrie
-		double dX = consigneTable.pos.x - positionCourrante.x;
-		double dY = consigneTable.pos.y - positionCourrante.y;
+		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
+		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
 
-		long int alpha = radToPulse(atan2(pulseToRad(dY), pulseToRad(dX)));
+		long int alpha = Conv.radToPulse(atan2(Conv.pulseToRad(dY), Conv.pulseToRad(dX)));
 
-		consignePolaire.consignePulseDistance = sqrt(pow(dX, 2) + pow(dY, 2));
-		consignePolaire.consignePulseOrientation = alpha - positionCourrante.theta;
-	} else {*/
+		consigne.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
+		consigne.setConsigneOrientation(alpha - odom.getPosition().getAngle());
+
+	} else {
+		// Calcul par différence vis a vis de la valeur codeur.
+		// Cela permet d'éviter que le robot fasse un spirale du plus bel effet pour le maintient en position.
 		consigne.setConsigneDistance(consigne.getConsigneDistance() - enc.getDistance());
 		consigne.setConsigneOrientation(consigne.getConsigneOrientation() - enc.getOrientation());
-	//}
-	// TODO : Gerer le frein
-	//consignePolaire.activeFrein = consigneTable.frein;
+	}
+
+	// Gestion du frein pour la détection des approches et trajet atteint
+	if (consigneTable.getFrein()) {
+		consigne.enableFrein();
+	} else {
+		consigne.disableFrein();
+	}
 }
 
 /* ------------------------------------------------------------------ */
 /* ------------------------ GETTERS / SETTERS ----------------------- */
 /* ------------------------------------------------------------------ */
+
+void RobotManager::setConsigneTable(RobotConsigne rc) {
+	consigneTable = rc;
+}
 
 void RobotManager::setSampleTime(int sampleTime) {
 	asserv.setSampleTime(sampleTime);
