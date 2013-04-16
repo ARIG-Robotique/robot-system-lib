@@ -15,7 +15,7 @@ SD21::SD21() {
 }
 
 /*
- * Méthode pour placer un servo moteur
+ * M√©thode pour placer un servo moteur
  */
 void SD21::setPosition(byte servoNb, word position) {
 	if (checkServo(servoNb)) {
@@ -36,7 +36,7 @@ void SD21::setPosition(byte servoNb, word position) {
 }
 
 /*
- * Méthode pour définir la vitesse de rotation d'un servo moteur.
+ * M√©thode pour d√©finir la vitesse de rotation d'un servo moteur.
  */
 void SD21::setSpeed(byte servoNb, byte speed) {
 	if (checkServo(servoNb)) {
@@ -56,7 +56,7 @@ void SD21::setSpeed(byte servoNb, byte speed) {
 }
 
 /*
- * Méthode pour définir la vitesse et la position dans la même transmission I2C
+ * M√©thode pour d√©finir la vitesse et la position dans la m√™me transmission I2C
  */
 void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 	if (checkServo(servoNb)) {
@@ -80,7 +80,7 @@ void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 }
 
 /*
- * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
+ * Cette m√©thode affiche la version de la carte sur la liaison serie en mode debug
  */
 void SD21::printVersion() {
 	Wire.beginTransmission(SD21_ADD_BOARD);
@@ -101,7 +101,7 @@ void SD21::printVersion() {
 }
 
 /*
- * Méthode pour le contrôle du numéro du servo
+ * M√©thode pour le contr√¥le du num√©ro du servo
  * Renvoi true si entre 1 et 21 inclus, false sinon
  */
 boolean SD21::checkServo(byte servoNb) {
@@ -114,7 +114,7 @@ boolean SD21::checkServo(byte servoNb) {
 
 /*
  * Renvoi le registre de base pour un servo.
- * Par éxemple pour le servo 1 :
+ * Par √©xemple pour le servo 1 :
  *  0 : SPEED REGISTER
  *  1 : LOW BYTE POSITION REGISTER
  *  2 : HIGH BYTE POSITION REGISTER

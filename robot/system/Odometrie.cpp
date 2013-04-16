@@ -1,7 +1,7 @@
 /*
  * Odometrie.cpp
  *
- *  Created on: 22 déc. 2012
+ *  Created on: 22 d√©c. 2012
  *      Author: mythril
  */
 
@@ -16,7 +16,7 @@ Odometrie::Odometrie() {
 }
 
 /*
- * Initialisation de l'odométrie avec une position.
+ * Initialisation de l'odom√©trie avec une position.
  */
 void Odometrie::initOdometrie(double x, double y, int angle) {
 	position.updatePosition(x, y, angle);
@@ -24,13 +24,13 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
 
 /*
  * Calcul de la position en fonction de la valeurs des codeurs.
- * Ce calcul est effectué avec le postulat que durant le labs de temps écoulé le robot a roulé droit (pas en courbe).
- * On parle donc d'approximation linéaire.
+ * Ce calcul est effectu√© avec le postulat que durant le labs de temps √©coul√© le robot a roul√© droit (pas en courbe).
+ * On parle donc d'approximation lin√©aire.
  *
- * /!\ Cette méthode doit être appelé après la lecture des valeurs codeurs toutes les x ms.
+ * /!\ Cette m√©thode doit √™tre appel√© apr√®s la lecture des valeurs codeurs toutes les x ms.
  */
 void Odometrie::calculPosition(Encodeurs * enc) {
-	// Approximation linéaire
+	// Approximation lin√©aire
 	position.setAngle(position.getAngle() + enc->getOrientation());
 	long double thetaRad = Conv.pulseToRad(position.getAngle());
 	double dX = enc->getDistance() * cos(thetaRad);
@@ -38,7 +38,7 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 	position.setX(position.getX() + dX);
 	position.setY(position.getY() + dY);
 
-	// Approximation circulaire (pas testé)
+	// Approximation circulaire (pas test√©)
 	/*long double r = encodeurs.nbEncocheDeltaDistance * mmToPulse(ENTRAXE) / (encodeurs.nbEncocheDeltaOrientation * 2);
 	long double arcAngle = 2 * encodeurs.nbEncocheDeltaOrientation / (mmToPulse(ENTRAXE));
 	positionCourrante.x += r * (-sin(positionCourrante.theta) + sin(positionCourrante.theta + arcAngle));
@@ -47,7 +47,7 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 }
 
 /*
- * Renvoi la position calculé.
+ * Renvoi la position calcul√©.
  */
 RobotPosition Odometrie::getPosition() {
 	return position;

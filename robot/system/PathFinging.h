@@ -8,7 +8,7 @@
 #ifndef PATHFINGING_H_
 #define PATHFINGING_H_
 
-// TODO : Implémenter l'algorithme
+// TODO : Impl√©menter l'algorithme
 
 class PathFinging {
 public:

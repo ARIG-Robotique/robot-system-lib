@@ -1,7 +1,7 @@
 /*
  * Asservissement.h
  *
- *  Created on: 26 déc. 2012
+ *  Created on: 26 d√©c. 2012
  *      Author: mythril
  */
 

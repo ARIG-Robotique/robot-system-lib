@@ -1,7 +1,7 @@
 /*
  * Encodeurs.h
  *
- *  Created on: 22 déc. 2012
+ *  Created on: 22 d√©c. 2012
  *      Author: mythril
  */
 
@@ -31,7 +31,7 @@ private:
 	#define CMD_LECTURE 'l'
 	#define	CMD_VERSION	'v'
 
-	#define ADD_CARTE_CODEUR_DROIT 0xB0
+	#define ADD_CARTE_CODEUR_DROIT  0xB0
 	#define ADD_CARTE_CODEUR_GAUCHE 0xB2
 
 	bool alternate;

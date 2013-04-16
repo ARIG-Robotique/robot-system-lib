@@ -1,7 +1,7 @@
 /*
  * Encodeurs.cpp
  *
- *  Created on: 22 déc. 2012
+ *  Created on: 22 d√©c. 2012
  *      Author: mythril
  */
 
@@ -42,7 +42,7 @@ void Encodeurs::reset() {
 
 /*
  * Lecture de la valeurs des codeurs.
- * La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
+ * La lecture est altern√© afin de ne pas inclure d'erreur du au temps de lecture.
  */
 void Encodeurs::lectureValeurs() {
 	alternate = !alternate;
@@ -74,7 +74,7 @@ double Encodeurs::lectureDroit() {
 /*
  * Fonction de lecture depuis une des carte codeurs.
  * 1) On envoi la commande de lecture.
- * 2) On demande la récupération de 4 octets.
+ * 2) On demande la r√©cup√©ration de 4 octets.
  */
 double Encodeurs::lectureData(int address) {
 	// 1. Envoi de la commande de lecture
@@ -91,7 +91,7 @@ double Encodeurs::lectureData(int address) {
 		Wire.requestFrom(address, 2);
 		while(Wire.available()) {
 			value += Wire.read();
-			value = value << 8; // Décalage a gauche. L'envoi est fait du MSB au LSB
+			value = value << 8; // D√©calage a gauche. L'envoi est fait du MSB au LSB
 		}
 
 		return value;
@@ -112,7 +112,7 @@ void Encodeurs::setValeursCodeurs(double gauche, double droit) {
 }
 
 /*
- * Cette méthode affiche la version de la carte sur la liaison série
+ * Cette m√©thode affiche la version de la carte sur la liaison s√©rie
  */
 void Encodeurs::printVersion() {
 	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);

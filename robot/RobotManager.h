@@ -1,7 +1,7 @@
 /*
  * RobotManager.h
  *
- *  Created on: 22 d�c. 2012
+ *  Created on: 22 déc. 2012
  *      Author: mythril
  */
 
@@ -9,7 +9,7 @@
 #define ROBOTMANAGER_H_
 
 // Value Object
-#include "vo/RobotPosition.h"
+#include "vo/RobotConsigne.h"
 #include "vo/ConsignePolaire.h"
 
 // Business elements
@@ -26,6 +26,9 @@ public:
 	void process();
 	void stop();
 
+	// Consigne a atteindre
+	void setConsigneTable(RobotConsigne rc);
+
 	// Configuration de l'asservissement
 	void setSampleTime(int sampleTime);
 	void setPIDDistance(double kp, double ki, double kd);
@@ -34,14 +37,25 @@ public:
 	void setRampDec(double rampDistance, double rampOrientation);
 
 private:
+	#define FENETRE_ARRET_DISTANCE			4  		// +- 4 pulse pour l'arret -> 1mm
+	#define FENETRE_ARRET_ORIENTATION		11 		// +- 11,36 pulse pour l'arret -> 1¡
+
+	#define FENETRE_EN_APPROCHE_DISTANCE	80 		// +- 80 pulse pour la reception de la nouvelle position -> 2 cm
+	#define FENETRE_EN_APPROCHE_ORIENTATION 57 		// +- 56,8 pulse pour la reception de la nouvelle position -> 5°
+
 	Odometrie odom;
 	Encodeurs enc;
 	ConsignePolaire consigne;
 	Asservissement asserv;
 	MD22 moteurs;
 
+	RobotConsigne consigneTable;
+
 	unsigned long timePrec;
 	unsigned long time;
+
+	boolean trajetAtteint;
+	boolean trajetEnApproche;
 
 	void calculConsigne();
 };

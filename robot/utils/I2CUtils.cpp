@@ -11,7 +11,7 @@ I2CUtils::I2CUtils() {
 }
 
 /*
- * Fonction permettant d'afficher le résultat d'une commande I2C
+ * Fonction permettant d'afficher le r√©sultat d'une commande I2C
  */
 void I2CUtils::printReturnCode(byte code) {
 	switch (code) {
@@ -34,14 +34,14 @@ void I2CUtils::printReturnCode(byte code) {
 }
 
 /*
- * Contrôle si le code de retour est une erreur
+ * Contr√¥le si le code de retour est une erreur
  */
 boolean I2CUtils::isError(byte code) {
 	return code != I2C_ACK;
 }
 
 /*
- * Contrôle si le code de retour est OK
+ * Contr√¥le si le code de retour est OK
  */
 boolean I2CUtils::isOk(byte code) {
 	return code == I2C_ACK;
