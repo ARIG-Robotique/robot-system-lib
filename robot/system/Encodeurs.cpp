@@ -23,21 +23,29 @@ Encodeurs::Encodeurs() {
  * Reset des valeurs codeurs
  */
 void Encodeurs::reset() {
+#ifdef DEBUG_MODE
 	Serial.println(" * Reset carte codeur droit");
+#endif
 	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
 	Wire.write(CMD_RESET);
 	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
 		i2cUtils.printReturnCode(retCode);
 	}
+#endif
 
+#ifdef DEBUG_MODE
 	Serial.println(" * Reset carte codeur gauche");
+#endif
 	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
 	Wire.write(CMD_RESET);
 	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
 		i2cUtils.printReturnCode(retCode);
 	}
+#endif
 }
 
 /*
@@ -82,7 +90,9 @@ double Encodeurs::lectureData(int address) {
 	Wire.write(CMD_LECTURE);
 	retCode = Wire.endTransmission();
 	if (i2cUtils.isError(retCode)) {
+#ifdef DEBUG_MODE
 		i2cUtils.printReturnCode(retCode);
+#endif
 		return 0;
 	} else {
 
@@ -111,6 +121,7 @@ void Encodeurs::setValeursCodeurs(double gauche, double droit) {
 	orientation = droit - gauche;
 }
 
+#ifdef DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison série
  */
@@ -147,3 +158,4 @@ void Encodeurs::printVersion() {
 		i2cUtils.printReturnCode(retCode);
 	}
 }
+#endif

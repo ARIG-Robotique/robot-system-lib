@@ -37,10 +37,12 @@ void MD22::moteurGauche(char val) {
 	Wire.write(LEFT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
 		Serial.println(" * Commande moteur gauche");
 		i2cUtils.printReturnCode(retCode);
 	}
+#endif
 }
 
 void MD22::moteur1(char val) {
@@ -55,10 +57,12 @@ void MD22::moteurDroit(char val) {
 	Wire.write(RIGHT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
 		Serial.println(" * Commande moteur droit");
 		i2cUtils.printReturnCode(retCode);
 	}
+#endif
 }
 
 void MD22::moteur2(char val) {
@@ -198,10 +202,12 @@ void MD22::setAccel(byte value, boolean transmit) {
 		Wire.write(ACCEL_REGISTER);
 		Wire.write(value);
 		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			Serial.println(" * Set accelleration");
 			i2cUtils.printReturnCode(retCode);
 		}
+#endif
 	}
 }
 
@@ -236,13 +242,16 @@ void MD22::setMode(byte value, boolean transmit) {
 		Wire.write(MODE_REGISTER);
 		Wire.write(modeValue);
 		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			Serial.println(" * Set mode");
 			i2cUtils.printReturnCode(retCode);
 		}
+#endif
 	}
 }
 
+#ifdef DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison série
  */
@@ -263,4 +272,4 @@ void MD22::printVersion() {
 		i2cUtils.printReturnCode(retCode);
 	}
 }
-
+#endif

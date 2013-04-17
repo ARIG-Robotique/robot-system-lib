@@ -10,6 +10,7 @@
 I2CUtils::I2CUtils() {
 }
 
+#ifdef DEBUG_MODE
 /*
  * Fonction permettant d'afficher le résultat d'une commande I2C
  */
@@ -32,6 +33,7 @@ void I2CUtils::printReturnCode(byte code) {
 		break;
 	}
 }
+#endif
 
 /*
  * Contrôle si le code de retour est une erreur

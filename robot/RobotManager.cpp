@@ -29,11 +29,15 @@ RobotManager::RobotManager() {
  */
 void RobotManager::init() {
 	// Initialisation des cartes codeurs
+#ifdef DEBUG_MODE
 	enc.printVersion();
+#endif
 	enc.reset();
 
 	// Initialisation du contrôle moteurs
+#ifdef DEBUG_MODE
 	moteurs.printVersion();
+#endif
 	moteurs.init();
 }
 
@@ -53,9 +57,6 @@ void RobotManager::process() {
 	time = millis();
 	if ((time - timePrec) >= asserv.getSampleTime()) {
 		timePrec = time;
-
-		//Serial.print(" -> RM PROCESS : ");
-		//Serial.println((millis() - timePrec), DEC);
 
 		// 1. Calcul de la position du robot
 		enc.lectureValeurs();

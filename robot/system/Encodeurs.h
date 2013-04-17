@@ -15,13 +15,16 @@ class Encodeurs {
 public:
 	Encodeurs();
 
-	void printVersion();
 	void lectureValeurs();
 	double getDistance();
 	double getOrientation();
 
 	void setValeursCodeurs(double gauche, double droit);
 	void reset();
+
+#ifdef DEBUG_MODE
+	void printVersion();
+#endif
 
 protected:
 	double distance, orientation;

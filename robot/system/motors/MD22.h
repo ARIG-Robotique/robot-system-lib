@@ -18,7 +18,6 @@ public:
 	MD22(byte mode, byte accel);
 
 	void init();
-	void printVersion();
 	void generateMouvement(char gauche, char droit);
 	void moteurGauche(char);
 	void moteurDroit(char);
@@ -32,8 +31,12 @@ public:
 	void setMode(byte value);
 	void setAccel(byte value);
 
+#ifdef DEBUG_MODE
+	void printVersion();
+#endif
+
 private:
-	#define MD22_ADD_BOARD				0x58
+	#define MD22_ADD_BOARD			0x58
 
 	#define MODE_REGISTER			0x00
 	#define ACCEL_REGISTER			0x03

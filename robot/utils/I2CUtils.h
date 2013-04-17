@@ -20,9 +20,12 @@ class I2CUtils {
 public:
 	I2CUtils();
 
-	void printReturnCode(byte code);
 	boolean isError(byte code);
 	boolean isOk(byte code);
+
+#ifdef DEBUG_MODE
+	void printReturnCode(byte code);
+#endif
 };
 
 extern I2CUtils i2cUtils;

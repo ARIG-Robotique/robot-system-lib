@@ -19,19 +19,23 @@ SD21::SD21() {
  */
 void SD21::setPosition(byte servoNb, word position) {
 	if (checkServo(servoNb)) {
+#ifdef DEBUG_MODE
 		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> P:");
 		Serial.println(position, DEC);
+#endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb) + 1);
 		Wire.write(position & 0xFF);
 		Wire.write(position >> 8);
 		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			i2cUtils.printReturnCode(retCode);
 		}
+#endif
 	}
 }
 
@@ -40,18 +44,22 @@ void SD21::setPosition(byte servoNb, word position) {
  */
 void SD21::setSpeed(byte servoNb, byte speed) {
 	if (checkServo(servoNb)) {
+#ifdef DEBUG_MODE
 		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
 		Serial.println(speed, DEC);
+#endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb));
 		Wire.write(speed);
 		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			i2cUtils.printReturnCode(retCode);
 		}
+#endif
 	}
 }
 
@@ -60,12 +68,14 @@ void SD21::setSpeed(byte servoNb, byte speed) {
  */
 void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 	if (checkServo(servoNb)) {
+#ifdef DEBUG_MODE
 		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
 		Serial.print(speed, DEC);
 		Serial.print(" -> P:");
 		Serial.println(position, DEC);
+#endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
 		Wire.write(getBaseRegister(servoNb));
@@ -73,12 +83,15 @@ void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 		Wire.write(position & 0xFF);
 		Wire.write(position >> 8);
 		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			i2cUtils.printReturnCode(retCode);
 		}
+#endif
 	}
 }
 
+#ifdef DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */
@@ -99,6 +112,7 @@ void SD21::printVersion() {
 		i2cUtils.printReturnCode(retCode);
 	}
 }
+#endif
 
 /*
  * Méthode pour le contrôle du numéro du servo
