@@ -159,3 +159,40 @@ void Encodeurs::printVersion() {
 	}
 }
 #endif
+
+/*
+ * Configuration de l'inversion des valeurs codeurs
+ */
+void Encodeurs::configInvertCodeurs(boolean valG, boolean valD) {
+	// Codeur Gauche
+#ifdef DEBUG_MODE
+	Serial.print(" * Configuration inversion codeur : G -> ");
+	Serial.println(valG, BIN);
+#endif
+	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
+	Wire.write(CMD_SETUP);
+	Wire.write(PARAM_INVERT);
+	Wire.write(valG);
+	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
+#endif
+
+	// Codeur Droit
+#ifdef DEBUG_MODE
+	Serial.print(" * Configuration inversion codeur : D -> ");
+	Serial.println(valD, BIN);
+#endif
+	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
+	Wire.write(CMD_SETUP);
+	Wire.write(PARAM_INVERT);
+	Wire.write(valD);
+	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
+#endif
+}

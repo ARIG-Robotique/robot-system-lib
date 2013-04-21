@@ -22,6 +22,8 @@ public:
 	void setValeursCodeurs(double gauche, double droit);
 	void reset();
 
+	void configInvertCodeurs(boolean valG, boolean valD);
+
 #ifdef DEBUG_MODE
 	void printVersion();
 #endif
@@ -30,10 +32,17 @@ protected:
 	double distance, orientation;
 
 private:
-	#define CMD_RESET	'r'
-	#define CMD_LECTURE 'l'
-	#define	CMD_VERSION	'v'
+	// Command I2C
+	#define CMD_RESET		'r'
+	#define CMD_LECTURE 	'l'
+	#define CMD_SETUP		's'
+	#define	CMD_VERSION		'v'
 
+	// Paramètre de configuration
+	#define PARAM_INVERT 	'I'
+
+	// Addresse carte
+	// TODO : Externaliser les adresses
 	#define ADD_CARTE_CODEUR_DROIT  0xB0
 	#define ADD_CARTE_CODEUR_GAUCHE 0xB2
 
