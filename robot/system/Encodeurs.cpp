@@ -107,6 +107,12 @@ double Encodeurs::lectureData(int address) {
 			value = value << 8; // Décalage a gauche. L'envoi est fait du MSB au LSB
 		}
 
+#ifdef DEBUG_MODE
+		Serial.print("Adresse : ");
+		Serial.print(address, HEX);
+		Serial.print(" -> ");
+		Serial.println(value, DEC);
+#endif
 		return value;
 	}
 }
