@@ -7,7 +7,10 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+
 #include "Encodeurs.h"
+
+#include "../../common.h"
 #include "../utils/I2CUtils.h"
 
 /*

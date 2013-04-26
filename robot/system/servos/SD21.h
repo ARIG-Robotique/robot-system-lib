@@ -9,6 +9,7 @@
 #define SD21_H_
 
 #include <Arduino.h>
+#include "../../../common.h"
 #include "../../utils/I2CUtils.h"
 
 class SD21 {
