@@ -10,6 +10,7 @@
 
 #include <Arduino.h>
 #include "../../utils/I2CUtils.h"
+#include "../../../common.h"
 
 class MD22 {
 
@@ -40,8 +41,8 @@ private:
 
 	#define MODE_REGISTER			0x00
 	#define ACCEL_REGISTER			0x03
-	#define LEFT_MOTOR_REGISTER		0x01
-	#define RIGHT_MOTOR_REGISTER	0x02
+	#define LEFT_MOTOR_REGISTER		0x02
+	#define RIGHT_MOTOR_REGISTER	0x01
 	#define MD22_VERSION_REGISTER	0x07
 
 	#define MODE_0					0 // 0 (Reverse) - 128 (Stop) - 255 (Forward)
