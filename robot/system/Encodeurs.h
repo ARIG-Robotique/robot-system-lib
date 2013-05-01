@@ -23,8 +23,6 @@ public:
 	void setValeursCodeurs(double gauche, double droit);
 	void reset();
 
-	void configInvertCodeurs(boolean valG, boolean valD);
-
 #ifdef DEBUG_MODE
 	void printVersion();
 #endif
@@ -42,8 +40,7 @@ private:
 	// Paramètre de configuration
 	#define PARAM_INVERT 	'I'
 
-	// Addresse carte
-	// TODO : Externaliser les adresses
+	// Addresses cartes
 	#define ADD_CARTE_CODEUR_DROIT  0xB0
 	#define ADD_CARTE_CODEUR_GAUCHE 0xB2
 

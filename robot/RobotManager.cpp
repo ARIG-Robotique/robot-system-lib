@@ -32,7 +32,6 @@ void RobotManager::init() {
 #ifdef DEBUG_MODE
 	enc.printVersion();
 #endif
-	enc.configInvertCodeurs(true, false);
 	enc.reset();
 
 	// Initialisation du contrôle moteurs
