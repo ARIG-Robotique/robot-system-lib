@@ -86,6 +86,10 @@ void RobotManager::process() {
 
 			trajetEnApproche = true;
 		}
+
+#ifdef DEBUG_MODE
+		Serial.println('');
+#endif
 	}
 }
 
@@ -118,6 +122,17 @@ void RobotManager::calculConsigne() {
 	} else {
 		consigne.disableFrein();
 	}
+
+#ifdef DEBUG_MODE
+	Serial.print("\tFrein : ");
+	Serial.print(consigne.isFreinEnable());
+	Serial.print(" ; D : ");
+	Serial.print(Conv.pulseToMm(consigne.getConsigneDistance()));
+	Serial.print(" ; A : ");
+	Serial.print(Conv.pulseToMm(consigne.getConsigneOrientation()));
+#endif
+
+	// TODO : Définition de la vitesse demandé
 }
 
 /* ------------------------------------------------------------------ */

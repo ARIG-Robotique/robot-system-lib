@@ -66,19 +66,26 @@ void Encodeurs::lectureValeurs() {
 		gauche = lectureGauche();
 	}
 	setValeursCodeurs(gauche, droit);
+
+#ifdef DEBUG_MODE
+		Serial.print("Encodeurs : G -> ");
+		Serial.print(gauche);
+		Serial.print(" ; D -> ");
+		Serial.print(droit);
+#endif
 }
 
 /*
  * Lecture de la valeur du codeur de la roue gauche
  */
-double Encodeurs::lectureGauche() {
+int Encodeurs::lectureGauche() {
 	return lectureData(ADD_CARTE_CODEUR_GAUCHE);
 }
 
 /*
  * Lecture de la valeur du codeur de la roue droite
  */
-double Encodeurs::lectureDroit() {
+int Encodeurs::lectureDroit() {
 	return lectureData(ADD_CARTE_CODEUR_DROIT);
 }
 
@@ -107,12 +114,6 @@ double Encodeurs::lectureData(int address) {
 			value += Wire.read();
 		}
 
-#ifdef DEBUG_MODE
-		Serial.print("Adresse : ");
-		Serial.print(address, HEX);
-		Serial.print(" -> ");
-		Serial.println(value, DEC);
-#endif
 		return value;
 	}
 }

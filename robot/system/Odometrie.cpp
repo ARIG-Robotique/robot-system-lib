@@ -31,7 +31,7 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
  */
 void Odometrie::calculPosition(Encodeurs * enc) {
 	// Approximation linéaire
-	position.setAngle(position.getAngle() + enc->getOrientation());
+	position.setAngle(position.getAngle() + enc->getOrientation()); // En pulse
 	long double thetaRad = Conv.pulseToRad(position.getAngle());
 	double dX = enc->getDistance() * cos(thetaRad);
 	double dY = enc->getDistance() * sin(thetaRad);
@@ -44,6 +44,15 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 	positionCourrante.x += r * (-sin(positionCourrante.theta) + sin(positionCourrante.theta + arcAngle));
 	positionCourrante.y += r * (cos(positionCourrante.theta) - cos(positionCourrante.theta + arcAngle));
 	positionCourrante.theta += arcAngle;*/
+
+#ifdef DEBUG_MODE
+	Serial.print("\tX -> ");
+	Serial.print(Conv.pulseToMm(position.getX()));
+	Serial.print(" ; Y -> ");
+	Serial.print(Conv.pulseToMm(position.getY()));
+	Serial.print(" ; A -> ");
+	Serial.print((double) Conv.pulseToDeg(position.getAngle()));
+#endif
 }
 
 /*
