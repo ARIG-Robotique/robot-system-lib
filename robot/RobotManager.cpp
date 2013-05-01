@@ -88,7 +88,7 @@ void RobotManager::process() {
 		}
 
 #ifdef DEBUG_MODE
-		Serial.println('');
+		Serial.println(';');
 #endif
 	}
 }
