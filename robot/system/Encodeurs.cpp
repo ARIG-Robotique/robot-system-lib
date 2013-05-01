@@ -57,7 +57,7 @@ void Encodeurs::reset() {
  */
 void Encodeurs::lectureValeurs() {
 	alternate = !alternate;
-	double gauche, droit;
+	int gauche, droit;
 	if (alternate) {
 		gauche = lectureGauche();
 		droit = lectureDroit();
@@ -94,7 +94,7 @@ int Encodeurs::lectureDroit() {
  * 1) On envoi la commande de lecture.
  * 2) On demande la récupération de 4 octets.
  */
-double Encodeurs::lectureData(int address) {
+int Encodeurs::lectureData(int address) {
 	// 1. Envoi de la commande de lecture
 	Wire.beginTransmission(address);
 	Wire.write(CMD_LECTURE);
@@ -126,7 +126,7 @@ double Encodeurs::getOrientation() {
 	return orientation;
 }
 
-void Encodeurs::setValeursCodeurs(double gauche, double droit) {
+void Encodeurs::setValeursCodeurs(int gauche, int droit) {
 	distance = (droit + gauche) / 2;
 	orientation = droit - gauche;
 }

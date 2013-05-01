@@ -20,7 +20,7 @@ public:
 	double getDistance();
 	double getOrientation();
 
-	void setValeursCodeurs(double gauche, double droit);
+	void setValeursCodeurs(int gauche, int droit);
 	void reset();
 
 #ifdef DEBUG_MODE
@@ -46,9 +46,9 @@ private:
 
 	bool alternate;
 
-	double lectureGauche();
-	double lectureDroit();
-	double lectureData(int address);
+	int lectureGauche();
+	int lectureDroit();
+	int lectureData(int address);
 
 	byte retCode;
 };

@@ -90,6 +90,8 @@ void Asservissement::setSampleTime(unsigned int sampleTime) {
 	this->sampleTime = sampleTime;
 	pidDistance.SetSampleTime(sampleTime);
 	pidOrientation.SetSampleTime(sampleTime);
+	filterDistance.setSampleTime(sampleTime);
+	filterOrientation.setSampleTime(sampleTime);
 }
 
 unsigned int Asservissement::getSampleTime() {
