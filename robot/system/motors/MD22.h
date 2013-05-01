@@ -66,6 +66,8 @@ private:
 	int minVal;
 	int maxVal;
 	int stopVal;
+	int prevGauche;
+	int prevDroit;
 
 	char check(char);
 	void setMode(byte value, boolean transmit);

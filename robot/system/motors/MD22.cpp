@@ -33,13 +33,18 @@ MD22::MD22(byte mode, byte accel) {
  * Envoi d'une consigne sur le moteur Gauche
  */
 void MD22::moteurGauche(char val) {
+	if (val == prevGauche) {
+		return;
+	}
+	prevGauche = val;
+
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(LEFT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
-		Serial.println(" * Commande moteur gauche");
+		Serial.print(" * Commande moteur gauche => ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -53,13 +58,18 @@ void MD22::moteur1(char val) {
  * Envoi d'une consigne sur le moteur Droit
  */
 void MD22::moteurDroit(char val) {
+	if (val == prevDroit) {
+		return;
+	}
+	prevDroit = val;
+
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(RIGHT_MOTOR_REGISTER);
 	Wire.write(check(val));
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
-		Serial.println(" * Commande moteur droit");
+		Serial.print(" * Commande moteur droit => ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -139,6 +149,9 @@ void MD22::init() {
 }
 
 void MD22::init(boolean transmit) {
+	prevGauche = 300;
+	prevDroit = 300;
+
 	setMode(modeValue, transmit);
 	delayMicroseconds(100);
 	setAccel(accelValue, transmit);
