@@ -12,8 +12,8 @@ ConsignePolaire::ConsignePolaire() {
 	consigneOrientation = 0;
 	setPointDistance = 0;
 	setPointOrientation = 0;
-	vitesseDistance = 0;
-	vitesseOrientation = 0;
+	vitesseDistance = 100;
+	vitesseOrientation = 100;
 	cmdDroit = 0;
 	cmdGauche = 0;
 	enableFrein();
