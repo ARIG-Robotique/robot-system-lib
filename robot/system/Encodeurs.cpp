@@ -178,10 +178,14 @@ void Encodeurs::configInvertCodeurs(boolean valG, boolean valD) {
 	Serial.print(" * Configuration inversion codeur : G -> ");
 	Serial.println(valG, BIN);
 #endif
+	byte valueConfigGauche = 0;
+	if (valG) {
+		valueConfigGauche = 1;
+	}
 	Wire.beginTransmission(ADD_CARTE_CODEUR_GAUCHE);
 	Wire.write(CMD_SETUP);
 	Wire.write(PARAM_INVERT);
-	Wire.write(valG);
+	Wire.write(valueConfigGauche);
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
@@ -194,10 +198,14 @@ void Encodeurs::configInvertCodeurs(boolean valG, boolean valD) {
 	Serial.print(" * Configuration inversion codeur : D -> ");
 	Serial.println(valD, BIN);
 #endif
+	byte valueConfigDroit = 0;
+	if (valD) {
+		valueConfigDroit = 1;
+	}
 	Wire.beginTransmission(ADD_CARTE_CODEUR_DROIT);
 	Wire.write(CMD_SETUP);
 	Wire.write(PARAM_INVERT);
-	Wire.write(valD);
+	Wire.write(valueConfigDroit);
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
