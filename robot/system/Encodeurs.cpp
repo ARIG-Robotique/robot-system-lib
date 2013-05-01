@@ -102,9 +102,9 @@ double Encodeurs::lectureData(int address) {
 		// 2. Demande des infos sur 2 octets (int sur 2 byte avec un AVR 8 bits)
 		int value = 0;
 		Wire.requestFrom(address, 2);
-		while(Wire.available()) {
+		while(Wire.available()){
+			value = value << 8;
 			value += Wire.read();
-			value = value << 8; // Décalage a gauche. L'envoi est fait du MSB au LSB
 		}
 
 #ifdef DEBUG_MODE
