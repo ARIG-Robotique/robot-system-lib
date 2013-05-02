@@ -20,8 +20,10 @@ public:
 
 	void setSampleTimeMs(unsigned int sampleTime);
 	unsigned int getSampleTimeMs();
+
 	void setPIDDistance(double kp, double ki, double kd);
 	void setPIDOrientation(double kp, double ki, double kd);
+
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
 
@@ -33,16 +35,16 @@ private:
 	QuadRamp filterDistance;
 	QuadRamp filterOrientation;
 
-	double consigneDistance;
-	double consigneOrientation;
-
-	double outputDistance;
-	double outputOrientation;
+	double setPointDistance;
+	double setPointOrientation;
 
 	double inputDistance;
 	double inputOrientation;
 
-	unsigned int sampleTime;
+	double outputDistance;
+	double outputOrientation;
+
+	double sampleTime;
 
 	void setup();
 };
