@@ -68,7 +68,7 @@ void Encodeurs::lectureValeurs() {
 	setValeursCodeurs(gauche, droit);
 
 #ifdef DEBUG_MODE
-		Serial.print("Encodeurs : G -> ");
+		Serial.print("Encodeurs G -> ");
 		Serial.print(gauche);
 		Serial.print(" ; D -> ");
 		Serial.print(droit);
