@@ -46,7 +46,7 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 	positionCourrante.theta += arcAngle;*/
 
 #ifdef DEBUG_MODE
-	Serial.print("\tX -> ");
+	Serial.print("\tPosition X -> ");
 	Serial.print(Conv.pulseToMm(position.getX()));
 	Serial.print(" ; Y -> ");
 	Serial.print(Conv.pulseToMm(position.getY()));
