@@ -13,7 +13,7 @@ public:
 	QuadRamp();
 	QuadRamp(int sampleTime, double rampAcc, double rampDec);
 
-	void setSampleTime(int value);
+	void setSampleTimeMs(int value);
 	void setRampAcc(double value);
 	void setRampDec(double value);
 

@@ -73,8 +73,8 @@ double QuadRamp::filter(double vitesse, double consigne, double mesure, bool fre
 // -------------------- GETTERS / SETTERS ------------------ //
 // --------------------------------------------------------- //
 
-void QuadRamp::setSampleTime(int value) {
-	this->sampleTime = value;
+void QuadRamp::setSampleTimeMs(int value) {
+	this->sampleTime = value / 100;
 }
 
 void QuadRamp::setRampAcc(double value) {
