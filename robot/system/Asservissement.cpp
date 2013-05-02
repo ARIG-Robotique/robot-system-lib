@@ -13,7 +13,7 @@
  * Constructeur
  */
 Asservissement::Asservissement() {
-	this->sampleTime = 100;
+	this->sampleTime = 10;
 	setup();
 }
 
@@ -37,20 +37,22 @@ void Asservissement::setup() {
 	// Variable
 	inputDistance = inputOrientation = 0;
 	outputDistance = outputOrientation = 0;
-	consigneDistance = consigneOrientation = 0;
+	setPointDistance = setPointOrientation = 0;
 
 	// Initialisation des élements de l'asservissement
-	pidDistance = PID(&inputDistance, &outputDistance, &consigneDistance, 1, 0, 0, DIRECT);
-	pidOrientation = PID(&inputOrientation, &outputOrientation, &consigneOrientation, 1, 0, 0, DIRECT);
+	pidDistance = PID(&inputDistance, &outputDistance, &setPointDistance, 1, 0, 0, DIRECT);
+	pidDistance.SetSampleTime(sampleTime);
+	pidDistance.SetOutputLimits(-128, 127);
+	pidDistance.SetMode(AUTOMATIC);
+
+	pidOrientation = PID(&inputOrientation, &outputOrientation, &setPointOrientation, 1, 0, 0, DIRECT);
+	pidOrientation.SetSampleTime(sampleTime);
+	pidOrientation.SetOutputLimits(-128, 127);
+	pidOrientation.SetMode(AUTOMATIC);
+
+	// Configuration du filtre pour le profil trapézoïdale
 	filterDistance = QuadRamp(sampleTime, 100, 100);
 	filterOrientation = QuadRamp(sampleTime, 100, 100);
-
-	pidDistance.SetSampleTime(sampleTime);
-	pidOrientation.SetSampleTime(sampleTime);
-
-	// Définitions des bornes pour la compatibilité avec la carte MD22
-	pidDistance.SetOutputLimits(-128, 127);
-	pidOrientation.SetOutputLimits(-128, 127);
 }
 
 void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
@@ -59,26 +61,40 @@ void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 	inputOrientation = enc->getOrientation();
 
 	// Application du filtre pour la génération du profil trapézoidale
-	cp->setSetPointDistance(filterDistance.filter(cp->getVitesseDistance(), cp->getConsigneDistance(), enc->getDistance(), cp->isFreinEnable()));
-	cp->setSetPointOrientation(filterOrientation.filter(cp->getVitesseOrientation(), cp->getConsigneOrientation(), enc->getOrientation(), cp->isFreinEnable()));
-
-	// Définition des consignes
-	consigneDistance = cp->getSetPointDistance();
-	consigneOrientation = cp->getSetPointOrientation();
+	// et définition des consignes
+	setPointDistance = filterDistance.filter(cp->getVitesseDistance(), cp->getConsigneDistance(), inputDistance, cp->isFreinEnable());
+	setPointOrientation = filterOrientation.filter(cp->getVitesseOrientation(), cp->getConsigneOrientation(), inputOrientation, cp->isFreinEnable());
 
 	// Calcul du filtres PID
-	pidDistance.Compute();
-	pidOrientation.Compute();
+	//pidDistance.Compute();
+	//pidOrientation.Compute();
 
 	// Envoi des consignes aux moteurs
 	cp->setCmdDroit(outputDistance + outputOrientation);
 	cp->setCmdGauche(outputDistance - outputOrientation);
 
 #ifdef DEBUG_MODE
-	Serial.print("\tCMD Asserv : D -> ");
+	/*Serial.print("\tIn. : D -> ");
+	Serial.print(inputDistance);
+	Serial.print(" ; O -> ");
+	Serial.print(inputOrientation);*/
+	Serial.print(" ; SetP. : D -> ");
+	Serial.print(setPointDistance);
+	Serial.print(" ; O -> ");
+	Serial.print(setPointOrientation);
+	/*Serial.print(" ; Out. : D -> ");
+	Serial.print(outputDistance);
+	Serial.print(" ; O -> ");
+	Serial.print(outputOrientation);
+	Serial.print(" ; Cons. : D -> ");
+	Serial.print(cp->getConsigneDistance());
+	Serial.print(" ; O -> ");
+	Serial.print(cp->getConsigneOrientation());*/
+
+	/*Serial.print("\tCMD Asserv : D -> ");
 	Serial.print(cp->getCmdDroit());
 	Serial.print(" ; G -> ");
-	Serial.print(cp->getCmdGauche());
+	Serial.print(cp->getCmdGauche());*/
 #endif
 }
 
