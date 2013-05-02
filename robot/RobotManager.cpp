@@ -118,7 +118,7 @@ void RobotManager::calculConsigne() {
 
 	} else {
 		// Calcul par différence vis a vis de la valeur codeur.
-		// Cela permet d'éviter que le robot fasse un spirale du plus bel effet pour le maintient en position.
+		// Cela permet d'éviter que le robot fasse une spirale du plus bel effet pour le maintient en position.
 		consigne.setConsigneDistance(consigne.getConsigneDistance() - enc.getDistance());
 		consigne.setConsigneOrientation(consigne.getConsigneOrientation() - enc.getOrientation());
 	}
