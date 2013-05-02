@@ -25,6 +25,7 @@ public:
 	RobotManager();
 
 	void init();
+	void resetEncodeurs();
 	void process();
 	void stop();
 

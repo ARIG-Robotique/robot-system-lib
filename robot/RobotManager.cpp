@@ -32,13 +32,20 @@ void RobotManager::init() {
 #ifdef DEBUG_MODE
 	enc.printVersion();
 #endif
-	enc.reset();
+	resetEncodeurs();
 
 	// Initialisation du contrôle moteurs
 #ifdef DEBUG_MODE
 	moteurs.printVersion();
 #endif
 	moteurs.init();
+}
+
+/*
+ * Commande de reset des valeurs codeurs
+ */
+void RobotManager::resetEncodeurs() {
+	enc.reset();
 }
 
 /*
@@ -55,7 +62,7 @@ void RobotManager::stop() {
  */
 void RobotManager::process() {
 	time = millis();
-	if ((time - timePrec) >= asserv.getSampleTime()) {
+	if ((time - timePrec) >= asserv.getSampleTimeMs()) {
 		timePrec = time;
 
 		// 1. Calcul de la position du robot
@@ -124,12 +131,12 @@ void RobotManager::calculConsigne() {
 	}
 
 #ifdef DEBUG_MODE
-	Serial.print("\tFrein : ");
+	Serial.print("\tCalc. Cons. F : ");
 	Serial.print(consigne.isFreinEnable());
 	Serial.print(" ; D : ");
 	Serial.print(Conv.pulseToMm(consigne.getConsigneDistance()));
 	Serial.print(" ; A : ");
-	Serial.print(Conv.pulseToMm(consigne.getConsigneOrientation()));
+	Serial.print((double) Conv.pulseToDeg(consigne.getConsigneOrientation()));
 #endif
 
 	// TODO : Définition de la vitesse demandé
@@ -144,7 +151,7 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 }
 
 void RobotManager::setSampleTime(int sampleTime) {
-	asserv.setSampleTime(sampleTime);
+	asserv.setSampleTimeMs(sampleTime);
 }
 
 void RobotManager::setPIDDistance(double kp, double ki, double kd) {

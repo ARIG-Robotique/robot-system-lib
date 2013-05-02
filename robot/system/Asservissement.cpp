@@ -86,15 +86,15 @@ void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 // ---------------------- GETTERS / SETTERS --------------------- //
 // -------------------------------------------------------------- //
 
-void Asservissement::setSampleTime(unsigned int sampleTime) {
+void Asservissement::setSampleTimeMs(unsigned int sampleTime) {
 	this->sampleTime = sampleTime;
 	pidDistance.SetSampleTime(sampleTime);
 	pidOrientation.SetSampleTime(sampleTime);
-	filterDistance.setSampleTime(sampleTime);
-	filterOrientation.setSampleTime(sampleTime);
+	filterDistance.setSampleTimeMs(sampleTime);
+	filterOrientation.setSampleTimeMs(sampleTime);
 }
 
-unsigned int Asservissement::getSampleTime() {
+unsigned int Asservissement::getSampleTimeMs() {
 	return this->sampleTime;
 }
 
