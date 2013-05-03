@@ -11,16 +11,16 @@
 class QuadRamp {
 public:
 	QuadRamp();
-	QuadRamp(int sampleTime, double rampAcc, double rampDec);
+	QuadRamp(double sampleTime, double rampAcc, double rampDec);
 
-	void setSampleTimeMs(int value);
+	void setSampleTimeMs(double value);
 	void setRampAcc(double value);
 	void setRampDec(double value);
 
 	double filter(double vitesse, double consigne, double mesure, bool frein);
 
 private:
-	int sampleTime;
+	double sampleTime;
 	double rampAcc;
 	double rampDec;
 

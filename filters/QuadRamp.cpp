@@ -26,8 +26,8 @@ QuadRamp::QuadRamp() {
 /*
  * Constructeur
  */
-QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
-	this->sampleTime = sampleTime;
+QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
+	this->sampleTime = sampleTime / 1000;
 	this->rampAcc = rampAcc;
 	this->rampDec = rampDec;
 
@@ -73,7 +73,7 @@ double QuadRamp::filter(double vitesse, double consigne, double mesure, bool fre
 // -------------------- GETTERS / SETTERS ------------------ //
 // --------------------------------------------------------- //
 
-void QuadRamp::setSampleTimeMs(int value) {
+void QuadRamp::setSampleTimeMs(double value) {
 	this->sampleTime = value / 1000;
 }
 
