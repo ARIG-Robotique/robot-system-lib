@@ -76,7 +76,7 @@ void RobotManager::process() {
 		asserv.process(&enc, &consigne);
 
 		// 4. Envoi aux moteurs
-		moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
+		//moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
 		trajetAtteint = false;
