@@ -40,21 +40,24 @@ void Asservissement::setup() {
 	setPointDistance = setPointOrientation = 0;
 
 	// Initialisation des élements de l'asservissement
-	pidDistance = PID(&inputDistance, &outputDistance, &setPointDistance, 1, 0, 0, DIRECT);
+	pidDistance = PID(&inputDistance, &outputDistance, &setPointDistance, 0.5, 0.01, 0.25, DIRECT);
 	pidDistance.SetSampleTime(sampleTime);
-	pidDistance.SetOutputLimits(-128, 127);
-	pidDistance.SetMode(AUTOMATIC);
+	pidDistance.SetOutputLimits(-120, 120); // Limit de fonctionnement de la carte MD22 en mode 1
+	pidDistance.SetMode(AUTOMATIC); // Activation du PID
 
-	pidOrientation = PID(&inputOrientation, &outputOrientation, &setPointOrientation, 1, 0, 0, DIRECT);
+	pidOrientation = PID(&inputOrientation, &outputOrientation, &setPointOrientation, 0.5, 0.01, 0.25, DIRECT);
 	pidOrientation.SetSampleTime(sampleTime);
-	pidOrientation.SetOutputLimits(-128, 127);
-	pidOrientation.SetMode(AUTOMATIC);
+	pidOrientation.SetOutputLimits(-120, 120);
+	pidOrientation.SetMode(AUTOMATIC); // Activation du PID
 
 	// Configuration du filtre pour le profil trapézoïdale
 	filterDistance = QuadRamp(sampleTime, 100, 100);
 	filterOrientation = QuadRamp(sampleTime, 100, 100);
 }
 
+/*
+ * Méthode de processing de l'asservissement polaire.
+ */
 void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 	// Récupération des valeurs réel
 	inputDistance = enc->getDistance();
@@ -77,21 +80,21 @@ void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 	/*Serial.print("\tIn. : D -> ");
 	Serial.print(inputDistance);
 	Serial.print(" ; O -> ");
-	Serial.print(inputOrientation);*/
+	Serial.print(inputOrientation);
 	Serial.print(" ; SetP. : D -> ");
 	Serial.print(setPointDistance);
 	Serial.print(" ; O -> ");
 	Serial.print(setPointOrientation);
-	/*Serial.print(" ; Out. : D -> ");
+	Serial.print(" ; Out. : D -> ");
 	Serial.print(outputDistance);
 	Serial.print(" ; O -> ");
 	Serial.print(outputOrientation);
 	Serial.print(" ; Cons. : D -> ");
 	Serial.print(cp->getConsigneDistance());
 	Serial.print(" ; O -> ");
-	Serial.print(cp->getConsigneOrientation());*/
+	Serial.print(cp->getConsigneOrientation());
 
-	/*Serial.print("\tCMD Asserv : D -> ");
+	Serial.print("\tCMD Asserv : D -> ");
 	Serial.print(cp->getCmdDroit());
 	Serial.print(" ; G -> ");
 	Serial.print(cp->getCmdGauche());*/
