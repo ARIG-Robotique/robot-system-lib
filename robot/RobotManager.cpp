@@ -106,7 +106,7 @@ void RobotManager::process() {
  * -> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
  */
 void RobotManager::calculConsigne() {
-	if (!trajetAtteint) {
+	/*if (!trajetAtteint) {
 		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
@@ -116,12 +116,12 @@ void RobotManager::calculConsigne() {
 		consigne.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
 		consigne.setConsigneOrientation(alpha - odom.getPosition().getAngle());
 
-	} else {
+	} else {*/
 		// Calcul par différence vis a vis de la valeur codeur.
 		// Cela permet d'éviter que le robot fasse une spirale du plus bel effet pour le maintient en position.
 		consigne.setConsigneDistance(consigne.getConsigneDistance() - enc.getDistance());
 		consigne.setConsigneOrientation(consigne.getConsigneOrientation() - enc.getOrientation());
-	}
+	//}
 
 	// Gestion du frein pour la détection des approches et trajet atteint
 	if (consigneTable.getFrein()) {
@@ -130,14 +130,14 @@ void RobotManager::calculConsigne() {
 		consigne.disableFrein();
 	}
 
-#ifdef DEBUG_MODE
+/*#ifdef DEBUG_MODE
 	Serial.print("\tCalc. Cons. F : ");
 	Serial.print(consigne.isFreinEnable());
 	Serial.print(" ; D : ");
 	Serial.print(Conv.pulseToMm(consigne.getConsigneDistance()));
 	Serial.print(" ; A : ");
 	Serial.print((double) Conv.pulseToDeg(consigne.getConsigneOrientation()));
-#endif
+#endif*/
 
 	// TODO : Définition de la vitesse demandé
 }
