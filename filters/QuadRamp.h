@@ -8,6 +8,8 @@
 #ifndef QUAD_RAMP_H_
 #define QUAD_RAMP_H_
 
+#include "../common.h"
+
 class QuadRamp {
 public:
 	QuadRamp();

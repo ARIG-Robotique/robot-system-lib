@@ -56,6 +56,11 @@ double QuadRamp::filter(double vitesse, double consigne, double mesure, bool fre
 	// Controle pour interdire les valeurs négatives
 	vitesseCourante = fmax(vitesseCourante, 0);
 
+#ifdef DEBUG_MODE
+	Serial.print(" ; Vitesse : ");
+	Serial.print(vitesseCourante);
+#endif
+
 	// Calcul de la valeur théorique en fonction de la vitesse.
 	double pulseForVitesse = Conv.mmToPulse(vitesseCourante) * sampleTime;
 
