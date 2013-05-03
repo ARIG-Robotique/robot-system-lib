@@ -70,7 +70,6 @@ class PID
     double *mySetpoint;           //   PID, freeing the user from having to constantly tell us
                                   //   what these values are.  with pointers we'll just know.
 			  
-	unsigned long lastTime;
 	double ITerm, lastInput;
 
 	unsigned long SampleTime;
