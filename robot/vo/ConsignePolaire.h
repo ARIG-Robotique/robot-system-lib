@@ -14,37 +14,37 @@ class ConsignePolaire {
 public:
 	ConsignePolaire();
 
-	void setConsigneDistance(double value);
-	double getConsigneDistance();
+	void setConsigneDistance(long value);
+	long getConsigneDistance();
 
-	void setVitesseDistance(double value);
-	double getVitesseDistance();
+	void setVitesseDistance(word value);
+	word getVitesseDistance();
 
-	void setConsigneOrientation(double value);
-	double getConsigneOrientation();
+	void setConsigneOrientation(long value);
+	long getConsigneOrientation();
 
-	void setVitesseOrientation(double value);
-	double getVitesseOrientation();
+	void setVitesseOrientation(word value);
+	word getVitesseOrientation();
 
-	void setCmdGauche(int value);
-	int getCmdGauche();
+	void setCmdGauche(char value);
+	char getCmdGauche();
 
-	void setCmdDroit(int value);
-	int getCmdDroit();
+	void setCmdDroit(char value);
+	char getCmdDroit();
 
 	void enableFrein();
 	void disableFrein();
 	boolean isFreinEnable();
 
 private:
-	double consigneDistance;
-	double vitesseDistance;
+	long consigneDistance;
+	word vitesseDistance;
 
-	double consigneOrientation;
-	double vitesseOrientation;
+	long consigneOrientation;
+	word vitesseOrientation;
 
-	int cmdDroit;
-	int cmdGauche;
+	char cmdDroit;
+	char cmdGauche;
 
 	boolean frein;
 };

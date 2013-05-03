@@ -20,7 +20,7 @@ Asservissement::Asservissement() {
 /*
  * Constructeur
  */
-Asservissement::Asservissement(int sampleTime) {
+Asservissement::Asservissement(byte sampleTime) {
 	this->sampleTime = sampleTime;
 	setup();
 }
@@ -105,7 +105,7 @@ void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 // ---------------------- GETTERS / SETTERS --------------------- //
 // -------------------------------------------------------------- //
 
-void Asservissement::setSampleTimeMs(unsigned int sampleTime) {
+void Asservissement::setSampleTimeMs(byte sampleTime) {
 	this->sampleTime = sampleTime;
 	pidDistance.SetSampleTime(sampleTime);
 	pidOrientation.SetSampleTime(sampleTime);
@@ -113,7 +113,7 @@ void Asservissement::setSampleTimeMs(unsigned int sampleTime) {
 	filterOrientation.setSampleTimeMs(sampleTime);
 }
 
-unsigned int Asservissement::getSampleTimeMs() {
+byte Asservissement::getSampleTimeMs() {
 	return this->sampleTime;
 }
 

@@ -28,45 +28,45 @@ void ConsignePolaire::disableFrein() {
 // ----------------- GETTER / SETTER ---------------------- //
 // -------------------------------------------------------- //
 
-void ConsignePolaire::setConsigneDistance(double value) {
+void ConsignePolaire::setConsigneDistance(long value) {
 	consigneDistance = value;
 }
-double ConsignePolaire::getConsigneDistance() {
+long ConsignePolaire::getConsigneDistance() {
 	return consigneDistance;
 }
 
-void ConsignePolaire::setVitesseDistance(double value) {
+void ConsignePolaire::setVitesseDistance(word value) {
 	vitesseDistance = value;
 }
-double ConsignePolaire::getVitesseDistance() {
+word ConsignePolaire::getVitesseDistance() {
 	return vitesseDistance;
 }
 
-void ConsignePolaire::setConsigneOrientation(double value) {
+void ConsignePolaire::setConsigneOrientation(long value) {
 	consigneOrientation = value;
 }
-double ConsignePolaire::getConsigneOrientation() {
+long ConsignePolaire::getConsigneOrientation() {
 	return consigneOrientation;
 }
 
-void ConsignePolaire::setCmdDroit(int value) {
+void ConsignePolaire::setCmdDroit(char value) {
 	cmdDroit = value;
 }
-int ConsignePolaire::getCmdDroit() {
+char ConsignePolaire::getCmdDroit() {
 	return cmdDroit;
 }
 
-void ConsignePolaire::setCmdGauche(int value) {
+void ConsignePolaire::setCmdGauche(char value) {
 	cmdGauche = value;
 }
-int ConsignePolaire::getCmdGauche() {
+char ConsignePolaire::getCmdGauche() {
 	return cmdGauche;
 }
 
-void ConsignePolaire::setVitesseOrientation(double value) {
+void ConsignePolaire::setVitesseOrientation(word value) {
 	vitesseOrientation = value;
 }
-double ConsignePolaire::getVitesseOrientation() {
+word ConsignePolaire::getVitesseOrientation() {
 	return vitesseOrientation;
 }
 

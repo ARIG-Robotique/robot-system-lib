@@ -16,10 +16,10 @@
 class Asservissement {
 public:
 	Asservissement();
-	Asservissement(int sampleTime);
+	Asservissement(byte sampleTime);
 
-	void setSampleTimeMs(unsigned int sampleTime);
-	unsigned int getSampleTimeMs();
+	void setSampleTimeMs(byte sampleTime);
+	byte getSampleTimeMs();
 
 	void setPIDDistance(double kp, double ki, double kd);
 	void setPIDOrientation(double kp, double ki, double kd);
@@ -44,7 +44,7 @@ private:
 	double outputDistance;
 	double outputOrientation;
 
-	double sampleTime;
+	byte sampleTime;
 
 	void setup();
 };
