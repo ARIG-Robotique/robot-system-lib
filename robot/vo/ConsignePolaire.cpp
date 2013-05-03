@@ -18,10 +18,10 @@ ConsignePolaire::ConsignePolaire() {
 }
 
 void ConsignePolaire::enableFrein() {
-	frein = true;
+	frein = FREIN_ACTIF;
 }
 void ConsignePolaire::disableFrein() {
-	frein = false;
+	frein = FREIN_INACTIF;
 }
 
 // -------------------------------------------------------- //
@@ -49,6 +49,13 @@ long ConsignePolaire::getConsigneOrientation() {
 	return consigneOrientation;
 }
 
+void ConsignePolaire::setVitesseOrientation(word value) {
+	vitesseOrientation = value;
+}
+word ConsignePolaire::getVitesseOrientation() {
+	return vitesseOrientation;
+}
+
 void ConsignePolaire::setCmdDroit(char value) {
 	cmdDroit = value;
 }
@@ -63,13 +70,6 @@ char ConsignePolaire::getCmdGauche() {
 	return cmdGauche;
 }
 
-void ConsignePolaire::setVitesseOrientation(word value) {
-	vitesseOrientation = value;
-}
-word ConsignePolaire::getVitesseOrientation() {
-	return vitesseOrientation;
-}
-
-boolean ConsignePolaire::isFreinEnable() {
+byte ConsignePolaire::getFrein() {
 	return frein;
 }

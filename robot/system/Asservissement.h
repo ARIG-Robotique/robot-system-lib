@@ -8,7 +8,7 @@
 #ifndef ASSERVISSEMENT_H_
 #define ASSERVISSEMENT_H_
 
-#include "../../filters/PID_v1.h"
+#include "../../filters/Pid.h"
 #include "../../filters/QuadRamp.h"
 #include "../vo/ConsignePolaire.h"
 #include "Encodeurs.h"
@@ -27,11 +27,11 @@ public:
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
 
-	void process(Encodeurs * encodeurs, ConsignePolaire * consignePolaire);
+	void process(Encodeurs & encodeurs, ConsignePolaire & consignePolaire);
 
 private:
-	PID pidOrientation;
-	PID pidDistance;
+	Pid pidOrientation;
+	Pid pidDistance;
 	QuadRamp filterDistance;
 	QuadRamp filterOrientation;
 

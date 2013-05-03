@@ -101,13 +101,13 @@ char MD22::check(char val) {
  */
 void MD22::generateMouvement(char gauche, char droit) {
 	alternate = !alternate;
-	if (alternate) {
+	//if (alternate) {
 		moteurGauche(gauche);
 		moteurDroit(droit);
-	} else {
+	/*} else {
 		moteurDroit(droit);
 		moteurGauche(gauche);
-	}
+	}*/
 }
 
 /*

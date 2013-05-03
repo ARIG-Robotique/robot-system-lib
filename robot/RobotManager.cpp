@@ -39,6 +39,13 @@ void RobotManager::init() {
 	moteurs.printVersion();
 #endif
 	moteurs.init();
+
+	// TODO : TO BE REMOVED
+	// Consigne de test
+	consigne.setConsigneDistance(Conv.mmToPulse(1000));
+	consigne.setConsigneOrientation(0);
+	consigne.setVitesseDistance(50);
+	consigne.setVitesseOrientation(30);
 }
 
 /*
@@ -73,21 +80,21 @@ void RobotManager::process() {
 		calculConsigne();
 
 		// 3. Asservissement sur les consignes
-		asserv.process(&enc, &consigne);
+		asserv.process(enc, consigne);
 
 		// 4. Envoi aux moteurs
-		//moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
+		moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdGauche());
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
 		trajetAtteint = false;
 		trajetEnApproche = false;
-		if (consigne.isFreinEnable()
+		if (consigne.getFrein() == FREIN_ACTIF
 				&& abs(consigne.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
 				&& abs(consigne.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
 
 			trajetAtteint = true;
 
-		} else if (!consigne.isFreinEnable()
+		} else if (consigne.getFrein() == FREIN_INACTIF
 				&& abs(consigne.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
 				&& abs(consigne.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
 
@@ -95,13 +102,13 @@ void RobotManager::process() {
 		}
 
 #ifdef DEBUG_MODE
-		Serial.println(';');
+		Serial.println();
 #endif
 	}
 }
 
 /*
- * Calcul des consigne d'asservissement
+ * Calcul des consignes d'asservissement
  * -> a : Gestion en fonction de l'odométrie
  * -> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
  */

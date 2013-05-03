@@ -6,8 +6,6 @@
  */
 
 #include "Asservissement.h"
-#include "../../filters/PID_v1.h"
-#include "../../filters/QuadRamp.h"
 
 /*
  * Constructeur
@@ -40,15 +38,8 @@ void Asservissement::setup() {
 	setPointDistance = setPointOrientation = 0;
 
 	// Initialisation des élements de l'asservissement
-	pidDistance = PID(&inputDistance, &outputDistance, &setPointDistance, 0.5, 0.01, 0.25, DIRECT);
-	pidDistance.SetSampleTime(sampleTime);
-	pidDistance.SetOutputLimits(-120, 120); // Limit de fonctionnement de la carte MD22 en mode 1
-	pidDistance.SetMode(AUTOMATIC); // Activation du PID
-
-	pidOrientation = PID(&inputOrientation, &outputOrientation, &setPointOrientation, 0.5, 0.01, 0.25, DIRECT);
-	pidOrientation.SetSampleTime(sampleTime);
-	pidOrientation.SetOutputLimits(-120, 120);
-	pidOrientation.SetMode(AUTOMATIC); // Activation du PID
+	pidDistance = Pid();
+	pidOrientation = Pid();
 
 	// Configuration du filtre pour le profil trapézoïdale
 	filterDistance = QuadRamp(sampleTime, 100, 100);
@@ -58,46 +49,44 @@ void Asservissement::setup() {
 /*
  * Méthode de processing de l'asservissement polaire.
  */
-void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
+void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
 	// Récupération des valeurs réel
-	inputDistance = enc->getDistance();
-	inputOrientation = enc->getOrientation();
+	inputDistance = enc.getDistance();
+	inputOrientation = enc.getOrientation();
 
 	// Application du filtre pour la génération du profil trapézoidale
 	// et définition des consignes
-	setPointDistance = filterDistance.filter(cp->getVitesseDistance(), cp->getConsigneDistance(), inputDistance, cp->isFreinEnable());
-	setPointOrientation = filterOrientation.filter(cp->getVitesseOrientation(), cp->getConsigneOrientation(), inputOrientation, cp->isFreinEnable());
+	setPointDistance = filterDistance.filter(cp.getVitesseDistance(), cp.getConsigneDistance(), inputDistance, 1);
+	setPointOrientation = filterOrientation.filter(cp.getVitesseOrientation(), cp.getConsigneOrientation(), inputOrientation, 1);
 
 	// Calcul du filtres PID
-	//pidDistance.Compute();
-	//pidOrientation.Compute();
+	outputDistance = pidDistance.compute(setPointDistance, inputDistance);
+	outputOrientation = pidOrientation.compute(setPointOrientation, inputOrientation);
 
 	// Envoi des consignes aux moteurs
-	cp->setCmdDroit(outputDistance + outputOrientation);
-	cp->setCmdGauche(outputDistance - outputOrientation);
+	cp.setCmdDroit(outputDistance + outputOrientation);
+	cp.setCmdGauche(outputDistance - outputOrientation);
 
 #ifdef DEBUG_MODE
-	/*Serial.print("\tIn. : D -> ");
-	Serial.print(inputDistance);
-	Serial.print(" ; O -> ");
-	Serial.print(inputOrientation);
-	Serial.print(" ; SetP. : D -> ");
-	Serial.print(setPointDistance);
-	Serial.print(" ; O -> ");
-	Serial.print(setPointOrientation);
-	Serial.print(" ; Out. : D -> ");
-	Serial.print(outputDistance);
-	Serial.print(" ; O -> ");
-	Serial.print(outputOrientation);
-	Serial.print(" ; Cons. : D -> ");
-	Serial.print(cp->getConsigneDistance());
-	Serial.print(" ; O -> ");
-	Serial.print(cp->getConsigneOrientation());
+	Serial.print(";Cd ");
+	Serial.print(cp.getConsigneDistance());
+	Serial.print(";Co ");
+	Serial.print(cp.getConsigneOrientation());
 
-	Serial.print("\tCMD Asserv : D -> ");
-	Serial.print(cp->getCmdDroit());
-	Serial.print(" ; G -> ");
-	Serial.print(cp->getCmdGauche());*/
+	Serial.print(";INd ");
+	Serial.print(inputDistance);
+	Serial.print(";SPd ");
+	Serial.print(setPointDistance);
+
+	Serial.print(";INo ");
+	Serial.print(inputOrientation);
+	Serial.print(";SPo ");
+	Serial.print(setPointOrientation);
+
+	Serial.print(";CmdD ");
+	Serial.print(cp.getCmdDroit(), DEC);
+	Serial.print(";CmdG ");
+	Serial.print(cp.getCmdGauche(), DEC);
 #endif
 }
 
@@ -107,8 +96,6 @@ void Asservissement::process(Encodeurs * enc, ConsignePolaire * cp) {
 
 void Asservissement::setSampleTimeMs(byte sampleTime) {
 	this->sampleTime = sampleTime;
-	pidDistance.SetSampleTime(sampleTime);
-	pidOrientation.SetSampleTime(sampleTime);
 	filterDistance.setSampleTimeMs(sampleTime);
 	filterOrientation.setSampleTimeMs(sampleTime);
 }
@@ -118,11 +105,11 @@ byte Asservissement::getSampleTimeMs() {
 }
 
 void Asservissement::setPIDDistance(double kp, double ki, double kd) {
-	pidDistance.SetTunings(kp, ki, kd);
+	pidDistance.setTunings(kp, ki, kd);
 }
 
 void Asservissement::setPIDOrientation(double kp, double ki, double kd) {
-	pidOrientation.SetTunings(kp, ki, kd);
+	pidOrientation.setTunings(kp, ki, kd);
 }
 
 void Asservissement::setRampAcc(double rampDistance, double rampOrientation) {

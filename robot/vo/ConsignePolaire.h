@@ -10,6 +10,9 @@
 
 #include <Arduino.h>
 
+#define FREIN_ACTIF 1
+#define FREIN_INACTIF 0
+
 class ConsignePolaire {
 public:
 	ConsignePolaire();
@@ -34,7 +37,7 @@ public:
 
 	void enableFrein();
 	void disableFrein();
-	boolean isFreinEnable();
+	byte getFrein();
 
 private:
 	long consigneDistance;
@@ -46,7 +49,7 @@ private:
 	char cmdDroit;
 	char cmdGauche;
 
-	boolean frein;
+	byte frein;
 };
 
 #endif /* CONSIGNEPOLAIRE_H_ */
