@@ -67,7 +67,7 @@ void RobotManager::process() {
 
 		// 1. Calcul de la position du robot
 		enc.lectureValeurs();
-		odom.calculPosition(&enc);
+		//odom.calculPosition(&enc);
 
 		// 2. Calcul des consignes
 		calculConsigne();
