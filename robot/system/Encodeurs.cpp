@@ -67,12 +67,12 @@ void Encodeurs::lectureValeurs() {
 	}
 	setValeursCodeurs(gauche, droit);
 
-#ifdef DEBUG_MODE
+/*#ifdef DEBUG_MODE
 		Serial.print("Encodeurs G -> ");
 		Serial.print(gauche);
 		Serial.print(" ; D -> ");
 		Serial.print(droit);
-#endif
+#endif*/
 }
 
 /*
