@@ -10,6 +10,8 @@
 
 #include <Arduino.h>
 
+#include "../../common.h"
+
 #define I2C_ACK					0
 #define I2C_DATA_TOO_LONG		1
 #define I2C_NACK_BAD_ADDRESS	2
@@ -20,9 +22,12 @@ class I2CUtils {
 public:
 	I2CUtils();
 
-	void printReturnCode(byte code);
 	boolean isError(byte code);
 	boolean isOk(byte code);
+
+#ifdef DEBUG_MODE
+	void printReturnCode(byte code);
+#endif
 };
 
 extern I2CUtils i2cUtils;

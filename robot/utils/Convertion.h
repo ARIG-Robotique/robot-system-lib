@@ -19,12 +19,12 @@ class Convertion {
 public:
 	Convertion(double, double);
 
-	long int mmToPulse(long int);
-	long int pulseToMm(long int);
-	long int degToPulse(long double);
-	long double pulseToDeg(long int);
-	long double pulseToRad(long int);
-	long int radToPulse(long double);
+	long mmToPulse(long);
+	long pulseToMm(long);
+	long degToPulse(long);
+	long pulseToDeg(long);
+	long pulseToRad(long);
+	long radToPulse(long);
 
 private:
 	double countPerMm;

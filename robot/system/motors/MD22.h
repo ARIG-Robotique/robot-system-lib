@@ -10,6 +10,7 @@
 
 #include <Arduino.h>
 #include "../../utils/I2CUtils.h"
+#include "../../../common.h"
 
 class MD22 {
 
@@ -18,12 +19,11 @@ public:
 	MD22(byte mode, byte accel);
 
 	void init();
-	void printVersion();
-	void generateMouvement(char gauche, char droit);
-	void moteurGauche(char);
-	void moteurDroit(char);
-	void moteur1(char);
-	void moteur2(char);
+	void generateMouvement(int gauche, int droit);
+	void moteurGauche(int);
+	void moteurDroit(int);
+	void moteur1(int);
+	void moteur2(int);
 	void stopAll();
 	void stopGauche();
 	void stopDroit();
@@ -32,20 +32,24 @@ public:
 	void setMode(byte value);
 	void setAccel(byte value);
 
+#ifdef DEBUG_MODE
+	void printVersion();
+#endif
+
 private:
-	#define MD22_ADD_BOARD				0x58
+	#define MD22_ADD_BOARD			0x58
 
 	#define MODE_REGISTER			0x00
 	#define ACCEL_REGISTER			0x03
-	#define LEFT_MOTOR_REGISTER		0x01
-	#define RIGHT_MOTOR_REGISTER	0x02
+	#define LEFT_MOTOR_REGISTER		0x02
+	#define RIGHT_MOTOR_REGISTER	0x01
 	#define MD22_VERSION_REGISTER	0x07
 
 	#define MODE_0					0 // 0 (Reverse) - 128 (Stop) - 255 (Forward)
 	#define MODE_1					1 // -128 (Reverse) - 0 (Stop) - 127 (Forward)
 
 	#define DEFAULT_MODE_VALUE		MODE_1
-	#define DEFAULT_ACCEL_VALUE		0 // Pas d'acceleration
+	#define DEFAULT_ACCEL_VALUE		10 // Pas de 16,4 ms
 
 	#define MIN_VAL_MODE_0			0
 	#define STOP_VAL_MODE_0			128
@@ -62,8 +66,10 @@ private:
 	int minVal;
 	int maxVal;
 	int stopVal;
+	int prevGauche;
+	int prevDroit;
 
-	char check(char);
+	int check(int);
 	void setMode(byte value, boolean transmit);
 	void setAccel(byte value, boolean transmit);
 	void init(boolean transmit);

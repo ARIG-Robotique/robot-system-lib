@@ -32,43 +32,57 @@ MD22::MD22(byte mode, byte accel) {
 /*
  * Envoi d'une consigne sur le moteur Gauche
  */
-void MD22::moteurGauche(char val) {
+void MD22::moteurGauche(int val) {
+	int cmd = check(val);
+	if (cmd == prevGauche) {
+		return;
+	}
+	prevGauche = cmd;
+
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(LEFT_MOTOR_REGISTER);
-	Wire.write(check(val));
+	Wire.write((char) cmd);
 	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
-		Serial.println(" * Commande moteur gauche");
 		i2cUtils.printReturnCode(retCode);
 	}
+#endif
 }
 
-void MD22::moteur1(char val) {
+void MD22::moteur1(int val) {
 	moteurGauche(val);
 }
 
 /*
  * Envoi d'une consigne sur le moteur Droit
  */
-void MD22::moteurDroit(char val) {
+void MD22::moteurDroit(int val) {
+	int cmd = check(val);
+	if (cmd == prevDroit) {
+		return;
+	}
+	prevDroit = cmd;
+
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(RIGHT_MOTOR_REGISTER);
-	Wire.write(check(val));
+	Wire.write((char) cmd);
 	retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
-		Serial.println(" * Commande moteur droit");
 		i2cUtils.printReturnCode(retCode);
 	}
+#endif
 }
 
-void MD22::moteur2(char val) {
+void MD22::moteur2(int val) {
 	moteurDroit(val);
 }
 
 /*
  * Cette fonction permet de controler les bornes min et max en fonction du mode.
  */
-char MD22::check(char val) {
+int MD22::check(int val) {
 	if (val < minVal) {
 		val = minVal;
 	}
@@ -85,7 +99,7 @@ char MD22::check(char val) {
  * Cela est fait pour ne pas pénaliser un coté vis a vis d'un autre.
  * Normalement le PID devrais gérer ça, mais bon ceinture et bretelle.
  */
-void MD22::generateMouvement(char gauche, char droit) {
+void MD22::generateMouvement(int gauche, int droit) {
 	alternate = !alternate;
 	if (alternate) {
 		moteurGauche(gauche);
@@ -135,6 +149,9 @@ void MD22::init() {
 }
 
 void MD22::init(boolean transmit) {
+	prevGauche = 300;
+	prevDroit = 300;
+
 	setMode(modeValue, transmit);
 	delayMicroseconds(100);
 	setAccel(accelValue, transmit);
@@ -198,10 +215,12 @@ void MD22::setAccel(byte value, boolean transmit) {
 		Wire.write(ACCEL_REGISTER);
 		Wire.write(value);
 		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			Serial.println(" * Set accelleration");
 			i2cUtils.printReturnCode(retCode);
 		}
+#endif
 	}
 }
 
@@ -236,13 +255,16 @@ void MD22::setMode(byte value, boolean transmit) {
 		Wire.write(MODE_REGISTER);
 		Wire.write(modeValue);
 		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			Serial.println(" * Set mode");
 			i2cUtils.printReturnCode(retCode);
 		}
+#endif
 	}
 }
 
+#ifdef DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison série
  */
@@ -263,4 +285,4 @@ void MD22::printVersion() {
 		i2cUtils.printReturnCode(retCode);
 	}
 }
-
+#endif

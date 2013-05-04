@@ -9,17 +9,20 @@
 #define SD21_H_
 
 #include <Arduino.h>
+#include "../../../common.h"
 #include "../../utils/I2CUtils.h"
 
 class SD21 {
 public:
 	SD21();
 
-	void printVersion();
 	void setPosition(byte servoNb, word position);
 	void setSpeed(byte servoNb, byte speed);
 	void setPositionAndSpeed(byte servoNb, byte speed, word position);
 
+#ifdef DEBUG_MODE
+	void printVersion();
+#endif
 
 private:
 	#define SD21_ADD_BOARD				0x61

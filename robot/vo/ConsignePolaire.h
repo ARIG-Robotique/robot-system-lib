@@ -10,27 +10,24 @@
 
 #include <Arduino.h>
 
+#define FREIN_ACTIF 1
+#define FREIN_INACTIF 0
+
 class ConsignePolaire {
 public:
 	ConsignePolaire();
 
-	void setConsigneDistance(double value);
-	double getConsigneDistance();
+	void setConsigneDistance(long value);
+	long getConsigneDistance();
 
-	void setSetPointDistance(double value);
-	double getSetPointDistance();
+	void setVitesseDistance(word value);
+	word getVitesseDistance();
 
-	void setVitesseDistance(double value);
-	double getVitesseDistance();
+	void setConsigneOrientation(long value);
+	long getConsigneOrientation();
 
-	void setConsigneOrientation(double value);
-	double getConsigneOrientation();
-
-	void setSetPointOrientation(double value);
-	double getSetPointOrientation();
-
-	void setVitesseOrientation(double value);
-	double getVitesseOrientation();
+	void setVitesseOrientation(word value);
+	word getVitesseOrientation();
 
 	void setCmdGauche(int value);
 	int getCmdGauche();
@@ -40,21 +37,19 @@ public:
 
 	void enableFrein();
 	void disableFrein();
-	boolean isFreinEnable();
+	byte getFrein();
 
 private:
-	double consigneDistance;
-	double setPointDistance;
-	double vitesseDistance;
+	long consigneDistance;
+	word vitesseDistance;
 
-	double consigneOrientation;
-	double setPointOrientation;
-	double vitesseOrientation;
+	long consigneOrientation;
+	word vitesseOrientation;
 
 	int cmdDroit;
 	int cmdGauche;
 
-	boolean frein;
+	byte frein;
 };
 
 #endif /* CONSIGNEPOLAIRE_H_ */

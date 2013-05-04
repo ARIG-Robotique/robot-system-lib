@@ -8,6 +8,8 @@
 #ifndef ROBOTMANAGER_H_
 #define ROBOTMANAGER_H_
 
+#include "../common.h"
+
 // Value Object
 #include "vo/RobotConsigne.h"
 #include "vo/ConsignePolaire.h"
@@ -23,6 +25,7 @@ public:
 	RobotManager();
 
 	void init();
+	void resetEncodeurs();
 	void process();
 	void stop();
 

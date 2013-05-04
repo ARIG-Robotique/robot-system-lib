@@ -9,31 +9,32 @@
 
 #include <Arduino.h>
 #include "../robot/utils/Convertion.h"
+#include "../robot/vo/ConsignePolaire.h"
 
 /*
  * Constructeur
  */
 QuadRamp::QuadRamp() {
-	this->sampleTime = 0;
-	this->rampAcc = 0;
-	this->rampDec = 0;
+	sampleTime = 0;
+	rampAcc = 0;
+	rampDec = 0;
 
-	this->distanceDecel = 0;
-	this->ecartPrecedent = 0;
-	this->vitesseCourante = 0;
+	distanceDecel = 0;
+	ecartPrecedent = 0;
+	vitesseCourante = 0;
 }
 
 /*
  * Constructeur
  */
-QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
-	this->sampleTime = sampleTime;
+QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
+	this->sampleTime = sampleTime / 1000;
 	this->rampAcc = rampAcc;
 	this->rampDec = rampDec;
 
-	this->distanceDecel = 0;
-	this->ecartPrecedent = 0;
-	this->vitesseCourante = 0;
+	distanceDecel = 0;
+	ecartPrecedent = 0;
+	vitesseCourante = 0;
 }
 
 // --------------------------------------------------------- //
@@ -44,12 +45,12 @@ QuadRamp::QuadRamp(int sampleTime, double rampAcc, double rampDec) {
  * Application du filtre.
  * Cette méthode est appelé depuis la sub routine d'asservissement
  */
-double QuadRamp::filter(double vitesse, double consigne, double mesure, bool frein) {
+double QuadRamp::filter(double vitesse, double consigne, byte frein) {
 	// Calcul de la distance de décéleration en fonction des parametres
-	distanceDecel = Conv.mmToPulse((this->vitesseCourante * this->vitesseCourante) / (2 * this->rampDec));
-	if (vitesseCourante > vitesse	|| (abs(consigne) <= distanceDecel && frein)) {
+	distanceDecel = Conv.mmToPulse((vitesseCourante * vitesseCourante) / (2 * rampDec));
+	if (vitesseCourante > vitesse	|| (abs(consigne) <= distanceDecel && frein == FREIN_ACTIF)) {
 		vitesseCourante -= rampDec * sampleTime;
-	} else if (vitesseCourante < vitesse) {
+	} else if (vitesseCourante < vitesse && consigne != 0) {
 		vitesseCourante += rampAcc * sampleTime;
 	}
 
@@ -59,12 +60,36 @@ double QuadRamp::filter(double vitesse, double consigne, double mesure, bool fre
 	// Calcul de la valeur théorique en fonction de la vitesse.
 	double pulseForVitesse = Conv.mmToPulse(vitesseCourante) * sampleTime;
 
-	// Consigne théorique en de la vitesse et du temps écoulé
-	double ecartTheorique = pulseForVitesse + abs(ecartPrecedent);
+	// Consigne théorique en fonction de la vitesse
+	double ecartTheorique = pulseForVitesse;
 	if (consigne < 0) {
 		ecartTheorique = -ecartTheorique;
 	}
+
+#ifdef DEBUG_MODE
+	Serial.print(";FVit. ");Serial.print(vitesseCourante);
+	Serial.print(";FDistD");Serial.print(distanceDecel);
+	Serial.print(";FCons.");Serial.print(consigne);
+	Serial.print(";FOut");Serial.print(ecartTheorique);
+#endif
+
+	return ecartTheorique;
+}
+
+/*
+ * /!\ EXPERIMENTAL
+ *
+ * Application du filtre "logarithmique".
+ * Cette méthode est appelé depuis la sub routine d'asservissement
+ */
+double QuadRamp::filterLog(double vitesse, double consigne, double mesure, byte frein) {
+	// Récupération de la version normal et ajout de l'écart précedent
+	double ecartTheorique = filter(vitesse, consigne, frein) + ecartPrecedent;
 	ecartPrecedent = ecartTheorique - mesure;
+
+#ifdef DEBUG_MODE
+	Serial.print(";FOutLog");Serial.print(ecartTheorique);
+#endif
 
 	return ecartTheorique;
 }
@@ -73,15 +98,15 @@ double QuadRamp::filter(double vitesse, double consigne, double mesure, bool fre
 // -------------------- GETTERS / SETTERS ------------------ //
 // --------------------------------------------------------- //
 
-void QuadRamp::setSampleTime(int value) {
-	this->sampleTime = value;
+void QuadRamp::setSampleTimeMs(double value) {
+	sampleTime = value / 1000;
 }
 
 void QuadRamp::setRampAcc(double value) {
-	this->rampAcc = value;
+	rampAcc = value;
 }
 
 void QuadRamp::setRampDec(double value) {
-	this->rampDec = value;
+	rampDec = value;
 }
 
