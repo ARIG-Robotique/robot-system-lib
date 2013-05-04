@@ -93,6 +93,7 @@ void RobotManager::process() {
 				&& abs(consigne.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
 
 			trajetAtteint = true;
+			// TODO : Changer les params PID pour avoir une stabilisation pas trop aggressive
 
 		} else if (consigne.getFrein() == FREIN_INACTIF
 				&& abs(consigne.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
@@ -137,7 +138,9 @@ void RobotManager::calculConsigne() {
 		consigne.disableFrein();
 	}
 
-/*#ifdef DEBUG_MODE
+	// TODO : Définition de la vitesse demandé
+
+	/*#ifdef DEBUG_MODE
 	Serial.print("\tCalc. Cons. F : ");
 	Serial.print(consigne.isFreinEnable());
 	Serial.print(" ; D : ");
@@ -146,7 +149,6 @@ void RobotManager::calculConsigne() {
 	Serial.print((double) Conv.pulseToDeg(consigne.getConsigneOrientation()));
 #endif*/
 
-	// TODO : Définition de la vitesse demandé
 }
 
 /* ------------------------------------------------------------------ */
