@@ -45,7 +45,7 @@ QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
  * Application du filtre.
  * Cette méthode est appelé depuis la sub routine d'asservissement
  */
-double QuadRamp::filter(double vitesse, double consigne, double mesure, byte frein) {
+double QuadRamp::filter(double vitesse, double consigne, byte frein) {
 	// Calcul de la distance de décéleration en fonction des parametres
 	distanceDecel = Conv.mmToPulse((vitesseCourante * vitesseCourante) / (2 * rampDec));
 	if (vitesseCourante > vitesse	|| (abs(consigne) <= distanceDecel && frein == FREIN_ACTIF)) {
@@ -60,28 +60,36 @@ double QuadRamp::filter(double vitesse, double consigne, double mesure, byte fre
 	// Calcul de la valeur théorique en fonction de la vitesse.
 	double pulseForVitesse = Conv.mmToPulse(vitesseCourante) * sampleTime;
 
-	// Consigne théorique en de la vitesse et du temps écoulé
-	double ecartTheorique = pulseForVitesse + abs(ecartPrecedent);
+	// Consigne théorique en fonction de la vitesse
+	double ecartTheorique = pulseForVitesse;
 	if (consigne < 0) {
 		ecartTheorique = -ecartTheorique;
 	}
+
+#ifdef DEBUG_MODE
+	Serial.print(";FVit. ");Serial.print(vitesseCourante);
+	Serial.print(";FDistD");Serial.print(distanceDecel);
+	Serial.print(";FCons.");Serial.print(consigne);
+	Serial.print(";FOut");Serial.print(ecartTheorique);
+#endif
+
+	return ecartTheorique;
+}
+
+/*
+ * /!\ EXPERIMENTAL
+ *
+ * Application du filtre "logarithmique".
+ * Cette méthode est appelé depuis la sub routine d'asservissement
+ */
+double QuadRamp::filterLog(double vitesse, double consigne, double mesure, byte frein) {
+	// Récupération de la version normal et ajout de l'écart précedent
+	double ecartTheorique = filter(vitesse, consigne, frein) + ecartPrecedent;
 	ecartPrecedent = ecartTheorique - mesure;
 
-/*#ifdef DEBUG_MODE
-	Serial.print(";F");
-	Serial.print(frein);
-	Serial.print(";V");
-	Serial.print(vitesseCourante);
-	Serial.print(";DD");
-	Serial.print(distanceDecel);
-	Serial.print(";M");
-	Serial.print(mesure);
-	Serial.print(";C");
-	Serial.print(consigne);
-	Serial.print(";E");
-	Serial.print(ecartTheorique);
-	Serial.print("\t");
-#endif*/
+#ifdef DEBUG_MODE
+	Serial.print(";FOutLog");Serial.print(ecartTheorique);
+#endif
 
 	return ecartTheorique;
 }
