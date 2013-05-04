@@ -56,19 +56,19 @@ void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
 
 	// Application du filtre pour la génération du profil trapézoidale
 	// et définition des consignes
-	setPointDistance = filterDistance.filter(cp.getVitesseDistance(), cp.getConsigneDistance(), inputDistance, 1);
-	setPointOrientation = filterOrientation.filter(cp.getVitesseOrientation(), cp.getConsigneOrientation(), inputOrientation, 1);
+	setPointDistance = filterDistance.filter(cp.getVitesseDistance(), cp.getConsigneDistance(), cp.getFrein());
+	setPointOrientation = filterOrientation.filter(cp.getVitesseOrientation(), cp.getConsigneOrientation(), cp.getFrein());
 
 	// Calcul du filtres PID
 	outputDistance = pidDistance.compute(setPointDistance, inputDistance);
 	outputOrientation = pidOrientation.compute(setPointOrientation, inputOrientation);
 
 	// Envoi des consignes aux moteurs
-	cp.setCmdDroit(outputDistance + outputOrientation);
-	cp.setCmdGauche(outputDistance - outputOrientation);
+	cp.setCmdDroit((int) (outputDistance + outputOrientation));
+	cp.setCmdGauche((int) (outputDistance - outputOrientation));
 
 #ifdef DEBUG_MODE
-	Serial.print(";Cd ");
+	/*Serial.print(";Cd ");
 	Serial.print(cp.getConsigneDistance());
 	Serial.print(";Co ");
 	Serial.print(cp.getConsigneOrientation());
