@@ -33,19 +33,15 @@ MD22::MD22(byte mode, byte accel) {
  * Envoi d'une consigne sur le moteur Gauche
  */
 void MD22::moteurGauche(int val) {
-	if (val == prevGauche) {
+	int cmd = check(val);
+	if (cmd == prevGauche) {
 		return;
 	}
-	prevGauche = val;
-
-	char cmd = check(val);
-#ifdef DEBUG_MODE
-	Serial.print(";CmdG ");Serial.print(cmd, DEC);
-#endif
+	prevGauche = cmd;
 
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(LEFT_MOTOR_REGISTER);
-	Wire.write(cmd);
+	Wire.write((char) cmd);
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
@@ -62,19 +58,15 @@ void MD22::moteur1(int val) {
  * Envoi d'une consigne sur le moteur Droit
  */
 void MD22::moteurDroit(int val) {
-	if (val == prevDroit) {
+	int cmd = check(val);
+	if (cmd == prevDroit) {
 		return;
 	}
-	prevDroit = val;
-
-	char cmd = check(val);
-#ifdef DEBUG_MODE
-	Serial.print(";CmdD ");Serial.print(cmd,DEC);
-#endif
+	prevDroit = cmd;
 
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(RIGHT_MOTOR_REGISTER);
-	Wire.write(cmd);
+	Wire.write((char) cmd);
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
@@ -90,7 +82,7 @@ void MD22::moteur2(int val) {
 /*
  * Cette fonction permet de controler les bornes min et max en fonction du mode.
  */
-char MD22::check(int val) {
+int MD22::check(int val) {
 	if (val < minVal) {
 		val = minVal;
 	}
@@ -98,10 +90,7 @@ char MD22::check(int val) {
 		val = maxVal;
 	}
 
-	// On passe sur 8 bit;
-	char result = abs(val);
-	if (val < 0) result = result * -1;
-	return result;
+	return val;
 }
 
 /*

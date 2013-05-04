@@ -69,7 +69,7 @@ private:
 	int prevGauche;
 	int prevDroit;
 
-	char check(int);
+	int check(int);
 	void setMode(byte value, boolean transmit);
 	void setAccel(byte value, boolean transmit);
 	void init(boolean transmit);
