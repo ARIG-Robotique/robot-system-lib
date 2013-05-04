@@ -45,8 +45,8 @@ double Pid::compute(double consigne, double mesure) {
 	double error = consigne - mesure;
 	double deltaError = error - lastError;
 	errorSum += error;
+	lastError = error;
 	double result = kp * error + ki * errorSum + kd * deltaError;
 
-	lastError = error;
 	return result;
 }
