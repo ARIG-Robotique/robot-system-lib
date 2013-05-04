@@ -92,13 +92,16 @@ void RobotManager::process() {
 				&& abs(consigne.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
 				&& abs(consigne.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
 
+			// Notification que le trajet est atteint.
 			trajetAtteint = true;
-			// TODO : Changer les params PID pour avoir une stabilisation pas trop aggressive
+
+			// TODO : Voir si il faut changer les param PID pour la stabilisation
 
 		} else if (consigne.getFrein() == FREIN_INACTIF
 				&& abs(consigne.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
 				&& abs(consigne.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
 
+			// Notification que le point de passage est atteint, envoi de la position suivante requis
 			trajetEnApproche = true;
 		}
 
