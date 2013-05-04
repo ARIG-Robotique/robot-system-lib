@@ -49,7 +49,7 @@ private:
 	#define MODE_1					1 // -128 (Reverse) - 0 (Stop) - 127 (Forward)
 
 	#define DEFAULT_MODE_VALUE		MODE_1
-	#define DEFAULT_ACCEL_VALUE		0 // Pas d'acceleration
+	#define DEFAULT_ACCEL_VALUE		10 // Pas de 16,4 ms
 
 	#define MIN_VAL_MODE_0			0
 	#define STOP_VAL_MODE_0			128
