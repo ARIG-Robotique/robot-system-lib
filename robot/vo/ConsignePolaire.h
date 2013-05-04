@@ -29,11 +29,11 @@ public:
 	void setVitesseOrientation(word value);
 	word getVitesseOrientation();
 
-	void setCmdGauche(char value);
-	char getCmdGauche();
+	void setCmdGauche(int value);
+	int getCmdGauche();
 
-	void setCmdDroit(char value);
-	char getCmdDroit();
+	void setCmdDroit(int value);
+	int getCmdDroit();
 
 	void enableFrein();
 	void disableFrein();
@@ -46,8 +46,8 @@ private:
 	long consigneOrientation;
 	word vitesseOrientation;
 
-	char cmdDroit;
-	char cmdGauche;
+	int cmdDroit;
+	int cmdGauche;
 
 	byte frein;
 };

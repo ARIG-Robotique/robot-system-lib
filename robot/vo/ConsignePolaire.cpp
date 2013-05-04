@@ -56,17 +56,17 @@ word ConsignePolaire::getVitesseOrientation() {
 	return vitesseOrientation;
 }
 
-void ConsignePolaire::setCmdDroit(char value) {
+void ConsignePolaire::setCmdDroit(int value) {
 	cmdDroit = value;
 }
-char ConsignePolaire::getCmdDroit() {
+int ConsignePolaire::getCmdDroit() {
 	return cmdDroit;
 }
 
-void ConsignePolaire::setCmdGauche(char value) {
+void ConsignePolaire::setCmdGauche(int value) {
 	cmdGauche = value;
 }
-char ConsignePolaire::getCmdGauche() {
+int ConsignePolaire::getCmdGauche() {
 	return cmdGauche;
 }
 

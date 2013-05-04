@@ -32,57 +32,65 @@ MD22::MD22(byte mode, byte accel) {
 /*
  * Envoi d'une consigne sur le moteur Gauche
  */
-void MD22::moteurGauche(char val) {
+void MD22::moteurGauche(int val) {
 	if (val == prevGauche) {
 		return;
 	}
 	prevGauche = val;
 
+	char cmd = check(val);
+#ifdef DEBUG_MODE
+	Serial.print(";CmdG ");Serial.print(cmd, DEC);
+#endif
+
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(LEFT_MOTOR_REGISTER);
-	Wire.write(check(val));
+	Wire.write(cmd);
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
-		Serial.print(" * Commande moteur gauche => ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
 }
 
-void MD22::moteur1(char val) {
+void MD22::moteur1(int val) {
 	moteurGauche(val);
 }
 
 /*
  * Envoi d'une consigne sur le moteur Droit
  */
-void MD22::moteurDroit(char val) {
+void MD22::moteurDroit(int val) {
 	if (val == prevDroit) {
 		return;
 	}
 	prevDroit = val;
 
+	char cmd = check(val);
+#ifdef DEBUG_MODE
+	Serial.print(";CmdD ");Serial.print(cmd,DEC);
+#endif
+
 	Wire.beginTransmission(MD22_ADD_BOARD);
 	Wire.write(RIGHT_MOTOR_REGISTER);
-	Wire.write(check(val));
+	Wire.write(cmd);
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
-		Serial.print(" * Commande moteur droit => ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
 }
 
-void MD22::moteur2(char val) {
+void MD22::moteur2(int val) {
 	moteurDroit(val);
 }
 
 /*
  * Cette fonction permet de controler les bornes min et max en fonction du mode.
  */
-char MD22::check(char val) {
+char MD22::check(int val) {
 	if (val < minVal) {
 		val = minVal;
 	}
@@ -90,7 +98,10 @@ char MD22::check(char val) {
 		val = maxVal;
 	}
 
-	return val;
+	// On passe sur 8 bit;
+	char result = abs(val);
+	if (val < 0) result = result * -1;
+	return result;
 }
 
 /*
@@ -99,15 +110,15 @@ char MD22::check(char val) {
  * Cela est fait pour ne pas pénaliser un coté vis a vis d'un autre.
  * Normalement le PID devrais gérer ça, mais bon ceinture et bretelle.
  */
-void MD22::generateMouvement(char gauche, char droit) {
+void MD22::generateMouvement(int gauche, int droit) {
 	alternate = !alternate;
-	//if (alternate) {
+	if (alternate) {
 		moteurGauche(gauche);
 		moteurDroit(droit);
-	/*} else {
+	} else {
 		moteurDroit(droit);
 		moteurGauche(gauche);
-	}*/
+	}
 }
 
 /*

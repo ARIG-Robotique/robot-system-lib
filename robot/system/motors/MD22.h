@@ -19,11 +19,11 @@ public:
 	MD22(byte mode, byte accel);
 
 	void init();
-	void generateMouvement(char gauche, char droit);
-	void moteurGauche(char);
-	void moteurDroit(char);
-	void moteur1(char);
-	void moteur2(char);
+	void generateMouvement(int gauche, int droit);
+	void moteurGauche(int);
+	void moteurDroit(int);
+	void moteur1(int);
+	void moteur2(int);
 	void stopAll();
 	void stopGauche();
 	void stopDroit();
@@ -69,7 +69,7 @@ private:
 	int prevGauche;
 	int prevDroit;
 
-	char check(char);
+	char check(int);
 	void setMode(byte value, boolean transmit);
 	void setAccel(byte value, boolean transmit);
 	void init(boolean transmit);
