@@ -106,6 +106,8 @@ void RobotManager::process() {
 		}
 
 #ifdef DEBUG_MODE
+		Serial.print(";TrajApp ");Serial.print(trajetEnApproche, DEC);
+		Serial.print(";TrajAtt ");Serial.print(trajetAtteint, DEC);
 		Serial.println();
 #endif
 	}
