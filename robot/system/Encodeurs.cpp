@@ -34,6 +34,7 @@ void Encodeurs::reset() {
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
+		Serial.print(" * Carte codeur droit ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -46,6 +47,7 @@ void Encodeurs::reset() {
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
+		Serial.print(" * Carte codeur gauche ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -66,13 +68,6 @@ void Encodeurs::lectureValeurs() {
 		gauche = lectureGauche();
 	}
 	setValeursCodeurs(gauche, droit);
-
-/*#ifdef DEBUG_MODE
-		Serial.print("Encodeurs G -> ");
-		Serial.print(gauche);
-		Serial.print(" ; D -> ");
-		Serial.print(droit);
-#endif*/
 }
 
 /*
@@ -101,6 +96,8 @@ int Encodeurs::lectureData(int address) {
 	retCode = Wire.endTransmission();
 	if (i2cUtils.isError(retCode)) {
 #ifdef DEBUG_MODE
+		Serial.print(" * Lecture codeur ");
+		Serial.print(address, HEX);
 		i2cUtils.printReturnCode(retCode);
 #endif
 		return 0;

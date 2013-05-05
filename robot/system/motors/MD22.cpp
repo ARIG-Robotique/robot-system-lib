@@ -45,6 +45,7 @@ void MD22::moteurGauche(int val) {
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
+		Serial.print(" * Cmd moteur gauche ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -70,6 +71,7 @@ void MD22::moteurDroit(int val) {
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
+		Serial.print(" * Cmd moteur droit ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -217,7 +219,7 @@ void MD22::setAccel(byte value, boolean transmit) {
 		retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
-			Serial.println(" * Set accelleration");
+			Serial.println(" * Set accelleration ");
 			i2cUtils.printReturnCode(retCode);
 		}
 #endif
@@ -257,7 +259,7 @@ void MD22::setMode(byte value, boolean transmit) {
 		retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
-			Serial.println(" * Set mode");
+			Serial.println(" * Set mode ");
 			i2cUtils.printReturnCode(retCode);
 		}
 #endif

@@ -67,10 +67,11 @@ double QuadRamp::filter(double vitesse, double consigne, int frein) {
 	}
 
 #ifdef DEBUG_MODE
-	Serial.print(";FVit. ");Serial.print(vitesseCourante);
-	Serial.print(";FDistD");Serial.print(distanceDecel);
-	Serial.print(";FCons.");Serial.print(consigne);
-	Serial.print(";FOut");Serial.print(ecartTheorique);
+	Serial.print(";Frein ");Serial.print(frein);
+	//Serial.print(";FVit. ");Serial.print(vitesseCourante);
+	//Serial.print(";FDistD");Serial.print(distanceDecel);
+	//Serial.print(";FCons.");Serial.print(consigne);
+	//Serial.print(";FOut");Serial.print(ecartTheorique);
 #endif
 
 	return ecartTheorique;
