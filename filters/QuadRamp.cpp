@@ -81,6 +81,8 @@ double QuadRamp::filter(double vitesse, double consigne, int frein) {
  *
  * Application du filtre "logarithmique".
  * Cette méthode est appelé depuis la sub routine d'asservissement
+ *
+ * FIXME : ça merde lors de la phase de décéleration.
  */
 double QuadRamp::filterLog(double vitesse, double consigne, double mesure, int frein) {
 	// Récupération de la version normal et ajout de l'écart précedent
@@ -109,4 +111,3 @@ void QuadRamp::setRampAcc(double value) {
 void QuadRamp::setRampDec(double value) {
 	rampDec = value;
 }
-
