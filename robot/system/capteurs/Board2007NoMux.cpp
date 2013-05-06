@@ -44,13 +44,13 @@ void Board2007NoMux::setPinForCapteur(byte capteurId, byte pin, boolean reverse)
  * Fonction de lecture de la valeur d'un capteur.
  * La récupération se fait par l'ID du capteur.
  */
-char Board2007NoMux::readCapteurValue(byte capteurId) {
+boolean Board2007NoMux::readCapteurValue(byte capteurId) {
 	if (check(capteurId) && capteurPins[capteurId] != UNDEF_PIN) {
 		int val = digitalRead(capteurPins[capteurId]);
 		if (capteurReverse[capteurId] == true) {
 			val = !val;
 		}
-		return val;
+		return val == HIGH;
 	}
 
 	return UNDEF_VAL;
