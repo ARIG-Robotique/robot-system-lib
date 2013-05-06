@@ -47,8 +47,8 @@ public:
 	void setVitesse(word vDistance, word vOrientation);
 
 private:
-	#define FENETRE_ARRET_DISTANCE			4  		// +- 4 pulse pour l'arret -> 1mm
-	#define FENETRE_ARRET_ORIENTATION		11 		// +- 11,36 pulse pour l'arret -> 1°
+	#define FENETRE_ARRET_DISTANCE			2  		// +- 2 pulse pour l'arret -> 0,5mm
+	#define FENETRE_ARRET_ORIENTATION		5 		// +- 5 pulse pour l'arret -> 0,5°
 
 	#define FENETRE_EN_APPROCHE_DISTANCE	80 		// +- 80 pulse pour la reception de la nouvelle position -> 2 cm
 	#define FENETRE_EN_APPROCHE_ORIENTATION 57 		// +- 56,8 pulse pour la reception de la nouvelle position -> 5°
