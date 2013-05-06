@@ -7,19 +7,58 @@
 
 #include "RobotConsigne.h"
 
+/*
+ * Constructeur
+ */
 RobotConsigne::RobotConsigne() {
 	position = RobotPosition();
-	frein = false;
+	consignePolaire = ConsignePolaire();
+	type = CONSIGNE_ODOMETRIE;
+	consignePolaire.enableFrein();
 }
 
+/*
+ * Accesseur pour la récupération de la position de consigne du robot sur la table
+ */
 RobotPosition RobotConsigne::getPosition() {
 	return position;
 }
 
-void RobotConsigne::setFrein(boolean val) {
-	frein = val;
+/*
+ * Accesseur pour la récupération de la consigne en polaire sur la table pour avoir des mouvements basique
+ */
+ConsignePolaire RobotConsigne::getConsignePolaire() {
+	return consignePolaire;
 }
 
+/*
+ * Mutateur pour définir le type de consigne
+ */
+void RobotConsigne::setType(char type) {
+	this->type = type;
+}
+
+/*
+ * Accesseur pour récupérer le type de consigne
+ */
+char RobotConsigne::getType() {
+	return type;
+}
+
+/*
+ * Wraper de config du frein
+ */
+void RobotConsigne::enableFrein() {
+	consignePolaire.enableFrein();
+}
+
+void RobotConsigne::disableFrein() {
+	consignePolaire.disableFrein();
+}
+
+/*
+ * Accesseur pour récupérer la valeur du frein
+ */
 boolean RobotConsigne::getFrein() {
-	return frein;
+	return consignePolaire.getFrein();
 }

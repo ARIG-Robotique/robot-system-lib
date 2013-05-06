@@ -54,10 +54,8 @@ void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
 	inputDistance = enc.getDistance();
 	inputOrientation = enc.getOrientation();
 
-	// Application du filtre pour la génération du profil trapézoidale
-	// et définition des consignes
-	// FIXME : Le passage du frein merde depuis la classe ConsignePolaire. Pkoi ????
-	setPointDistance = filterDistance.filter(cp.getVitesseDistance(), cp.getConsigneDistance(), 1);
+	// Application du filtre pour la génération du profil trapézoidale et définition des consignes
+	setPointDistance = filterDistance.filter(cp.getVitesseDistance(), cp.getConsigneDistance(), cp.getFrein());
 	setPointOrientation = filterOrientation.filter(cp.getVitesseOrientation(), cp.getConsigneOrientation(), 1); // Toujours le frein pour l'orientation
 
 	// Calcul du filtres PID

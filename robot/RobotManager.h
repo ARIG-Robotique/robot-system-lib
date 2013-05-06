@@ -39,16 +39,23 @@ public:
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
 
+	// Getter pour les enchainement de valeurs
+	boolean getTrajetAtteint();
+	boolean getTrajetEnApproche();
+
+	// Pour la modification de la vitesse a chaud
+	void setVitesse(word vDistance, word vOrientation);
+
 private:
 	#define FENETRE_ARRET_DISTANCE			4  		// +- 4 pulse pour l'arret -> 1mm
-	#define FENETRE_ARRET_ORIENTATION		11 		// +- 11,36 pulse pour l'arret -> 1¡
+	#define FENETRE_ARRET_ORIENTATION		11 		// +- 11,36 pulse pour l'arret -> 1°
 
 	#define FENETRE_EN_APPROCHE_DISTANCE	80 		// +- 80 pulse pour la reception de la nouvelle position -> 2 cm
 	#define FENETRE_EN_APPROCHE_ORIENTATION 57 		// +- 56,8 pulse pour la reception de la nouvelle position -> 5°
 
 	Odometrie odom;
 	Encodeurs enc;
-	ConsignePolaire consigne;
+	ConsignePolaire consignePolaire;
 	Asservissement asserv;
 	MD22 moteurs;
 

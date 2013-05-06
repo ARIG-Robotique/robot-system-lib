@@ -10,6 +10,10 @@
 
 #include <Arduino.h>
 #include "RobotPosition.h"
+#include "ConsignePolaire.h"
+
+#define CONSIGNE_ODOMETRIE 	0
+#define CONSIGNE_POLAIRE 	1
 
 //  y (2000)
 //  |
@@ -26,12 +30,19 @@ public:
 	RobotConsigne();
 
 	RobotPosition getPosition();
+	ConsignePolaire getConsignePolaire();
 
-	void setFrein(boolean frein);
+	void enableFrein();
+	void disableFrein();
 	boolean getFrein();
+
+	void setType(char type);
+	char getType();
 private:
 	RobotPosition position;
-	boolean frein;
+	ConsignePolaire consignePolaire;
+
+	char type;
 };
 
 #endif /* ROBOTCONSIGNE_H_ */

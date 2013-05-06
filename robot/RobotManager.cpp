@@ -11,7 +11,7 @@
 RobotManager::RobotManager() {
 	odom = Odometrie();
 	enc = Encodeurs();
-	consigne = ConsignePolaire();
+	consignePolaire = ConsignePolaire();
 	asserv = Asservissement();
 	moteurs = MD22();
 
@@ -39,14 +39,6 @@ void RobotManager::init() {
 	moteurs.printVersion();
 #endif
 	moteurs.init();
-
-	// TODO : TO BE REMOVED
-	// Consigne de test
-	consigne.setConsigneDistance(Conv.mmToPulse(1000));
-	consigne.setConsigneOrientation(0);
-	consigne.setVitesseDistance(100);
-	consigne.setVitesseOrientation(100);
-	consigne.enableFrein();
 }
 
 /*
@@ -75,32 +67,32 @@ void RobotManager::process() {
 
 		// 1. Calcul de la position du robot
 		enc.lectureValeurs();
-		//odom.calculPosition(&enc);
+		odom.calculPosition(&enc);
 
 		// 2. Calcul des consignes
 		calculConsigne();
 
 		// 3. Asservissement sur les consignes
-		asserv.process(enc, consigne);
+		asserv.process(enc, consignePolaire);
 
 		// 4. Envoi aux moteurs
-		moteurs.generateMouvement(consigne.getCmdGauche(), consigne.getCmdDroit());
+		moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
 		trajetAtteint = false;
 		trajetEnApproche = false;
-		if (consigne.getFrein() == FREIN_ACTIF
-				&& abs(consigne.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
-				&& abs(consigne.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
+		if (consignePolaire.getFrein()
+				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
+				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
 
 			// Notification que le trajet est atteint.
 			trajetAtteint = true;
 
 			// TODO : Voir si il faut changer les param PID pour la stabilisation
 
-		} else if (consigne.getFrein() == FREIN_INACTIF
-				&& abs(consigne.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
-				&& abs(consigne.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
+		} else if (consignePolaire.getFrein()
+				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
+				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
 
 			// Notification que le point de passage est atteint, envoi de la position suivante requis
 			trajetEnApproche = true;
@@ -120,41 +112,22 @@ void RobotManager::process() {
  * -> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
  */
 void RobotManager::calculConsigne() {
-	/*if (!trajetAtteint) {
+	if (!trajetAtteint && consigneTable.getType() != CONSIGNE_POLAIRE) {
 		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
 
 		long int alpha = Conv.radToPulse(atan2(Conv.pulseToRad(dY), Conv.pulseToRad(dX)));
 
-		consigne.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
-		consigne.setConsigneOrientation(alpha - odom.getPosition().getAngle());
+		consignePolaire.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
+		consignePolaire.setConsigneOrientation(alpha - odom.getPosition().getAngle());
 
-	} else {*/
+	} else {
 		// Calcul par différence vis a vis de la valeur codeur.
 		// Cela permet d'éviter que le robot fasse une spirale du plus bel effet pour le maintient en position.
-		consigne.setConsigneDistance(consigne.getConsigneDistance() - enc.getDistance());
-		consigne.setConsigneOrientation(consigne.getConsigneOrientation() - enc.getOrientation());
-	//}
-
-	// Gestion du frein pour la détection des approches et trajet atteint
-	if (consigneTable.getFrein()) {
-		consigne.enableFrein();
-	} else {
-		consigne.disableFrein();
+		consignePolaire.setConsigneDistance(consignePolaire.getConsigneDistance() - enc.getDistance());
+		consignePolaire.setConsigneOrientation(consignePolaire.getConsigneOrientation() - enc.getOrientation());
 	}
-
-	// TODO : Définition de la vitesse demandé
-
-	/*#ifdef DEBUG_MODE
-	Serial.print("\tCalc. Cons. F : ");
-	Serial.print(consigne.isFreinEnable());
-	Serial.print(" ; D : ");
-	Serial.print(Conv.pulseToMm(consigne.getConsigneDistance()));
-	Serial.print(" ; A : ");
-	Serial.print((double) Conv.pulseToDeg(consigne.getConsigneOrientation()));
-#endif*/
-
 }
 
 /* ------------------------------------------------------------------ */
@@ -163,6 +136,9 @@ void RobotManager::calculConsigne() {
 
 void RobotManager::setConsigneTable(RobotConsigne rc) {
 	consigneTable = rc;
+	if (rc.getType() == CONSIGNE_POLAIRE) {
+		consignePolaire = rc.getConsignePolaire();
+	}
 }
 
 void RobotManager::setSampleTime(int sampleTime) {
@@ -183,4 +159,17 @@ void RobotManager::setRampAcc(double rampDistance, double rampOrientation) {
 
 void RobotManager::setRampDec(double rampDistance, double rampOrientation) {
 	asserv.setRampDec(rampDistance, rampOrientation);
+}
+
+boolean RobotManager::getTrajetAtteint() {
+	return trajetAtteint;
+}
+
+boolean RobotManager::getTrajetEnApproche() {
+	return trajetEnApproche;
+}
+
+void RobotManager::setVitesse(word vDistance, word vOrientation) {
+	consignePolaire.setVitesseDistance(vDistance);
+	consignePolaire.setVitesseOrientation(vOrientation);
 }
