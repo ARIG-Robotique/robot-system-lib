@@ -72,11 +72,15 @@ void RobotManager::process() {
 		// 2. Calcul des consignes
 		calculConsigne();
 
-		// 3. Asservissement sur les consignes
-		asserv.process(enc, consignePolaire);
+		if((*hasObstacle)()){
+			stop();
+		}else{
+			// 3. Asservissement sur les consignes
+			asserv.process(enc, consignePolaire);
 
-		// 4. Envoi aux moteurs
-		moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
+			// 4. Envoi aux moteurs
+			moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
+		}
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
 		trajetAtteint = false;
@@ -172,6 +176,10 @@ void RobotManager::setRampAcc(double rampDistance, double rampOrientation) {
 
 void RobotManager::setRampDec(double rampDistance, double rampOrientation) {
 	asserv.setRampDec(rampDistance, rampOrientation);
+}
+
+void RobotManager::setHasObstacle(boolean (*hasObstacle)(void)){
+	this->hasObstacle = hasObstacle;
 }
 
 boolean RobotManager::getTrajetAtteint() {
