@@ -87,7 +87,6 @@ void RobotManager::process() {
 
 			// Notification que le trajet est atteint.
 			trajetAtteint = true;
-
 			// TODO : Voir si il faut changer les param PID pour la stabilisation
 
 		} else if (consignePolaire.getFrein()
@@ -139,13 +138,11 @@ void RobotManager::calculConsigne() {
 /* ------------------------------------------------------------------ */
 
 void RobotManager::setConsigneTable(RobotConsigne rc) {
-	Serial.print("Config de la consigne");
+	trajetAtteint = false;
+	trajetEnApproche = false;
 	consigneTable = rc;
 	if (rc.getType() == CONSIGNE_POLAIRE) {
-		Serial.print(" [MODE POLAIRE]");
 		consignePolaire = rc.getConsignePolaire();
-		Serial.print("Consigne avant : ");Serial.print(rc.getConsignePolaire().getConsigneDistance());
-		Serial.print("Consigne apres : ");Serial.print(consignePolaire.getConsigneDistance());
 	}
 
 	Serial.println();
