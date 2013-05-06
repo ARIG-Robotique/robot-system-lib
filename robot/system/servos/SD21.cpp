@@ -108,7 +108,7 @@ void SD21::printVersion() {
 		Serial.print(software);
 		Serial.println(")");
 	} else {
-		Serial.println(" - SD21 [KO]");
+		Serial.print(" - SD21 [KO] ");
 		i2cUtils.printReturnCode(retCode);
 	}
 }

@@ -55,18 +55,18 @@ void Encodeurs::reset() {
 
 /*
  * Lecture de la valeurs des codeurs.
- * La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
+ * //La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
  */
 void Encodeurs::lectureValeurs() {
-	alternate = !alternate;
+	//alternate = !alternate;
 	int gauche, droit;
-	if (alternate) {
+	//if (alternate) {
 		gauche = lectureGauche();
 		droit = lectureDroit();
-	} else {
+	/*} else {
 		droit = lectureDroit();
 		gauche = lectureGauche();
-	}
+	}*/
 	setValeursCodeurs(gauche, droit);
 }
 
@@ -124,7 +124,7 @@ double Encodeurs::getOrientation() {
 }
 
 void Encodeurs::setValeursCodeurs(int gauche, int droit) {
-	distance = (droit + gauche) / 2;
+	distance = ((float) droit + (float) gauche) / 2.0;
 	orientation = droit - gauche;
 }
 

@@ -14,26 +14,26 @@ Convertion::Convertion(double countPerMm, double countPerDegree) {
 	this->countPerDegree = countPerDegree;
 }
 
-long Convertion::mmToPulse(long val) {
+double Convertion::mmToPulse(double val) {
 	return val * countPerMm;
 }
 
-long Convertion::pulseToMm(long val) {
+double Convertion::pulseToMm(double val) {
 	return val / countPerMm;
 }
 
-long Convertion::degToPulse(long val) {
+double Convertion::degToPulse(double val) {
 	return val * countPerDegree;
 }
 
-long Convertion::pulseToDeg(long val) {
+double Convertion::pulseToDeg(double val) {
 	return val / countPerDegree;
 }
 
-long Convertion::pulseToRad(long val) {
+double Convertion::pulseToRad(double val) {
 	return pulseToDeg(val * DEG_TO_RAD);
 }
 
-long Convertion::radToPulse(long val) {
+double Convertion::radToPulse(double val) {
 	return degToPulse(val * RAD_TO_DEG);
 }

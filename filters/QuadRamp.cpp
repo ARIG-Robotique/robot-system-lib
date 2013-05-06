@@ -45,10 +45,10 @@ QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
  * Application du filtre.
  * Cette méthode est appelé depuis la sub routine d'asservissement
  */
-double QuadRamp::filter(double vitesse, double consigne, int frein) {
+double QuadRamp::filter(double vitesse, double consigne, boolean frein) {
 	// Calcul de la distance de décéleration en fonction des parametres
 	distanceDecel = Conv.mmToPulse((vitesseCourante * vitesseCourante) / (2 * rampDec));
-	if (vitesseCourante > vitesse || (abs(consigne) <= distanceDecel && frein == FREIN_ACTIF)) {
+	if (vitesseCourante > vitesse || (abs(consigne) <= distanceDecel && frein)) {
 		vitesseCourante -= rampDec * sampleTime;
 	} else if (vitesseCourante < vitesse && abs(consigne) > distanceDecel) {
 		vitesseCourante += rampAcc * sampleTime;
@@ -85,7 +85,7 @@ double QuadRamp::filter(double vitesse, double consigne, int frein) {
  *
  * FIXME : ça merde lors de la phase de décéleration.
  */
-double QuadRamp::filterLog(double vitesse, double consigne, double mesure, int frein) {
+double QuadRamp::filterLog(double vitesse, double consigne, double mesure, boolean frein) {
 	// Récupération de la version normal et ajout de l'écart précedent
 	double ecartTheorique = filter(vitesse, consigne, frein) + ecartPrecedent;
 	ecartPrecedent = ecartTheorique - mesure;

@@ -44,8 +44,9 @@ void RobotManager::init() {
 	// Consigne de test
 	consigne.setConsigneDistance(Conv.mmToPulse(1000));
 	consigne.setConsigneOrientation(0);
-	consigne.setVitesseDistance(50);
-	consigne.setVitesseOrientation(30);
+	consigne.setVitesseDistance(100);
+	consigne.setVitesseOrientation(100);
+	consigne.enableFrein();
 }
 
 /*

@@ -102,14 +102,14 @@ int MD22::check(int val) {
  * Normalement le PID devrais gérer ça, mais bon ceinture et bretelle.
  */
 void MD22::generateMouvement(int gauche, int droit) {
-	alternate = !alternate;
-	if (alternate) {
+	//alternate = !alternate;
+	//if (alternate) {
 		moteurGauche(gauche);
 		moteurDroit(droit);
-	} else {
+	/*} else {
 		moteurDroit(droit);
 		moteurGauche(gauche);
-	}
+	}*/
 }
 
 /*
@@ -219,7 +219,7 @@ void MD22::setAccel(byte value, boolean transmit) {
 		retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
-			Serial.println(" * Set accelleration ");
+			Serial.print(" * Set accelleration ");
 			i2cUtils.printReturnCode(retCode);
 		}
 #endif
@@ -259,7 +259,7 @@ void MD22::setMode(byte value, boolean transmit) {
 		retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
-			Serial.println(" * Set mode ");
+			Serial.print(" * Set mode ");
 			i2cUtils.printReturnCode(retCode);
 		}
 #endif
@@ -283,7 +283,7 @@ void MD22::printVersion() {
 		Serial.print(software);
 		Serial.println(")");
 	} else {
-		Serial.println(" - MD22 [KO]");
+		Serial.print(" - MD22 [KO] ");
 		i2cUtils.printReturnCode(retCode);
 	}
 }
