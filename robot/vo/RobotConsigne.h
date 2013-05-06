@@ -29,7 +29,10 @@ class RobotConsigne {
 public:
 	RobotConsigne();
 
+	void setPosition(RobotPosition position);
 	RobotPosition getPosition();
+
+	void setConsignePolaire(ConsignePolaire cp);
 	ConsignePolaire getConsignePolaire();
 
 	void enableFrein();

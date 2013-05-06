@@ -13,20 +13,26 @@
 RobotConsigne::RobotConsigne() {
 	position = RobotPosition();
 	consignePolaire = ConsignePolaire();
-	type = CONSIGNE_ODOMETRIE;
+	type = CONSIGNE_POLAIRE;
 	consignePolaire.enableFrein();
 }
 
 /*
- * Accesseur pour la récupération de la position de consigne du robot sur la table
+ * Mutateur pour la récupération de la position de consigne du robot sur la table
  */
+void RobotConsigne::setPosition(RobotPosition position) {
+	this->position = position;
+}
 RobotPosition RobotConsigne::getPosition() {
 	return position;
 }
 
 /*
- * Accesseur pour la récupération de la consigne en polaire sur la table pour avoir des mouvements basique
+ * Mutateur pour la récupération de la consigne en polaire sur la table pour avoir des mouvements basique
  */
+void RobotConsigne::setConsignePolaire(ConsignePolaire cp) {
+	this->consignePolaire = cp;
+}
 ConsignePolaire RobotConsigne::getConsignePolaire() {
 	return consignePolaire;
 }
