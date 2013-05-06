@@ -41,15 +41,18 @@ private:
 
 	#define MODE_REGISTER			0x00
 	#define ACCEL_REGISTER			0x03
-	#define LEFT_MOTOR_REGISTER		0x02
-	#define RIGHT_MOTOR_REGISTER	0x01
+	#define MOTOR1_REGISTER			0x01
+	#define MOTOR2_REGISTER			0x02
 	#define MD22_VERSION_REGISTER	0x07
+
+	#define RIGHT_MOTOR_REGISTER	MOTOR1_REGISTER
+	#define LEFT_MOTOR_REGISTER		MOTOR2_REGISTER
 
 	#define MODE_0					0 // 0 (Reverse) - 128 (Stop) - 255 (Forward)
 	#define MODE_1					1 // -128 (Reverse) - 0 (Stop) - 127 (Forward)
 
 	#define DEFAULT_MODE_VALUE		MODE_1
-	#define DEFAULT_ACCEL_VALUE		10 // Pas de 16,4 ms
+	#define DEFAULT_ACCEL_VALUE		10
 
 	#define MIN_VAL_MODE_0			0
 	#define STOP_VAL_MODE_0			128

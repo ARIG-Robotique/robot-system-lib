@@ -48,5 +48,12 @@ double Pid::compute(double consigne, double mesure) {
 	lastError = error;
 	double result = kp * error + ki * errorSum + kd * deltaError;
 
+#ifdef DEBUG_MODE
+	Serial.print(";PIDCons ");Serial.print(consigne);
+	Serial.print(";PIDMes ");Serial.print(mesure);
+	Serial.print(";PIDsumErr ");Serial.print(errorSum);
+	Serial.print(";PIDresult ");Serial.print(result);
+#endif
+
 	return result;
 }

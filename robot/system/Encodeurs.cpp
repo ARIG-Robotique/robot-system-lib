@@ -34,6 +34,7 @@ void Encodeurs::reset() {
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
+		Serial.print(" * Carte codeur droit ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -46,6 +47,7 @@ void Encodeurs::reset() {
 	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
+		Serial.print(" * Carte codeur gauche ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
@@ -53,26 +55,19 @@ void Encodeurs::reset() {
 
 /*
  * Lecture de la valeurs des codeurs.
- * La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
+ * //La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
  */
 void Encodeurs::lectureValeurs() {
-	alternate = !alternate;
+	//alternate = !alternate;
 	int gauche, droit;
-	if (alternate) {
+	//if (alternate) {
 		gauche = lectureGauche();
 		droit = lectureDroit();
-	} else {
+	/*} else {
 		droit = lectureDroit();
 		gauche = lectureGauche();
-	}
+	}*/
 	setValeursCodeurs(gauche, droit);
-
-/*#ifdef DEBUG_MODE
-		Serial.print("Encodeurs G -> ");
-		Serial.print(gauche);
-		Serial.print(" ; D -> ");
-		Serial.print(droit);
-#endif*/
 }
 
 /*
@@ -101,6 +96,8 @@ int Encodeurs::lectureData(int address) {
 	retCode = Wire.endTransmission();
 	if (i2cUtils.isError(retCode)) {
 #ifdef DEBUG_MODE
+		Serial.print(" * Lecture codeur ");
+		Serial.print(address, HEX);
 		i2cUtils.printReturnCode(retCode);
 #endif
 		return 0;
@@ -127,7 +124,7 @@ double Encodeurs::getOrientation() {
 }
 
 void Encodeurs::setValeursCodeurs(int gauche, int droit) {
-	distance = (droit + gauche) / 2;
+	distance = ((float) droit + (float) gauche) / 2.0;
 	orientation = droit - gauche;
 }
 

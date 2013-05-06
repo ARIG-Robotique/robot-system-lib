@@ -18,10 +18,10 @@ ConsignePolaire::ConsignePolaire() {
 }
 
 void ConsignePolaire::enableFrein() {
-	frein = FREIN_ACTIF;
+	frein = (int) FREIN_ACTIF;
 }
 void ConsignePolaire::disableFrein() {
-	frein = FREIN_INACTIF;
+	frein = (int) FREIN_INACTIF;
 }
 
 // -------------------------------------------------------- //
@@ -70,6 +70,6 @@ int ConsignePolaire::getCmdGauche() {
 	return cmdGauche;
 }
 
-byte ConsignePolaire::getFrein() {
+int ConsignePolaire::getFrein() {
 	return frein;
 }

@@ -8,6 +8,8 @@
 #ifndef PID_H_
 #define PID_H_
 
+#include "../common.h"
+
 class Pid {
 public:
 	Pid();

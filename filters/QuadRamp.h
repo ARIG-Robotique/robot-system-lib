@@ -20,8 +20,8 @@ public:
 	void setRampAcc(double value);
 	void setRampDec(double value);
 
-	double filter(double vitesse, double consigne, byte frein);
-	double filterLog(double vitesse, double consigne, double mesure, byte frein); // /!\ EXPERIMENTAL
+	double filter(double vitesse, double consigne, boolean frein);
+	double filterLog(double vitesse, double consigne, double mesure, boolean frein); // /!\ EXPERIMENTAL
 
 private:
 	double sampleTime;
