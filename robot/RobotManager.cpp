@@ -101,7 +101,7 @@ void RobotManager::process() {
 #ifdef DEBUG_MODE
 		//Serial.print(";TrajApp ");Serial.print(trajetEnApproche, DEC);
 		//Serial.print(";TrajAtt ");Serial.print(trajetAtteint, DEC);
-		//Serial.println();
+		Serial.println();
 #endif
 	}
 }
@@ -123,6 +123,9 @@ void RobotManager::calculConsigne() {
 		consignePolaire.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
 		consignePolaire.setConsigneOrientation(alpha - odom.getPosition().getAngle());
 
+		Serial.print(";Cons d ");Serial.print(consignePolaire.getConsigneDistance());
+		Serial.print(";Cons o ");Serial.print(consignePolaire.getConsigneOrientation());
+
 	} else {
 		//Serial.print("Caclul POLAIRE D = ");Serial.print(consignePolaire.getConsigneDistance());
 		//Serial.print(" ; O = ");Serial.print(consignePolaire.getConsigneOrientation());
@@ -139,13 +142,9 @@ void RobotManager::calculConsigne() {
 /* ------------------------------------------------------------------ */
 
 void RobotManager::setConsigneTable(RobotConsigne rc) {
-	Serial.print("Config de la consigne");
 	consigneTable = rc;
 	if (rc.getType() == CONSIGNE_POLAIRE) {
-		Serial.print(" [MODE POLAIRE]");
 		consignePolaire = rc.getConsignePolaire();
-		Serial.print("Consigne avant : ");Serial.print(rc.getConsignePolaire().getConsigneDistance());
-		Serial.print("Consigne apres : ");Serial.print(consignePolaire.getConsigneDistance());
 	}
 
 	Serial.println();
