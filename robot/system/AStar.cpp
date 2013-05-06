@@ -5,218 +5,148 @@
  *      	Author: Heiginko
  */
 
-#include "WProgram.h"
 #include "AStar.h"
 
-/*Declaration des fonctions de la classe Point*/
-
-Point::Point()
+Astar::Astar( Point pDepart, Point pArriver, Map &map )
 {
+	_PointDepart = pDepart;
+	_PointArriver = pArriver;
+	_Map = map;
+
+	//_ListeFermer = Collection();
+	//_ListeOuverte = Collection();
+
+
 }
 
-Point::Point(int x, int y)
+int Astar::distance( Point *p1, Point *p2){
+
+	return ((p1->getX()-p2->getX())*(p1->getX()-p2->getX())) +  ((p1->getY()-p2->getY()) * (p1->getY()-p2->getY()));
+
+}
+
+void Astar::ajouterCasesAdjacentes(Point * p)
 {
-	_X = x;
-	_Y = y;
+	int i,j;
+	Point newPoint;
+	Noeud newNoeud;
+
+	newNoeud = Noeud();
+
+	/* on met tous les noeud adjacents dans la liste ouverte (+vérif) */
+	for (i=(p->getX()-1); i<=p->getX()+1; i++){
+		if ((i<0) || (i>=_Map.getTailleX()))  /*On ne prend pas les points qui sont endors de la map*/
+			continue;
+		for (j=p->getY()-1; j<=p->getY()+1; j++){
+			if ((j<0) || (j>=_Map.getTailleY()))   /*On ne prend pas les points qui sont endors de la map*/
+				continue;
+			if ((i==p->getX()) && (j==p->getY()))  /* case actuelle n, on oublie */
+				continue;
+
+			if (_Map.isFranchissable(i,j) == false)
+				/* obstace, terrain non franchissable, on oublie */
+				continue;
+
+			/*Le point est acceptable*/
+			newPoint = Point(i,j);
+
+			if(!_ListeFermer.noeudExiste(newPoint))/* le noeud n'est pas déjà présent dans la liste fermée */
+			{
+
+				/* calcul du cout G du noeud en cours d'étude : cout du parent + distance jusqu'au parent */
+				newNoeud.setCoutG( _ListeFermer.rechercherNoeud(p)->getCoutG() + this->distance(&newPoint,p));
+
+				/* calcul du cout H du noeud à la destination */
+				newNoeud.setCoutH( this->distance(&newPoint,&_PointArriver));
+				newNoeud.setPointParent(*p);
+
+
+				if(_ListeOuverte.noeudExiste(newPoint))
+				{
+					/* le noeud est déjà présent dans la liste ouverte, il faut comparer les couts */
+					if(newNoeud.getCoutF()< _ListeOuverte.rechercherNoeud(newPoint)->getCoutF())
+					{
+						 /* si le nouveau chemin est meilleur, on met à jour */
+						_ListeOuverte.remplacerNoeud(&newNoeud);
+					}
+
+					/* le noeud courant a un moins bon chemin, on ne change rien */
+
+				}else{
+
+					/* le noeud n'est pas présent dans la liste ouverte, on l'y ajoute */
+
+					_ListeOuverte.ajouterNoeud(&newNoeud);
+
+				}
+
+
+			}//if ListeFermer.noeudExiste
+
+		}// deuxieme For
+	}// Premier for
 }
 
-Point::Point(Point &p)
-{
-	_X = p.getX();
-	_Y = p.getY();
-}
+Point Astar::meilleurNoeud(){
 
-int Point::getX()
-{
-	return _X
-}
+	float mCoutF;
+	Point pMeilleur;
+	mCoutF = -1;
 
-int Point::getY()
-{
-	return _Y
-}
-
-void Point::setX(int x)
-{
-	_X =x
-}
-
-void Point::setY(int y)
-{
-	_Y=y
-}
-
-/*Declaration des fonctions de la classe Noeud*/
-
-Noeud::Noeud()
-{
-	_Point = NULL;
-	_PointParent = NULL;
-	_CoutG=-1;
-	_CoutF=-1;
-	_CoutH=-1;
-
-}
-
-Noeud::Noeud(Point p)
-{
-	_Point = p;
-	_PointParent = NULL;
-	_CoutG=-1;
-	_CoutF=-1;
-	_CoutH=-1;
-
-}
-
-Noeud::Noeud(Point p, Point pParent)
-{
-	_Point = p;
-	_PointParent = pParent;
-	_CoutG=-1;
-	_CoutF=-1;
-	_CoutH=-1;
-}
-
-Point Noeud::getPoint()
-{
-	return _Point;
-}
-
-Point Noeud::getPointParent()
-{
-	return _PointParent;
-}
-
-void Noeud::setPoint(Point p)
-{
-	_Point = p;
-}
-
-void Noeud::setPointParent(Point pParent)
-{
-	_PointParent = pParent;
-}
-
-int Noeud::getCoutG()
-{
-	return _CoutG;
-}
-
-void Noeud::setCoutG( int coutG)
-{
-	_CoutG = coutG;
-}
-
-int Noeud::getCoutH()
-{
-	return _CoutH;
-}
-
-void Noeud::setCoutH( int coutH)
-{
-	_CoutH = coutH;
-}
-
-int Noeud::getCoutF()
-{
-	return _CoutF;
-}
-
-void Noeud::setCoutF( int coutF)
-{
-	_CoutF = coutF;
-}
-
-/*Declaration des fonctions de la classe listeObjects*/
-
-ListeObjects::ListeObjects(){
-	
-	_PremierObject = NULL;
-	_DernierObject = NULL;
-	_CourantObject = NULL;
-	_NbObjects = 0;
-	_IndexCourant = -1	
-	
-}
-
-boolean ListeObjects::isFinListe(){
-	if(_IndexCourant>=NbObjects)
+	while (_ListeOuverte.isFinListe()==false)
 	{
-		return true;
-	}else{
-		return false;
-	}
-}
 
-boolean ListeObjects::isDebutListe(){
-	if(_IndexCourant<=0)
-	{
-		return true;
-	}else{
-		return false;
-	}
-}
-
-void ListeObjects::suivant()
-{
-	if(FinListe() == False && _CourantObject != NULL )
-	{
-		_CourantObject = _CourantObject->getObjectSuivant;
-		_IndexCourant++;
-	}	
-}
-
-void ListeObjects::precedent()
-{
-	if(DebutListe() ==false && _CourantObject != NULL)
-	{
-		_CourantObject = _CourantObject->getObjectPrecedent;
-		_IndexCourant--;
-	}
-}
-
-ObjectListe * ListeObjects::recupererObject()
-{
-	if(_CourantObject != NULL)
-	{
-		return _CourantObject;
-	}
-}
-
-boolean ListeObjects::AjouterNoeud(Noeud n)
-{
-	ObjectListe * new_Object = malloc(size *new_Object);
-	if(new_Object !=NULL)
-	{
-		new_Object->setNoeud(n);
-		new_Object->setIndex(_NbObjects);
-		_CourantObject = new_Object;
-		_IndexCourant = _NbOjects;
-		_NbObjects++;
-		
-		if(_PremierObject==NULL)
+		if(_ListeOuverte.getNoeudCourant()->getCoutF()<mCoutF || mCoutF ==-1)
 		{
-			new_Object->setObjectSuivant(NULL);
-			new_Object->setObjectPrecedent(NULL);
-			_PremierObject = new_Object;
-			_DernierObject = new_Object;
-		}else{
-			new_Object->setObjectPrecedent(_DernierObject);
-			new_Object->setObjectSuivant(NULL);
-			_DernierObject = new_Object;
+			pMeilleur = _ListeOuverte.getPointCourant();
+			mCoutF = _ListeOuverte.getNoeudCourant()->getCoutF();
 		}
-		return true;
-	}else{
-		return false;
+
+		_ListeOuverte.suivant();
 	}
+
+	return pMeilleur;
+
 }
 
+void Astar::trouverChemin(){
 
 
-boolean ListeObjects:SupprimerNoeud(Noeud n)
-{
+
+
+}
+
+void Astar::lancerCalcul(){
+
+	Point pCourant;
+	Noeud nCourant;
+
+	pCourant = Point(_PointDepart);
+
+	_ListeFermer = Collection();
+	_ListeOuverte = Collection();
+
+	nCourant = Noeud(_PointDepart,pCourant);
+
+	_ListeFermer.ajouterNoeud(&nCourant);
+
+	ajouterCasesAdjacentes(&pCourant);
+
+	 while( !( (pCourant.getX() == _PointArriver.getX() ) && ( pCourant.getY() == _PointArriver.getY() )) && (!(_ListeOuverte.getNbObjects()==0))){
+
+
+		 pCourant = meilleurNoeud();
+
+		 _ListeFermer.ajouterNoeud( _ListeOuverte.getNoeudCourant() );
+		 _ListeOuverte.supprimerNoeudCourant();
+
+		 ajouterCasesAdjacentes(&pCourant);
+
+	 }
+
+}
 	
-}
+
 
 
 
