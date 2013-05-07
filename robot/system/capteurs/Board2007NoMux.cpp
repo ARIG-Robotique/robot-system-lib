@@ -22,12 +22,16 @@ Board2007NoMux::Board2007NoMux() {
  * /!\ A appeler depuis la fonction setup().
  */
 void Board2007NoMux::setPinForCapteur(byte capteurId, byte pin) {
-	setPinForCapteur(capteurId, pin, false);
+	setPinForCapteur(capteurId, pin, false, false);
 }
 
 void Board2007NoMux::setPinForCapteur(byte capteurId, byte pin, boolean reverse) {
+	setPinForCapteur(capteurId, pin, reverse, false);
+}
+
+void Board2007NoMux::setPinForCapteur(byte capteurId, byte pin, boolean reverse, boolean pullUp) {
 	if (check(capteurId)) {
-		pinMode(pin, INPUT);
+		pinMode(pin, (pullUp) ? INPUT_PULLUP : INPUT);
 		capteurPins[capteurId] = pin;
 		capteurReverse[capteurId] = reverse;
 

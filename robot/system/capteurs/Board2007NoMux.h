@@ -20,6 +20,7 @@ public:
 
 	void setPinForCapteur(byte capteurId, byte pin);
 	void setPinForCapteur(byte capteurId, byte pin, boolean reverse);
+	void setPinForCapteur(byte capteurId, byte pin, boolean reverse, boolean pullUp);
 	boolean readCapteurValue(byte capteurId);
 
 private:
