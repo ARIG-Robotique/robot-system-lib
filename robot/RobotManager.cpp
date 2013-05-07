@@ -137,7 +137,7 @@ void RobotManager::process() {
 		}
 
 #ifdef DEBUG_MODE
-		//Serial.println();
+		Serial.println();
 #endif
 	}
 }
@@ -149,7 +149,10 @@ void RobotManager::process() {
  */
 void RobotManager::calculConsigne() {
 	if (!trajetAtteint && consigneTable.getType() != CONSIGNE_POLAIRE) {
-		Serial.print("Calcul ODOM");
+
+		// TODO : Peut être moins souvent ???
+
+		Serial.print(";Calcul ODOM");
 		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
@@ -159,8 +162,8 @@ void RobotManager::calculConsigne() {
 		consignePolaire.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
 		consignePolaire.setConsigneOrientation(alpha - odom.getPosition().getAngle());
 
-		Serial.print(";Cons d ");Serial.print(consignePolaire.getConsigneDistance());
-		Serial.print(";Cons o ");Serial.print(consignePolaire.getConsigneOrientation());
+		Serial.print(";Cons d ");Serial.print(Conv.pulseToMm(consignePolaire.getConsigneDistance()));
+		Serial.print(";Cons o ");Serial.print(Conv.pulseToDeg(consignePolaire.getConsigneOrientation()));
 
 	} else {
 		// Calcul par différence vis a vis de la valeur codeur.
