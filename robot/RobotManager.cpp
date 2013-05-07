@@ -87,6 +87,7 @@ void RobotManager::process() {
 			consigneEvittement.setConsigneDistance(Conv.mmToPulse(150));
 			consigneEvittement.setConsigneOrientation(consignePolaire.getConsigneOrientation());
 
+			asserv.reset();
 
 			asserv.setRampDec(200.0,200.0);
 
@@ -196,6 +197,7 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 		consignePolaire = rc.getConsignePolaire();
 	}
 
+	asserv.reset();
 
 }
 

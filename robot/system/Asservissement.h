@@ -29,6 +29,8 @@ public:
 
 	void process(Encodeurs & encodeurs, ConsignePolaire & consignePolaire);
 
+	void reset();
+
 private:
 	Pid pidOrientation;
 	Pid pidDistance;

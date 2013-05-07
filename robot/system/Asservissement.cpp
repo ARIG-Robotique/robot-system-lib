@@ -84,6 +84,14 @@ void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
 #endif
 }
 
+void Asservissement::reset(){
+
+	pidDistance.reset();
+	pidOrientation.reset();
+
+}
+
+
 // -------------------------------------------------------------- //
 // ---------------------- GETTERS / SETTERS --------------------- //
 // -------------------------------------------------------------- //
