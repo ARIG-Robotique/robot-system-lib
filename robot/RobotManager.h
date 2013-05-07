@@ -38,6 +38,7 @@ public:
 	void setPIDOrientation(double kp, double ki, double kd);
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
+	void setHasObstacle(boolean (*hasObstacle)(void));
 
 	// Getter pour les enchainement de valeurs
 	boolean getTrajetAtteint();
@@ -56,16 +57,22 @@ private:
 	Odometrie odom;
 	Encodeurs enc;
 	ConsignePolaire consignePolaire;
+	ConsignePolaire consigneEvittement;
 	Asservissement asserv;
 	MD22 moteurs;
 
 	RobotConsigne consigneTable;
+	boolean (*hasObstacle)(void);
 
 	unsigned long timePrec;
 	unsigned long time;
 
 	boolean trajetAtteint;
 	boolean trajetEnApproche;
+	boolean evittementEnCours;
+
+	double rampDecDistance;
+	double rampDecOrientation;
 
 	void calculConsigne();
 };

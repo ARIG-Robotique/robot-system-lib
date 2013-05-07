@@ -18,6 +18,8 @@ RobotManager::RobotManager() {
 	timePrec = time = 0;
 	trajetAtteint = false;
 	trajetEnApproche = false;
+
+	evittementEnCours = false;
 }
 
 /* ------------------------------------------------------------------ */
@@ -72,11 +74,55 @@ void RobotManager::process() {
 		// 2. Calcul des consignes
 		calculConsigne();
 
-		// 3. Asservissement sur les consignes
-		asserv.process(enc, consignePolaire);
+		// 3.Gestion de l'evittement, de la reprise, et du cycle continue
+		if((*hasObstacle)() && !evittementEnCours){
 
-		// 4. Envoi aux moteurs
-		moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
+			// TODO : Calcul consigne evittement
+			Serial.println("Init evittement");
+			consigneEvittement = ConsignePolaire();
+
+			consigneEvittement.setVitesseDistance(consignePolaire.getVitesseDistance());
+			consigneEvittement.setVitesseOrientation(consignePolaire.getVitesseOrientation());
+
+			consigneEvittement.setConsigneDistance(Conv.mmToPulse(150));
+			consigneEvittement.setConsigneOrientation(consignePolaire.getConsigneOrientation());
+
+			asserv.reset();
+
+			asserv.setRampDec(200.0,200.0);
+
+			// 3.1.1. Asservissement sur les consignes
+			asserv.process(enc, consigneEvittement);
+
+			// 3.1.2. Envoi aux moteurs
+			moteurs.generateMouvement(consigneEvittement.getCmdGauche(), consigneEvittement.getCmdDroit());
+
+			evittementEnCours = true;
+		}else if((*hasObstacle)() && evittementEnCours){
+			Serial.println("Asserv evittement");
+			consigneEvittement.setConsigneDistance(consigneEvittement.getConsigneDistance() - enc.getDistance());
+			consigneEvittement.setConsigneOrientation(consigneEvittement.getConsigneOrientation() - enc.getOrientation());
+
+			// 3.2.1. Asservissement sur les consignes
+			asserv.process(enc, consigneEvittement);
+
+			// 3.2.2. Envoi aux moteurs
+			moteurs.generateMouvement(consigneEvittement.getCmdGauche(), consigneEvittement.getCmdDroit());
+
+		}else if(!(*hasObstacle)() && evittementEnCours){
+
+			Serial.println("Reprise apres evittement");
+			asserv.setRampDec(rampDecDistance,rampDecOrientation);
+			evittementEnCours = false;
+
+		}else{
+
+			// 3.4.1. Asservissement sur les consignes
+			asserv.process(enc, consignePolaire);
+
+			// 3.4.2. Envoi aux moteurs
+			moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
+		}
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
 		trajetAtteint = false;
@@ -100,7 +146,7 @@ void RobotManager::process() {
 #ifdef DEBUG_MODE
 		//Serial.print(";TrajApp ");Serial.print(trajetEnApproche, DEC);
 		//Serial.print(";TrajAtt ");Serial.print(trajetAtteint, DEC);
-		Serial.println();
+		//Serial.println();
 #endif
 	}
 }
@@ -151,7 +197,8 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 		consignePolaire = rc.getConsignePolaire();
 	}
 
-	Serial.println();
+	asserv.reset();
+
 }
 
 void RobotManager::setSampleTime(int sampleTime) {
@@ -172,6 +219,13 @@ void RobotManager::setRampAcc(double rampDistance, double rampOrientation) {
 
 void RobotManager::setRampDec(double rampDistance, double rampOrientation) {
 	asserv.setRampDec(rampDistance, rampOrientation);
+	rampDecDistance = rampDistance;
+	rampDecOrientation = rampOrientation;
+
+}
+
+void RobotManager::setHasObstacle(boolean (*hasObstacle)(void)){
+	this->hasObstacle = hasObstacle;
 }
 
 boolean RobotManager::getTrajetAtteint() {
