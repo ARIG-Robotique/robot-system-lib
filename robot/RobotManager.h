@@ -57,6 +57,7 @@ private:
 	Odometrie odom;
 	Encodeurs enc;
 	ConsignePolaire consignePolaire;
+	ConsignePolaire consigneEvittement;
 	Asservissement asserv;
 	MD22 moteurs;
 
@@ -68,6 +69,10 @@ private:
 
 	boolean trajetAtteint;
 	boolean trajetEnApproche;
+	boolean evittementEnCours;
+
+	double rampDecDistance;
+	double rampDecOrientation;
 
 	void calculConsigne();
 };
