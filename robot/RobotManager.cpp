@@ -192,6 +192,10 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 	asserv.reset();
 }
 
+void RobotManager::setPosition(double x, double y, double angle) {
+	odom.initOdometrie(x, y, angle);
+}
+
 void RobotManager::setSampleTime(int sampleTime) {
 	asserv.setSampleTimeMs(sampleTime);
 }

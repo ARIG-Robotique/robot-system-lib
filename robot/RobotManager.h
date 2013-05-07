@@ -31,6 +31,7 @@ public:
 
 	// Consigne a atteindre
 	void setConsigneTable(RobotConsigne rc);
+	void setPosition(double x, double y, double angle);
 
 	// Configuration de l'asservissement
 	void setSampleTime(int sampleTime);
