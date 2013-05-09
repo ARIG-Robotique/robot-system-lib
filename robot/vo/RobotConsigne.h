@@ -23,7 +23,7 @@
 //  |
 //  |---------------------------------- x (3000)
 // 0,0
-// Theta = 0 dans le sens de Y
+// Theta = 0 dans le sens de X
 
 class RobotConsigne {
 public:
