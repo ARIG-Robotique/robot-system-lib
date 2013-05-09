@@ -91,7 +91,7 @@ double QuadRamp::filterLog(double vitesse, double consigne, double mesure, boole
 	ecartPrecedent = ecartTheorique - mesure;
 
 #ifdef DEBUG_MODE
-	Serial.print(";FOutLog");Serial.print(ecartTheorique);
+	//Serial.print(";FOutLog");Serial.print(ecartTheorique);
 #endif
 
 	return ecartTheorique;

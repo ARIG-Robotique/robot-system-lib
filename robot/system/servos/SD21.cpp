@@ -20,10 +20,10 @@ SD21::SD21() {
 void SD21::setPosition(byte servoNb, word position) {
 	if (checkServo(servoNb)) {
 #ifdef DEBUG_MODE
-		Serial.print("[Servo] ");
+		/*Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> P:");
-		Serial.println(position, DEC);
+		Serial.println(position, DEC);*/
 #endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
@@ -45,10 +45,10 @@ void SD21::setPosition(byte servoNb, word position) {
 void SD21::setSpeed(byte servoNb, byte speed) {
 	if (checkServo(servoNb)) {
 #ifdef DEBUG_MODE
-		Serial.print("[Servo] ");
+		/*Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
-		Serial.println(speed, DEC);
+		Serial.println(speed, DEC);*/
 #endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
@@ -69,12 +69,12 @@ void SD21::setSpeed(byte servoNb, byte speed) {
 void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 	if (checkServo(servoNb)) {
 #ifdef DEBUG_MODE
-		Serial.print("[Servo] ");
+		/*Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
 		Serial.print(speed, DEC);
 		Serial.print(" -> P:");
-		Serial.println(position, DEC);
+		Serial.println(position, DEC);*/
 #endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
