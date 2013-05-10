@@ -137,6 +137,8 @@ void RobotManager::process() {
 		}
 
 #ifdef DEBUG_MODE
+		Serial.print(";App ");Serial.print(trajetEnApproche, DEC);
+		Serial.print(";Att ");Serial.print(trajetAtteint, DEC);
 		Serial.println();
 #endif
 	}
@@ -148,9 +150,7 @@ void RobotManager::process() {
  * -> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
  */
 void RobotManager::calculConsigne() {
-	if (!trajetAtteint && consigneTable.getType() != CONSIGNE_POLAIRE) {
-
-		// TODO : Peut être moins souvent ???
+	if (!trajetAtteint && consigneTable.getType() == CONSIGNE_ODOMETRIE) {
 
 		Serial.print(";Calcul ODOM");
 		// Calcul en fonction de l'odométrie
@@ -162,15 +162,17 @@ void RobotManager::calculConsigne() {
 		consignePolaire.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
 		consignePolaire.setConsigneOrientation(alpha - odom.getPosition().getAngle());
 
-		Serial.print(";Cons d ");Serial.print(Conv.pulseToMm(consignePolaire.getConsigneDistance()));
-		Serial.print(";Cons o ");Serial.print(Conv.pulseToDeg(consignePolaire.getConsigneOrientation()));
 
 	} else {
+		Serial.print(";Calcul POLAIRE");
 		// Calcul par différence vis a vis de la valeur codeur.
 		// Cela permet d'éviter que le robot fasse une spirale du plus bel effet pour le maintient en position.
 		consignePolaire.setConsigneDistance(consignePolaire.getConsigneDistance() - enc.getDistance());
 		consignePolaire.setConsigneOrientation(consignePolaire.getConsigneOrientation() - enc.getOrientation());
 	}
+
+	Serial.print(";Cons d ");Serial.print(Conv.pulseToMm(consignePolaire.getConsigneDistance()));
+	Serial.print(";Cons o ");Serial.print(Conv.pulseToDeg(consignePolaire.getConsigneOrientation()));
 }
 
 /* ------------------------------------------------------------------ */
