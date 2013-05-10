@@ -17,9 +17,6 @@ SD21Motors::SD21Motors() {
 }
 
 void SD21Motors::generateMouvement(int gauche, int droit) {
-	Serial.print(";Gauche ");Serial.print(gauche);
-	Serial.print(";Droit ");Serial.print(droit);
-
 	moteurGauche(gauche);
 	moteurDroit(droit);
 }
@@ -31,20 +28,15 @@ void SD21Motors::moteurGauche(int val) {
 	}
 	prevGauche = cmd;
 
+	Wire.beginTransmission(SD21_ADD_BOARD);
+	Wire.write(getBaseRegister(LEFT_MOTOR_REGISTER) + 1);
+	Wire.write(cmd & 0xFF);
+	Wire.write(cmd >> 8);
+	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
-		Serial.print(";Mot G ");
-		Serial.print(cmd, DEC);
-#endif
-
-		Wire.beginTransmission(SD21_ADD_BOARD);
-		Wire.write(getBaseRegister(LEFT_MOTOR_REGISTER) + 1);
-		Wire.write(cmd & 0xFF);
-		Wire.write(cmd >> 8);
-		retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
-		if (i2cUtils.isError(retCode)) {
-			i2cUtils.printReturnCode(retCode);
-		}
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
 #endif
 }
 
@@ -55,20 +47,15 @@ void SD21Motors::moteurDroit(int val) {
 	}
 	prevDroit = cmd;
 
+	Wire.beginTransmission(SD21_ADD_BOARD);
+	Wire.write(getBaseRegister(RIGHT_MOTOR_REGISTER) + 1);
+	Wire.write(cmd & 0xFF);
+	Wire.write(cmd >> 8);
+	retCode = Wire.endTransmission();
 #ifdef DEBUG_MODE
-		Serial.print(";Mot D ");
-		Serial.print(cmd, DEC);
-#endif
-
-		Wire.beginTransmission(SD21_ADD_BOARD);
-		Wire.write(getBaseRegister(RIGHT_MOTOR_REGISTER) + 1);
-		Wire.write(cmd & 0xFF);
-		Wire.write(cmd >> 8);
-		retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
-		if (i2cUtils.isError(retCode)) {
-			i2cUtils.printReturnCode(retCode);
-		}
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
 #endif
 }
 
