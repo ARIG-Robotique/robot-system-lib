@@ -124,7 +124,9 @@ void RobotManager::process() {
 
 			// Notification que le trajet est atteint.
 			trajetAtteint = true;
-			// TODO : Voir si il faut changer les param PID pour la stabilisation
+
+			// Modification du type de consigne pour la stabilisation
+			consigneTable.setType(CONSIGNE_POLAIRE);
 
 		} else if (!consignePolaire.getFrein()
 				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
