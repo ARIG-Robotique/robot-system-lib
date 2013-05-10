@@ -18,7 +18,7 @@
 #include "system/Encodeurs.h"
 #include "system/Odometrie.h"
 #include "system/Asservissement.h"
-#include "system/motors/MD22.h"
+#include "system/motors/SD21Motors.h"
 
 class RobotManager {
 public:
@@ -31,7 +31,9 @@ public:
 
 	// Consigne a atteindre
 	void setConsigneTable(RobotConsigne rc);
+
 	void setPosition(double x, double y, double angle);
+	RobotPosition getPosition();
 
 	// Configuration de l'asservissement
 	void setSampleTime(int sampleTime);
@@ -60,7 +62,7 @@ private:
 	ConsignePolaire consignePolaire;
 	ConsignePolaire consigneEvittement;
 	Asservissement asserv;
-	MD22 moteurs;
+	SD21Motors moteurs;
 
 	RobotConsigne consigneTable;
 	boolean (*hasObstacle)(void);

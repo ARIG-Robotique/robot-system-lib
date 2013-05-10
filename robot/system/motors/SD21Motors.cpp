@@ -1,0 +1,97 @@
+/*
+ * SD21Motors.cpp
+ *
+ *  Created on: 10 mai 2013
+ *      Author: mythril
+ */
+
+#include "SD21Motors.h"
+
+SD21Motors::SD21Motors() {
+ minVal = 1100;
+ stopVal = 1500;
+ maxVal = 1900;
+
+ prevGauche = 1500;
+ prevDroit = 1500;
+}
+
+void SD21Motors::generateMouvement(int gauche, int droit) {
+	Serial.print(";Gauche ");Serial.print(gauche);
+	Serial.print(";Droit ");Serial.print(droit);
+
+	moteurGauche(gauche);
+	moteurDroit(droit);
+}
+
+void SD21Motors::moteurGauche(int val) {
+	int cmd = check(val + stopVal);
+	if (cmd == prevGauche) {
+		return;
+	}
+	prevGauche = cmd;
+
+#ifdef DEBUG_MODE
+		Serial.print(";Mot G ");
+		Serial.print(cmd, DEC);
+#endif
+
+		Wire.beginTransmission(SD21_ADD_BOARD);
+		Wire.write(getBaseRegister(LEFT_MOTOR_REGISTER) + 1);
+		Wire.write(cmd & 0xFF);
+		Wire.write(cmd >> 8);
+		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
+		if (i2cUtils.isError(retCode)) {
+			i2cUtils.printReturnCode(retCode);
+		}
+#endif
+}
+
+void SD21Motors::moteurDroit(int val) {
+	int cmd = check(val + stopVal);
+	if (cmd == prevDroit) {
+		return;
+	}
+	prevDroit = cmd;
+
+#ifdef DEBUG_MODE
+		Serial.print(";Mot D ");
+		Serial.print(cmd, DEC);
+#endif
+
+		Wire.beginTransmission(SD21_ADD_BOARD);
+		Wire.write(getBaseRegister(RIGHT_MOTOR_REGISTER) + 1);
+		Wire.write(cmd & 0xFF);
+		Wire.write(cmd >> 8);
+		retCode = Wire.endTransmission();
+#ifdef DEBUG_MODE
+		if (i2cUtils.isError(retCode)) {
+			i2cUtils.printReturnCode(retCode);
+		}
+#endif
+}
+
+void SD21Motors::stopAll() {
+	stopDroit();
+	stopGauche();
+}
+
+void SD21Motors::stopGauche() {
+	moteurGauche(0);
+}
+
+void SD21Motors::stopDroit() {
+	moteurDroit(0);
+}
+
+int SD21Motors::check(int val) {
+	if (val < minVal) {
+		val = minVal;
+	}
+	if (val > maxVal) {
+		val = maxVal;
+	}
+
+	return val;
+}

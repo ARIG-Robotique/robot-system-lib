@@ -13,7 +13,7 @@ RobotManager::RobotManager() {
 	enc = Encodeurs();
 	consignePolaire = ConsignePolaire();
 	asserv = Asservissement();
-	moteurs = MD22();
+	moteurs = SD21Motors();
 
 	timePrec = time = 0;
 	trajetAtteint = false;
@@ -40,7 +40,7 @@ void RobotManager::init() {
 #ifdef DEBUG_MODE
 	moteurs.printVersion();
 #endif
-	moteurs.init();
+	moteurs.stopAll();
 }
 
 /*
@@ -194,6 +194,10 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 
 void RobotManager::setPosition(double x, double y, double angle) {
 	odom.initOdometrie(x, y, angle);
+}
+
+RobotPosition RobotManager::getPosition() {
+	return odom.getPosition();
 }
 
 void RobotManager::setSampleTime(int sampleTime) {

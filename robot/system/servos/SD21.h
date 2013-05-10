@@ -24,14 +24,17 @@ public:
 	void printVersion();
 #endif
 
-private:
+protected:
 	#define SD21_ADD_BOARD				0x61
+
+	char getBaseRegister(byte servoNb);
+	byte retCode;
+
+private:
 
 	#define SD21_VERSION_REGISTER		0x40
 
-	byte retCode;
 	boolean checkServo(byte servoNb);
-	char getBaseRegister(byte servoNb);
 };
 
 #endif /* SD21_H_ */
