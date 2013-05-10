@@ -13,6 +13,9 @@
 Odometrie::Odometrie() {
 	position = RobotPosition();
 	position.updatePosition(0, 0, 0);
+
+	piPulse = Conv.degToPulse(180);
+	pi2Pulse = Conv.degToPulse(360);
 }
 
 /*
@@ -31,7 +34,16 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
  */
 void Odometrie::calculPosition(Encodeurs * enc) {
 	// Approximation linéaire
-	position.setAngle(position.getAngle() + enc->getOrientation()); // En pulse
+
+	int newTheta = position.getAngle() + enc->getOrientation();
+	// Ajustement a PI près
+	if (newTheta > piPulse) {
+		newTheta -= pi2Pulse;
+	} else if (newTheta < -piPulse) {
+		newTheta += pi2Pulse;
+	}
+	position.setAngle(newTheta); // En pulse
+
 	long double thetaRad = Conv.pulseToRad(position.getAngle());
 	double dX = enc->getDistance() * cos(thetaRad);
 	double dY = enc->getDistance() * sin(thetaRad);
@@ -46,9 +58,9 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 	positionCourrante.theta += arcAngle;*/
 
 #ifdef DEBUG_MODE
-	Serial.print(";X ");Serial.print(Conv.pulseToMm(position.getX()));
-	Serial.print(";Y ");Serial.print(Conv.pulseToMm(position.getY()));
-	Serial.print(";A ");Serial.print((double) Conv.pulseToDeg(position.getAngle()));
+	Serial.print(";");Serial.print(Conv.pulseToMm(position.getX()));
+	Serial.print(";");Serial.print(Conv.pulseToMm(position.getY()));
+	Serial.print(";");Serial.print((double) Conv.pulseToDeg(position.getAngle()));
 #endif
 }
 
