@@ -118,8 +118,6 @@ void RobotManager::process() {
 		}
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
-		trajetAtteint = false;
-		trajetEnApproche = false;
 		if (consignePolaire.getFrein()
 				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
 				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
