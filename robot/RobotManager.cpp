@@ -128,7 +128,7 @@ void RobotManager::process() {
 			trajetAtteint = true;
 			// TODO : Voir si il faut changer les param PID pour la stabilisation
 
-		} else if (consignePolaire.getFrein()
+		} else if (!consignePolaire.getFrein()
 				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
 				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
 
