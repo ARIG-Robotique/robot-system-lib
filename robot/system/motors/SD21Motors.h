@@ -27,6 +27,10 @@ public:
 
 private:
 
+	bool alternate;
+
+private:
+
 	#define MOTOR1_REGISTER			13
 	#define MOTOR2_REGISTER			14
 

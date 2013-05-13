@@ -14,11 +14,19 @@ SD21Motors::SD21Motors() {
 
  prevGauche = 1500;
  prevDroit = 1500;
+
+ alternate = false;
 }
 
 void SD21Motors::generateMouvement(int gauche, int droit) {
-	moteurGauche(gauche);
-	moteurDroit(droit);
+	alternate = !alternate;
+	if (alternate) {
+		moteurGauche(gauche);
+		moteurDroit(droit);
+	} else {
+		moteurDroit(droit);
+		moteurGauche(gauche);
+	}
 }
 
 void SD21Motors::moteurGauche(int val) {
