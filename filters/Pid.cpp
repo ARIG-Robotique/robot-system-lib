@@ -7,7 +7,9 @@
 
 #include "Pid.h"
 
+#ifdef DEBUG_MODE
 #include <Arduino.h>
+#endif
 
 /*
  * Constructeur de la classe de gestion du PID
@@ -44,6 +46,7 @@ void Pid::setTunings(double kp, double ki, double kd) {
 double Pid::compute(double consigne, double mesure) {
 	double error = consigne - mesure;
 	double deltaError = error - lastError;
+
 	//FIXME : A ameliorer
 	if(errorSum+error>34000000000.0) errorSum= 34000000000.0;
 	else if(errorSum+error<-34000000000.0) errorSum= -34000000000.0;
@@ -53,10 +56,10 @@ double Pid::compute(double consigne, double mesure) {
 	double result = kp * error + ki * errorSum + kd * deltaError;
 
 #ifdef DEBUG_MODE
-	//Serial.print(";PIDCons ");Serial.print(consigne);
-	//Serial.print(";PIDMes ");Serial.print(mesure);
-	//Serial.print(";PIDsumErr ");Serial.print(errorSum);
-	//Serial.print(";PIDresult ");Serial.print(result);
+	Serial.print(";PIDCons ");Serial.print(consigne);
+	Serial.print(";PIDMes ");Serial.print(mesure);
+	Serial.print(";PIDsumErr ");Serial.print(errorSum);
+	Serial.print(";PIDresult ");Serial.print(result);
 #endif
 
 	return result;
