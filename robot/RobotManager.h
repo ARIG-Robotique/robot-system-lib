@@ -74,9 +74,6 @@ private:
 	boolean trajetEnApproche;
 	boolean evittementEnCours;
 
-	double rampDecDistance;
-	double rampDecOrientation;
-
 	void calculConsigne();
 };
 

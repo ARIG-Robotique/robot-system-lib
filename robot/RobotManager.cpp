@@ -106,7 +106,6 @@ void RobotManager::process() {
 			moteurs.generateMouvement(consigneEvittement.getCmdGauche(), consigneEvittement.getCmdDroit());
 
 		} else if (!(*hasObstacle)() && evittementEnCours) {
-			//asserv.setRampDec(rampDecDistance,rampDecOrientation);
 			evittementEnCours = false;
 
 		} else {
@@ -220,8 +219,6 @@ void RobotManager::setRampAcc(double rampDistance, double rampOrientation) {
 
 void RobotManager::setRampDec(double rampDistance, double rampOrientation) {
 	asserv.setRampDec(rampDistance, rampOrientation);
-	rampDecDistance = rampDistance;
-	rampDecOrientation = rampOrientation;
 }
 
 void RobotManager::setHasObstacle(boolean (*hasObstacle)(void)){
