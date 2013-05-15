@@ -84,11 +84,12 @@ void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
 #endif
 }
 
+/*
+ * Méthode pour effectuer un reset des PID
+ */
 void Asservissement::reset(){
-
 	pidDistance.reset();
 	pidOrientation.reset();
-
 }
 
 
@@ -96,29 +97,48 @@ void Asservissement::reset(){
 // ---------------------- GETTERS / SETTERS --------------------- //
 // -------------------------------------------------------------- //
 
+/*
+ * Définition du temps en ms pour l'asservissement.
+ * Cela permet de déterminer le pas de génération des profils de vitesses
+ */
 void Asservissement::setSampleTimeMs(byte sampleTime) {
 	this->sampleTime = sampleTime;
 	filterDistance.setSampleTimeMs(sampleTime);
 	filterOrientation.setSampleTimeMs(sampleTime);
 }
 
+/*
+ * Accesseur pour le temps d'asservissement
+ */
 byte Asservissement::getSampleTimeMs() {
 	return this->sampleTime;
 }
 
+/*
+ * Configuration du PID de distance
+ */
 void Asservissement::setPIDDistance(double kp, double ki, double kd) {
 	pidDistance.setTunings(kp, ki, kd);
 }
 
+/*
+ * Configuration du PID d'orientation
+ */
 void Asservissement::setPIDOrientation(double kp, double ki, double kd) {
 	pidOrientation.setTunings(kp, ki, kd);
 }
 
+/*
+ * Configuration des rampes d'acceleration
+ */
 void Asservissement::setRampAcc(double rampDistance, double rampOrientation) {
 	filterDistance.setRampAcc(rampDistance);
 	filterOrientation.setRampDec(rampOrientation);
 }
 
+/*
+ * Configuration des rampes de décéleration
+ */
 void Asservissement::setRampDec(double rampDistance, double rampOrientation) {
 	filterDistance.setRampDec(rampDistance);
 	filterOrientation.setRampDec(rampOrientation);
