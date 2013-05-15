@@ -65,23 +65,6 @@ void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
 	// Envoi des consignes aux moteurs
 	cp.setCmdDroit((int) (outputDistance + outputOrientation));
 	cp.setCmdGauche((int) (outputDistance - outputOrientation));
-
-#ifdef DEBUG_MODE
-	/*Serial.print(";Cd ");
-	Serial.print(cp.getConsigneDistance());
-	Serial.print(";Co ");
-	Serial.print(cp.getConsigneOrientation());
-
-	Serial.print(";INd ");
-	Serial.print(inputDistance);
-	Serial.print(";SPd ");
-	Serial.print(setPointDistance);
-
-	Serial.print(";INo ");
-	Serial.print(inputOrientation);
-	Serial.print(";SPo ");
-	Serial.print(setPointOrientation);*/
-#endif
 }
 
 /*
