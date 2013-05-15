@@ -151,7 +151,7 @@ void RobotManager::process() {
 void RobotManager::calculConsigne() {
 	if (!trajetAtteint && consigneTable.getType() == CONSIGNE_ODOMETRIE) {
 
-		Serial.print(";Calcul ODOM");
+		Serial.print(";ODOM");
 		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
@@ -161,23 +161,27 @@ void RobotManager::calculConsigne() {
 		consignePolaire.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
 		consignePolaire.setConsigneOrientation(alpha - odom.getPosition().getAngle());
 
-
 	} else {
-		Serial.print(";Calcul POLAIRE");
+		Serial.print(";POLAIRE");
 		// Calcul par différence vis a vis de la valeur codeur.
 		// Cela permet d'éviter que le robot fasse une spirale du plus bel effet pour le maintient en position.
 		consignePolaire.setConsigneDistance(consignePolaire.getConsigneDistance() - enc.getDistance());
 		consignePolaire.setConsigneOrientation(consignePolaire.getConsigneOrientation() - enc.getOrientation());
 	}
 
-	Serial.print(";Cons d ");Serial.print(Conv.pulseToMm(consignePolaire.getConsigneDistance()));
-	Serial.print(";Cons o ");Serial.print(Conv.pulseToDeg(consignePolaire.getConsigneOrientation()));
+#ifdef DEBUG_MODE
+	Serial.print(";Cons D ");Serial.print(Conv.pulseToMm(consignePolaire.getConsigneDistance()));
+	Serial.print(";Cons O ");Serial.print(Conv.pulseToDeg(consignePolaire.getConsigneOrientation()));
+#endif
 }
 
 /* ------------------------------------------------------------------ */
 /* ------------------------ GETTERS / SETTERS ----------------------- */
 /* ------------------------------------------------------------------ */
 
+/*
+ * Méthode pour passer une consigne d'asservissement
+ */
 void RobotManager::setConsigneTable(RobotConsigne rc) {
 	// Réinitialisation des infos de trajet
 	trajetAtteint = false;
@@ -189,50 +193,89 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 		consignePolaire = rc.getConsignePolaire();
 	}
 
-	// Annulation des erreur PID précédentes
+	// Annulation des erreurs PID précédentes
 	asserv.reset();
 }
 
+/*
+ * Cette méthode permet de mettre à jour la position actuel.
+ * Elle est utilisé lors de l'initialisation ou en cas de recalage.
+ */
 void RobotManager::setPosition(double x, double y, double angle) {
 	odom.initOdometrie(x, y, angle);
 }
 
+/*
+ * Accesseur pour la position courante du robot.
+ */
 RobotPosition RobotManager::getPosition() {
 	return odom.getPosition();
 }
 
+/*
+ * Mutateur pour spécifier le temps d'asservissement.
+ */
 void RobotManager::setSampleTime(int sampleTime) {
 	asserv.setSampleTimeMs(sampleTime);
 }
 
+/*
+ * Configuration du PID pour l'asservissement en distance
+ */
 void RobotManager::setPIDDistance(double kp, double ki, double kd) {
 	asserv.setPIDDistance(kp, ki, kd);
 }
 
+/*
+ * Configuration du PID pour l'asservissement en orientation
+ */
 void RobotManager::setPIDOrientation(double kp, double ki, double kd) {
 	asserv.setPIDOrientation(kp, ki, kd);
 }
 
+/*
+ * Configuration des rampes d'acceleration
+ */
 void RobotManager::setRampAcc(double rampDistance, double rampOrientation) {
 	asserv.setRampAcc(rampDistance, rampOrientation);
 }
 
+/*
+ * Configuration des rampes de décéleration
+ */
 void RobotManager::setRampDec(double rampDistance, double rampOrientation) {
 	asserv.setRampDec(rampDistance, rampOrientation);
 }
 
+/*
+ * Mutateur pour préciser la fonction permettant d'effectuer la détéction d'obstacle pour l'evittement.
+ * Il s'agit d'un pointeur de fonction ayant la signature suivante :
+ *
+ * 		boolean maFonction();
+ *
+ */
 void RobotManager::setHasObstacle(boolean (*hasObstacle)(void)){
 	this->hasObstacle = hasObstacle;
 }
 
+/*
+ * Accesseur pour savoir si la position demandé est atteinte
+ */
 boolean RobotManager::getTrajetAtteint() {
 	return trajetAtteint;
 }
 
+/*
+ * Accesseur pour savoir si la position demandé est en approche.
+ * Est utilisé pour l'enchainement de point de passage.
+ */
 boolean RobotManager::getTrajetEnApproche() {
 	return trajetEnApproche;
 }
 
+/*
+ * Mutateur pour spécifier la vitesse de déplacement du robot
+ */
 void RobotManager::setVitesse(word vDistance, word vOrientation) {
 	consignePolaire.setVitesseDistance(vDistance);
 	consignePolaire.setVitesseOrientation(vOrientation);
