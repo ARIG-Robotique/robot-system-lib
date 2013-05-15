@@ -36,11 +36,11 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 	// Approximation linéaire
 
 	int newTheta = position.getAngle() + enc->getOrientation();
-	// Ajustement a PI près
-	if (newTheta > piPulse) {
-		newTheta -= pi2Pulse;
-	} else if (newTheta < -piPulse) {
-		newTheta += pi2Pulse;
+	// Ajustement a 2PI près
+	if (newTheta > pi2Pulse) {
+		newTheta = newTheta - pi2Pulse;
+	} else if (newTheta < -pi2Pulse) {
+		newTheta = newTheta + pi2Pulse;
 	}
 	position.setAngle(newTheta); // En pulse
 
