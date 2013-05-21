@@ -136,8 +136,8 @@ void RobotManager::process() {
 		}
 
 #ifdef DEBUG_MODE
-		Serial.print(";App ");Serial.print(trajetEnApproche, DEC);
-		Serial.print(";Att ");Serial.print(trajetAtteint, DEC);
+		Serial.print(";");Serial.print(trajetEnApproche, DEC);
+		Serial.print(";");Serial.print(trajetAtteint, DEC);
 		Serial.println();
 #endif
 	}
@@ -170,8 +170,8 @@ void RobotManager::calculConsigne() {
 	}
 
 #ifdef DEBUG_MODE
-	Serial.print(";Cons D ");Serial.print(Conv.pulseToMm(consignePolaire.getConsigneDistance()));
-	Serial.print(";Cons O ");Serial.print(Conv.pulseToDeg(consignePolaire.getConsigneOrientation()));
+	Serial.print(";");Serial.print(Conv.pulseToMm(consignePolaire.getConsigneDistance()));
+	Serial.print(";");Serial.print(Conv.pulseToDeg(consignePolaire.getConsigneOrientation()));
 #endif
 }
 
