@@ -158,10 +158,19 @@ void RobotManager::calculConsigne() {
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
 
-		long int alpha = Conv.radToPulse(atan2(Conv.pulseToRad(dY), Conv.pulseToRad(dX)));
+		long alpha = Conv.radToPulse(atan2(Conv.pulseToRad(dY), Conv.pulseToRad(dX)));
 
+		// Ajustement a PI
+		long consigneOrientation = alpha - odom.getPosition().getAngle();
+		if (consigneOrientation > odom.getPiPulse()) {
+			consigneOrientation = consigneOrientation - odom.get2PiPulse();
+		} else if (consigneOrientation < -odom.getPiPulse()) {
+			consigneOrientation = consigneOrientation + odom.get2PiPulse();
+		}
+
+		// Sauvegarde des consignes
 		consignePolaire.setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
-		consignePolaire.setConsigneOrientation(alpha - odom.getPosition().getAngle());
+		consignePolaire.setConsigneOrientation(consigneOrientation);
 
 	} else {
 		Serial.print(";POLAIRE");
@@ -189,7 +198,7 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 	trajetAtteint = false;
 	trajetEnApproche = false;
 
-	// Sauvegarde des consigne
+	// Sauvegarde des consignes
 	consigneTable = rc;
 	if (rc.getType() == CONSIGNE_POLAIRE) {
 		consignePolaire = rc.getConsignePolaire();

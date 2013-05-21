@@ -70,3 +70,11 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 RobotPosition Odometrie::getPosition() {
 	return position;
 }
+
+int Odometrie::getPiPulse() {
+	return piPulse;
+}
+
+int Odometrie::get2PiPulse() {
+	return pi2Pulse;
+}

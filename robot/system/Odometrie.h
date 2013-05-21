@@ -22,6 +22,8 @@ public:
 	void calculPosition(Encodeurs *);
 	RobotPosition getPosition();
 
+	int getPiPulse();
+	int get2PiPulse();
 private:
 	RobotPosition position;
 
