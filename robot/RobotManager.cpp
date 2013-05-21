@@ -123,16 +123,18 @@ void RobotManager::process() {
 
 			// Notification que le trajet est atteint.
 			trajetAtteint = true;
+		}
 
-			// Modification du type de consigne pour la stabilisation
-			consigneTable.setType(CONSIGNE_POLAIRE);
-
-		} else if (!consignePolaire.getFrein()
-				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
+		if (abs(consignePolaire.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
 				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
 
 			// Notification que le point de passage est atteint, envoi de la position suivante requis
-			trajetEnApproche = true;
+			if (!consignePolaire.getFrein()) {
+				trajetEnApproche = true;
+			}
+
+			// Modification du type de consigne pour la stabilisation
+			consigneTable.setType(CONSIGNE_POLAIRE);
 		}
 
 #ifdef DEBUG_MODE
