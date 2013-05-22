@@ -19,8 +19,8 @@ public:
 	void lectureValeurs();
 	double getDistance();
 	double getOrientation();
+	void setCoefs(double coefGauche, double coefDroit);
 
-	void setValeursCodeurs(int gauche, int droit);
 	void reset();
 
 #ifdef DEBUG_MODE
@@ -45,9 +45,12 @@ private:
 	#define ADD_CARTE_CODEUR_GAUCHE 0xB2
 
 	bool alternate;
+	double coefGauche;
+	double coefDroit;
 
-	int lectureGauche();
-	int lectureDroit();
+	void setValeursCodeurs(double gauche, double droit);
+	double lectureGauche();
+	double lectureDroit();
 	int lectureData(int address);
 
 	byte retCode;

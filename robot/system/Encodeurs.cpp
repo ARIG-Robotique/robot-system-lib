@@ -20,6 +20,8 @@ Encodeurs::Encodeurs() {
 	alternate = false;
 	distance = orientation = 0;
 	retCode = I2C_ACK;
+	coefGauche = 1.0;
+	coefDroit = 1.0;
 }
 
 /*
@@ -54,34 +56,43 @@ void Encodeurs::reset() {
 }
 
 /*
+ * Définition des coeficient pour l'ajustement des valeur codeur.
+ * Cela permet de compenser le défaut éventuel d'une roue codeuse par rapport a l'autre.
+ */
+void Encodeurs::setCoefs(double coefGauche, double coefDroit) {
+	this->coefGauche = coefGauche;
+	this->coefDroit = coefDroit;
+}
+
+/*
  * Lecture de la valeurs des codeurs.
- * //La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
+ * La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
  */
 void Encodeurs::lectureValeurs() {
-	//alternate = !alternate;
-	int gauche, droit;
-	//if (alternate) {
+	alternate = !alternate;
+	double gauche, droit;
+	if (alternate) {
 		gauche = lectureGauche();
 		droit = lectureDroit();
-	/*} else {
+	} else {
 		droit = lectureDroit();
 		gauche = lectureGauche();
-	}*/
+	}
 	setValeursCodeurs(gauche, droit);
 }
 
 /*
  * Lecture de la valeur du codeur de la roue gauche
  */
-int Encodeurs::lectureGauche() {
-	return lectureData(ADD_CARTE_CODEUR_GAUCHE);
+double Encodeurs::lectureGauche() {
+	return lectureData(ADD_CARTE_CODEUR_GAUCHE) * coefGauche;
 }
 
 /*
  * Lecture de la valeur du codeur de la roue droite
  */
-int Encodeurs::lectureDroit() {
-	return lectureData(ADD_CARTE_CODEUR_DROIT);
+double Encodeurs::lectureDroit() {
+	return lectureData(ADD_CARTE_CODEUR_DROIT) * coefDroit;
 }
 
 /*
@@ -123,8 +134,8 @@ double Encodeurs::getOrientation() {
 	return orientation;
 }
 
-void Encodeurs::setValeursCodeurs(int gauche, int droit) {
-	distance = ((float) droit + (float) gauche) / 2.0;
+void Encodeurs::setValeursCodeurs(double gauche, double droit) {
+	distance = (droit + gauche) / 2.0;
 	orientation = droit - gauche;
 }
 
