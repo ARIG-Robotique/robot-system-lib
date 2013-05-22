@@ -162,10 +162,10 @@ void RobotManager::calculConsigne() {
 
 		// Ajustement a PI
 		long consigneOrientation = alpha - odom.getPosition().getAngle();
-		if (consigneOrientation > odom.getPiPulse()) {
-			consigneOrientation = consigneOrientation - odom.get2PiPulse();
-		} else if (consigneOrientation < -odom.getPiPulse()) {
-			consigneOrientation = consigneOrientation + odom.get2PiPulse();
+		if (consigneOrientation > Conv.getPiPulse()) {
+			consigneOrientation = consigneOrientation - Conv.get2PiPulse();
+		} else if (consigneOrientation < -Conv.getPiPulse()) {
+			consigneOrientation = consigneOrientation + Conv.get2PiPulse();
 		}
 
 		// Sauvegarde des consignes

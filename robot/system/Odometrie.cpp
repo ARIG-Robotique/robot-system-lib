@@ -13,9 +13,6 @@
 Odometrie::Odometrie() {
 	position = RobotPosition();
 	position.updatePosition(0, 0, 0);
-
-	piPulse = Conv.degToPulse(180);
-	pi2Pulse = Conv.degToPulse(360);
 }
 
 /*
@@ -37,10 +34,10 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 
 	int newTheta = position.getAngle() + enc->getOrientation();
 	// Ajustement a 2PI près
-	if (newTheta > pi2Pulse) {
-		newTheta = newTheta - pi2Pulse;
-	} else if (newTheta < -pi2Pulse) {
-		newTheta = newTheta + pi2Pulse;
+	if (newTheta > Conv.get2PiPulse()) {
+		newTheta = newTheta - Conv.get2PiPulse();
+	} else if (newTheta < -Conv.get2PiPulse()) {
+		newTheta = newTheta + Conv.get2PiPulse();
 	}
 	position.setAngle(newTheta); // En pulse
 
@@ -69,12 +66,4 @@ void Odometrie::calculPosition(Encodeurs * enc) {
  */
 RobotPosition Odometrie::getPosition() {
 	return position;
-}
-
-int Odometrie::getPiPulse() {
-	return piPulse;
-}
-
-int Odometrie::get2PiPulse() {
-	return pi2Pulse;
 }

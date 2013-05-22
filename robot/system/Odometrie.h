@@ -22,13 +22,8 @@ public:
 	void calculPosition(Encodeurs *);
 	RobotPosition getPosition();
 
-	int getPiPulse();
-	int get2PiPulse();
 private:
 	RobotPosition position;
-
-	int piPulse;
-	int pi2Pulse;
 };
 
 #endif /* ODOMETRIE_H_ */

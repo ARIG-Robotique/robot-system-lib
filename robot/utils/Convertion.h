@@ -26,9 +26,15 @@ public:
 	double pulseToRad(double);
 	double radToPulse(double);
 
+	double getPiPulse();
+	double get2PiPulse();
+
 private:
 	double countPerMm;
 	double countPerDegree;
+
+	double piPulse;
+	double pi2Pulse;
 };
 
 extern Convertion Conv;
