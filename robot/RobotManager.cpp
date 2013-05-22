@@ -40,7 +40,7 @@ void RobotManager::init() {
 #ifdef DEBUG_MODE
 	moteurs.printVersion();
 #endif
-	moteurs.stopAll();
+	stop();
 }
 
 /*
