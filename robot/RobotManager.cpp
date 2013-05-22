@@ -117,6 +117,9 @@ void RobotManager::process() {
 		}
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
+		// Réinitialisation des infos de trajet
+		trajetAtteint = false;
+		trajetEnApproche = false;
 		if (consignePolaire.getFrein()
 				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
 				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
@@ -194,10 +197,6 @@ void RobotManager::calculConsigne() {
  * Méthode pour passer une consigne d'asservissement
  */
 void RobotManager::setConsigneTable(RobotConsigne rc) {
-	// Réinitialisation des infos de trajet
-	trajetAtteint = false;
-	trajetEnApproche = false;
-
 	// Sauvegarde des consignes
 	consigneTable = rc;
 	if (rc.getType() == CONSIGNE_POLAIRE) {
