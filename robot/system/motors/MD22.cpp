@@ -102,14 +102,14 @@ int MD22::check(int val) {
  * Normalement le PID devrais gérer ça, mais bon ceinture et bretelle.
  */
 void MD22::generateMouvement(int gauche, int droit) {
-	//alternate = !alternate;
-	//if (alternate) {
+	alternate = !alternate;
+	if (alternate) {
 		moteurGauche(gauche);
 		moteurDroit(droit);
-	/*} else {
+	} else {
 		moteurDroit(droit);
 		moteurGauche(gauche);
-	}*/
+	}
 }
 
 /*
