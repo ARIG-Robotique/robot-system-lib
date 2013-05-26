@@ -74,47 +74,11 @@ void RobotManager::process() {
 		// 2. Calcul des consignes
 		calculConsigne();
 
-		// 3.Gestion de l'evittement, de la reprise, et du cycle continue
-		if ((*hasObstacle)() && !evittementEnCours) {
-			consigneEvittement = ConsignePolaire();
-			consigneEvittement.setVitesseDistance(consignePolaire.getVitesseDistance());
-			consigneEvittement.setVitesseOrientation(consignePolaire.getVitesseOrientation());
-			consigneEvittement.setConsigneOrientation(consignePolaire.getConsigneOrientation());
-			double distArret = Conv.mmToPulse(50);
-			if (consignePolaire.getConsigneDistance() > distArret) {
-				consigneEvittement.setConsigneDistance(distArret);
-			} else {
-				consigneEvittement.setConsigneDistance(consignePolaire.getConsigneDistance());
-			}
+		// 3. Asservissement sur les consignes
+		asserv.process(enc, consignePolaire);
 
-			// 3.1.1. Asservissement sur les consignes
-			asserv.process(enc, consigneEvittement);
-
-			// 3.1.2. Envoi aux moteurs
-			moteurs.generateMouvement(consigneEvittement.getCmdGauche(), consigneEvittement.getCmdDroit());
-
-			evittementEnCours = true;
-
-		} else if ((*hasObstacle)() && evittementEnCours) {
-			consigneEvittement.setConsigneDistance(consigneEvittement.getConsigneDistance() - enc.getDistance());
-			consigneEvittement.setConsigneOrientation(consigneEvittement.getConsigneOrientation() - enc.getOrientation());
-
-			// 3.2.1. Asservissement sur les consignes
-			asserv.process(enc, consigneEvittement);
-
-			// 3.2.2. Envoi aux moteurs
-			moteurs.generateMouvement(consigneEvittement.getCmdGauche(), consigneEvittement.getCmdDroit());
-
-		} else if (!(*hasObstacle)() && evittementEnCours) {
-			evittementEnCours = false;
-
-		} else {
-			// 3.4.1. Asservissement sur les consignes
-			asserv.process(enc, consignePolaire);
-
-			// 3.4.2. Envoi aux moteurs
-			moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
-		}
+		// 4. Envoi aux moteurs
+		moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
 		if (consignePolaire.getFrein()

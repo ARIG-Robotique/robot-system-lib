@@ -60,7 +60,6 @@ private:
 	Odometrie odom;
 	Encodeurs enc;
 	ConsignePolaire consignePolaire;
-	ConsignePolaire consigneEvittement;
 	Asservissement asserv;
 	SD21Motors moteurs;
 
