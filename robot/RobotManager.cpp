@@ -117,9 +117,6 @@ void RobotManager::process() {
 		}
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
-		// Réinitialisation des infos de trajet
-		trajetAtteint = false;
-		trajetEnApproche = false;
 		if (consignePolaire.getFrein()
 				&& abs(consignePolaire.getConsigneDistance()) < FENETRE_ARRET_DISTANCE
 				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_ARRET_ORIENTATION) {
@@ -203,8 +200,9 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 		consignePolaire = rc.getConsignePolaire();
 	}
 
-	// Annulation des erreurs PID précédentes
-	asserv.reset();
+	// Réinitialisation des infos de trajet
+	trajetAtteint = false;
+	trajetEnApproche = false;
 }
 
 /*
