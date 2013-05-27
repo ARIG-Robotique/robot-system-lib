@@ -58,6 +58,9 @@ double QuadRamp::filter(double vitesse, double consigne, boolean frein) {
 		vitesseCourante += stepVitesseAccel;
 	}
 
+	// Valeur max (evite les oscilations en régime établie)
+	vitesseCourante = fmin(vitesseCourante, vitesse);
+
 	// Controle pour interdire les valeurs négatives
 	vitesseCourante = fmax(vitesseCourante, 0);
 
