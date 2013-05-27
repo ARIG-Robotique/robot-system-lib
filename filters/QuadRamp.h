@@ -28,9 +28,14 @@ private:
 	double rampAcc;
 	double rampDec;
 
+	double stepVitesseAccel;
+	double stepVitesseDecel;
+
 	double vitesseCourante;
 	double distanceDecel;
 	double ecartPrecedent;
+
+	void updateStepVitesse();
 };
 
 #endif /* QUAD_RAMP_H_ */

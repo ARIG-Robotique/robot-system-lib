@@ -22,6 +22,8 @@ QuadRamp::QuadRamp() {
 	distanceDecel = 0;
 	ecartPrecedent = 0;
 	vitesseCourante = 0;
+
+	updateStepVitesse();
 }
 
 /*
@@ -35,6 +37,8 @@ QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
 	distanceDecel = 0;
 	ecartPrecedent = 0;
 	vitesseCourante = 0;
+
+	updateStepVitesse();
 }
 
 // --------------------------------------------------------- //
@@ -49,9 +53,9 @@ double QuadRamp::filter(double vitesse, double consigne, boolean frein) {
 	// Calcul de la distance de décéleration en fonction des parametres
 	distanceDecel = Conv.mmToPulse((vitesseCourante * vitesseCourante) / (2 * rampDec));
 	if (vitesseCourante > vitesse || (abs(consigne) <= distanceDecel && frein)) {
-		vitesseCourante -= rampDec * sampleTime;
+		vitesseCourante -= stepVitesseDecel;
 	} else if (vitesseCourante < vitesse && abs(consigne) > distanceDecel) {
-		vitesseCourante += rampAcc * sampleTime;
+		vitesseCourante += stepVitesseAccel;
 	}
 
 	// Controle pour interdire les valeurs négatives
@@ -95,12 +99,20 @@ double QuadRamp::filterLog(double vitesse, double consigne, double mesure, boole
 
 void QuadRamp::setSampleTimeMs(double value) {
 	sampleTime = value / 1000;
+	updateStepVitesse();
 }
 
 void QuadRamp::setRampAcc(double value) {
 	rampAcc = value;
+	updateStepVitesse();
 }
 
 void QuadRamp::setRampDec(double value) {
 	rampDec = value;
+	updateStepVitesse();
+}
+
+void QuadRamp::updateStepVitesse() {
+	stepVitesseAccel = rampAcc * sampleTime;
+	stepVitesseDecel = rampDec * sampleTime;
 }
