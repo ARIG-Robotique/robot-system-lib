@@ -79,6 +79,11 @@ void Encodeurs::lectureValeurs() {
 		gauche = lectureGauche();
 	}
 	setValeursCodeurs(gauche, droit);
+
+#ifdef DEBUG_MODE
+	Serial.print(gauche);
+	Serial.print(";");Serial.print(droit);
+#endif
 }
 
 /*
