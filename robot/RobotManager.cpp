@@ -167,6 +167,9 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 	// Réinitialisation des infos de trajet
 	trajetAtteint = false;
 	trajetEnApproche = false;
+
+	// Reset de l'erreur de l'asserv sur le mouvement précédent.
+	asserv.reset();
 }
 
 /*
