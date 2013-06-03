@@ -51,10 +51,10 @@ QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
  */
 double QuadRamp::filter(double vitesse, double consigne, boolean frein) {
 	// Calcul de la distance de décéleration en fonction des parametres
-	distanceDecel = Conv.mmToPulse((vitesse * vitesse) / (2 * rampDec));
+	distanceDecel = Conv.mmToPulse((vitesseCourante * vitesseCourante) / (2 * rampDec));
 	if (vitesseCourante > vitesse || (abs(consigne) <= distanceDecel && frein)) {
 		vitesseCourante -= stepVitesseDecel;
-	} else if (vitesseCourante < vitesse && abs(consigne) > distanceDecel) {
+	} else if (vitesseCourante < vitesse) {
 		vitesseCourante += stepVitesseAccel;
 	}
 
