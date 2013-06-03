@@ -16,7 +16,7 @@ Asservissement::Asservissement() {
 	setup();
 
 	minFenetreDistance = Conv.mmToPulse(50);
-	minFenetreOrientation = Conv.degToPulse(5);
+	minFenetreOrientation = Conv.degToPulse(10);
 }
 
 /*
