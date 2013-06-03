@@ -15,16 +15,15 @@
  * Constructeur de la classe de gestion du PID
  */
 Pid::Pid() {
-	kp = 0.1;
-	kd = 0.5;
-	ki = 0.25;
+	kp = 0.8;
+	kd = 0.2;
+	ki = 0.1;
 
-	errorSum = 0;
-	lastError = 0;
+	reset();
 }
 
 /*
- * Réinitialise les variables du PID
+ * Réinitialise les cumuls d'erreur du PID
  */
 void Pid::reset() {
 	errorSum = 0;
