@@ -82,6 +82,7 @@ void RobotManager::process() {
 		moteurs.generateMouvement(consignePolaire.getCmdGauche(), consignePolaire.getCmdDroit());
 
 		// 5. Gestion des flags pour le séquencement du calcul de la position
+		// TODO : Voir il ne serait pas judicieux de traiter le cas des consignes ODOM avec un rayon sur le point a atteindre.
 		if (consignePolaire.getFrein()
 				&& abs(consignePolaire.getConsigneDistance()) < fenetreArretDistance
 				&& abs(consignePolaire.getConsigneOrientation()) < fenetreArretOrientation) {
@@ -93,13 +94,13 @@ void RobotManager::process() {
 		if (abs(consignePolaire.getConsigneDistance()) < asserv.getFenetreApprocheDistance()
 				&& abs(consignePolaire.getConsigneOrientation()) < asserv.getFenetreApprocheOrientation()) {
 
+			// Modification du type de consigne pour la stabilisation
+			consigneTable.setType(CONSIGNE_POLAIRE);
+
 			// Notification que le point de passage est atteint, envoi de la position suivante requis
 			if (!consignePolaire.getFrein()) {
 				trajetEnApproche = true;
 			}
-
-			// Modification du type de consigne pour la stabilisation
-			consigneTable.setType(CONSIGNE_POLAIRE);
 		}
 
 #ifdef DEBUG_MODE
@@ -139,8 +140,7 @@ void RobotManager::calculConsigne() {
 
 	} else {
 		Serial.print(";POLAIRE");
-		// Calcul par différence vis a vis de la valeur codeur.
-		// Cela permet d'éviter que le robot fasse une spirale du plus bel effet pour le maintient en position.
+		// Calcul par différence vis a vis de la valeur codeur (asservissement de position "basique").
 		consignePolaire.setConsigneDistance(consignePolaire.getConsigneDistance() - enc.getDistance());
 		consignePolaire.setConsigneOrientation(consignePolaire.getConsigneOrientation() - enc.getOrientation());
 	}
