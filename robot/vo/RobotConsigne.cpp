@@ -14,7 +14,7 @@ RobotConsigne::RobotConsigne() {
 	position = RobotPosition();
 	consignePolaire = ConsignePolaire();
 	type = CONSIGNE_POLAIRE;
-	consignePolaire.enableFrein();
+	consignePolaire.setFrein(true);
 }
 
 /*
@@ -55,11 +55,11 @@ char RobotConsigne::getType() {
  * Wraper de config du frein
  */
 void RobotConsigne::enableFrein() {
-	consignePolaire.enableFrein();
+	consignePolaire.setFrein(true);
 }
 
 void RobotConsigne::disableFrein() {
-	consignePolaire.disableFrein();
+	consignePolaire.setFrein(false);
 }
 
 /*

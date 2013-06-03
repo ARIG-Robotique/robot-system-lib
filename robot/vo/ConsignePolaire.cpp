@@ -14,14 +14,7 @@ ConsignePolaire::ConsignePolaire() {
 	vitesseOrientation = 100;
 	cmdDroit = 0;
 	cmdGauche = 0;
-	enableFrein();
-}
-
-void ConsignePolaire::enableFrein() {
 	frein = true;
-}
-void ConsignePolaire::disableFrein() {
-	frein = false;
 }
 
 // -------------------------------------------------------- //
@@ -68,6 +61,10 @@ void ConsignePolaire::setCmdGauche(int value) {
 }
 int ConsignePolaire::getCmdGauche() {
 	return cmdGauche;
+}
+
+void ConsignePolaire::setFrein(boolean frein) {
+	this->frein = frein;
 }
 
 boolean ConsignePolaire::getFrein() {
