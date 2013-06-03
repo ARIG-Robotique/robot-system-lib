@@ -90,8 +90,8 @@ void RobotManager::process() {
 			trajetAtteint = true;
 		}
 
-		if (abs(consignePolaire.getConsigneDistance()) < FENETRE_EN_APPROCHE_DISTANCE
-				&& abs(consignePolaire.getConsigneOrientation()) < FENETRE_EN_APPROCHE_ORIENTATION) {
+		if (abs(consignePolaire.getConsigneDistance()) < asserv.getFenetreApprocheDistance()
+				&& abs(consignePolaire.getConsigneOrientation()) < asserv.getFenetreApprocheOrientation()) {
 
 			// Notification que le point de passage est atteint, envoi de la position suivante requis
 			if (!consignePolaire.getFrein()) {

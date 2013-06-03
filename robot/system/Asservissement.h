@@ -31,6 +31,9 @@ public:
 
 	void reset();
 
+	double getFenetreApprocheDistance();
+	double getFenetreApprocheOrientation();
+
 private:
 	Pid pidOrientation;
 	Pid pidDistance;
@@ -45,6 +48,9 @@ private:
 
 	double outputDistance;
 	double outputOrientation;
+
+	double minFenetreDistance;
+	double minFenetreOrientation;
 
 	byte sampleTime;
 

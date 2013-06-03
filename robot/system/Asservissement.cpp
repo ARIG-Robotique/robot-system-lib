@@ -6,6 +6,7 @@
  */
 
 #include "Asservissement.h"
+#include "../utils/Convertion.h"
 
 /*
  * Constructeur
@@ -13,6 +14,9 @@
 Asservissement::Asservissement() {
 	this->sampleTime = 10;
 	setup();
+
+	minFenetreDistance = Conv.mmToPulse(50);
+	minFenetreOrientation = Conv.degToPulse(5);
 }
 
 /*
@@ -73,6 +77,26 @@ void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
 void Asservissement::reset(){
 	pidDistance.reset();
 	pidOrientation.reset();
+}
+
+/*
+ * Méthode permettant de récuperer la zone pour la fenetre en distance
+ */
+double Asservissement::getFenetreApprocheDistance() {
+	// Application du théorème de Shannon
+	// En gros l'idée est que la fenêtre varie en fonction de la vitesse afin qu'a pleine bourre on la dépasse pas
+	// et que l'on se mette a faire des tours sur soit même
+	return fmax(minFenetreDistance, 3 * setPointDistance);
+}
+
+/*
+ * Méthode permettant de récuperer la zone pour la fenetre en distance
+ */
+double Asservissement::getFenetreApprocheOrientation() {
+	// Application du théorème de Shannon
+	// En gros l'idée est que la fenêtre varie en fonction de la vitesse afin qu'a pleine bourre on la dépasse pas
+	// et que l'on se mette a faire des tours sur soit même
+	return fmax(minFenetreOrientation, 3 * setPointOrientation);
 }
 
 // -------------------------------------------------------------- //
