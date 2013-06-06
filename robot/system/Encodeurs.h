@@ -23,28 +23,14 @@ public:
 
 	void reset();
 
-#ifdef DEBUG_MODE
-	void printVersion();
-#endif
-
 protected:
 	double distance, orientation;
 
 private:
-	// Command I2C
-	#define CMD_RESET		'r'
-	#define CMD_LECTURE 	'l'
-	#define CMD_SETUP		's'
-	#define	CMD_VERSION		'v'
-
-	// Paramètre de configuration
-	#define PARAM_INVERT 	'I'
-
 	// Addresses cartes
 	#define ADD_CARTE_CODEUR_DROIT  0xB0
 	#define ADD_CARTE_CODEUR_GAUCHE 0xB2
 
-	bool alternate;
 	double coefGauche;
 	double coefDroit;
 

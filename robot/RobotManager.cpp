@@ -32,9 +32,6 @@ RobotManager::RobotManager() {
  */
 void RobotManager::init() {
 	// Initialisation des cartes codeurs
-#ifdef DEBUG_MODE
-	enc.printVersion();
-#endif
 	resetEncodeurs();
 
 	// Initialisation du contrôle moteurs
