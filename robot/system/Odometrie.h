@@ -12,7 +12,7 @@
 
 #include "Encodeurs.h"
 #include "../vo/RobotPosition.h"
-#include "../utils/Convertion.h"
+#include "../../utils/Convertion.h"
 
 class Odometrie {
 public:

@@ -9,7 +9,7 @@
 #define MD22_H_
 
 #include <Arduino.h>
-#include "../../utils/I2CUtils.h"
+#include "../../../utils/I2CUtils.h"
 #include "../../../common.h"
 
 class MD22 {

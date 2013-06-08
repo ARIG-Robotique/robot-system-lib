@@ -16,19 +16,19 @@ I2CUtils::I2CUtils() {
  */
 void I2CUtils::printReturnCode(byte code) {
 	switch (code) {
-	case I2C_ACK : // OK
+	case I2C_ACK: // OK
 		Serial.println("[I2C - OK] Success");
 		break;
-	case I2C_DATA_TOO_LONG :
+	case I2C_DATA_TOO_LONG:
 		Serial.println("[I2C - ERROR] Data Too long");
 		break;
-	case I2C_NACK_BAD_ADDRESS :
+	case I2C_NACK_BAD_ADDRESS:
 		Serial.println("[I2C - ERROR] Bad address");
 		break;
-	case I2C_NACK_BAD_DATA :
+	case I2C_NACK_BAD_DATA:
 		Serial.println("[I2C - ERROR] Bad data");
 		break;
-	case I2C_OTHER_ERROR :
+	case I2C_OTHER_ERROR:
 		Serial.println("[I2C - ERROR] Unknown error");
 		break;
 	}

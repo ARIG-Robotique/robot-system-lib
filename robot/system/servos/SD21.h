@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include "../../../common.h"
-#include "../../utils/I2CUtils.h"
+#include "../../../utils/I2CUtils.h"
 
 class SD21 {
 public:

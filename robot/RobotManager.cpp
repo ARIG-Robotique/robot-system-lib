@@ -6,7 +6,7 @@
  */
 
 #include "RobotManager.h"
-#include "utils/Convertion.h"
+#include "../utils/Convertion.h"
 
 RobotManager::RobotManager() {
 	odom = Odometrie();

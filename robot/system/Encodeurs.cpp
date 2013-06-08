@@ -11,7 +11,7 @@
 #include "Encodeurs.h"
 
 #include "../../common.h"
-#include "../utils/I2CUtils.h"
+#include "../../utils/I2CUtils.h"
 
 /*
  * Constructeur

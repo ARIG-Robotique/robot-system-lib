@@ -11,7 +11,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "../../../common.h"
-#include "../../utils/I2CUtils.h"
+#include "../../../utils/I2CUtils.h"
 #include "../servos/SD21.h"
 
 class SD21Motors: public SD21 {

@@ -8,7 +8,7 @@
 #include "QuadRamp.h"
 
 #include <Arduino.h>
-#include "../robot/utils/Convertion.h"
+#include "../utils/Convertion.h"
 #include "../robot/vo/ConsignePolaire.h"
 
 /*
