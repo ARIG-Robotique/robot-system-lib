@@ -19,9 +19,20 @@
 #define I2C_NACK_BAD_DATA		3
 #define I2C_OTHER_ERROR			4
 
+#define cbi(sfr, bit)   (_SFR_BYTE(sfr) &= ~_BV(bit))
+#define sbi(sfr, bit)   (_SFR_BYTE(sfr) |= _BV(bit))
+
 class I2CUtils {
 public:
 	I2CUtils();
+
+	byte scan();
+
+	void initMaster();
+	void initSlave(byte address);
+
+	void fastSpeed(boolean fast);
+	void pullup(boolean activate);
 
 	boolean isError(byte code);
 	boolean isOk(byte code);

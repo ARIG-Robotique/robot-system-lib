@@ -10,6 +10,66 @@
 I2CUtils::I2CUtils() {
 }
 
+byte I2CUtils::scan() {
+#ifdef DEBUG_MODE
+	Serial.println(" * I2C Scanning...");
+#endif
+	byte nDevices = 0;
+	for (byte address = 1; address < 127; address++) {
+		// The i2c_scanner uses the return value of the Write.endTransmisstion to see if
+		// a device did acknowledge to the address.
+		Wire.beginTransmission(address);
+		byte retCode = Wire.endTransmission();
+		if (this->isOk(retCode)) {
+#ifdef DEBUG_MODE
+			Serial.print("    -> Device found at address 0x");
+			if (address < 16)
+				Serial.print("0");
+			Serial.print(address, HEX);
+			Serial.println(" !");
+#endif
+			nDevices++;
+		} else if (retCode == I2C_OTHER_ERROR) {
+#ifdef DEBUG_MODE
+			Serial.print("    -> Unknow error at address 0x");
+			if (address < 16)
+				Serial.print("0");
+			Serial.println(address, HEX);
+#endif
+		}
+	}
+
+	return nDevices;
+}
+
+void I2CUtils::initMaster() {
+	Wire.begin();
+
+#ifdef DEBUG_MODE
+	Serial.println(" - I2C [OK] (Master)");
+#endif
+}
+
+void I2CUtils::initSlave(byte address) {
+	// NOT YET IMPLEMENTED
+}
+
+void I2CUtils::fastSpeed(boolean fast) {
+	if (!fast) {
+		TWBR = ((F_CPU / 100000) - 16) / 2;
+	} else {
+		TWBR = ((F_CPU / 400000) - 16) / 2;
+	}
+
+#ifdef DEBUG_MODE
+	Serial.println(" * Speed I2C (0 = 100, 1 = 400) : ");
+#endif
+}
+
+void I2CUtils::pullup(boolean activate) {
+	// NOT YET IMPLEMENTED
+}
+
 #ifdef DEBUG_MODE
 /*
  * Fonction permettant d'afficher le résultat d'une commande I2C
