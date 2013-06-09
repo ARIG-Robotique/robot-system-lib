@@ -7,6 +7,8 @@
 
 #include "I2CUtils.h"
 
+#include <Wire.h>
+
 I2CUtils::I2CUtils() {
 }
 
@@ -42,18 +44,6 @@ byte I2CUtils::scan() {
 	return nDevices;
 }
 
-void I2CUtils::initMaster() {
-	Wire.begin();
-
-#ifdef DEBUG_MODE
-	Serial.println(" - I2C [OK] (Master)");
-#endif
-}
-
-void I2CUtils::initSlave(byte address) {
-	// NOT YET IMPLEMENTED
-}
-
 void I2CUtils::fastSpeed(boolean fast) {
 	if (!fast) {
 		TWBR = ((F_CPU / 100000) - 16) / 2;
@@ -62,7 +52,8 @@ void I2CUtils::fastSpeed(boolean fast) {
 	}
 
 #ifdef DEBUG_MODE
-	Serial.println(" * Speed I2C (0 = 100, 1 = 400) : ");
+	Serial.print(" * Speed I2C (0 = 100, 1 = 400) : ");
+	Serial.println(fast, DEC);
 #endif
 }
 

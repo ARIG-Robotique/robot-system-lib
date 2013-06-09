@@ -28,9 +28,6 @@ public:
 
 	byte scan();
 
-	void initMaster();
-	void initSlave(byte address);
-
 	void fastSpeed(boolean fast);
 	void pullup(boolean activate);
 
