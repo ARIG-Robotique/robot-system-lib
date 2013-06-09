@@ -10,7 +10,7 @@
 
 #include <math.h>
 
-#include "Encodeurs.h"
+#include "encoders/ARIGEncodeurs.h"
 #include "../vo/RobotPosition.h"
 #include "../../utils/Convertion.h"
 
@@ -19,7 +19,7 @@ public:
 	Odometrie();
 
 	void initOdometrie(double x, double y, int angle);
-	void calculPosition(Encodeurs *);
+	void calculPosition(ARIGEncodeurs *);
 	RobotPosition getPosition();
 
 private:

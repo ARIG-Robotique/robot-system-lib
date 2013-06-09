@@ -10,8 +10,8 @@
 
 RobotManager::RobotManager() {
 	odom = Odometrie();
-	enc = Encodeurs();
 	consignePolaire = ConsignePolaire();
+	enc = ARIGEncodeurs();
 	asserv = Asservissement();
 	moteurs = SD21Motors();
 

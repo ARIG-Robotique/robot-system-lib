@@ -29,7 +29,7 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
  *
  * /!\ Cette méthode doit être appelé après la lecture des valeurs codeurs toutes les x ms.
  */
-void Odometrie::calculPosition(Encodeurs * enc) {
+void Odometrie::calculPosition(ARIGEncodeurs * enc) {
 	// Approximation linéaire
 
 	int newTheta = position.getAngle() + enc->getOrientation();

@@ -15,10 +15,10 @@
 #include "vo/ConsignePolaire.h"
 
 // Business elements
-#include "system/Encodeurs.h"
 #include "system/Odometrie.h"
 #include "system/Asservissement.h"
 #include "system/motors/SD21Motors.h"
+#include "system/encoders/ARIGEncodeurs.h"
 
 class RobotManager {
 public:
@@ -56,8 +56,8 @@ private:
 	#define FENETRE_EN_APPROCHE_ORIENTATION 228		// +- 56,8 pulse pour la reception de la nouvelle position -> 5°
 
 	Odometrie odom;
-	Encodeurs enc;
 	ConsignePolaire consignePolaire;
+	ARIGEncodeurs enc;
 	Asservissement asserv;
 	SD21Motors moteurs;
 

@@ -53,7 +53,7 @@ void Asservissement::setup() {
 /*
  * Méthode de processing de l'asservissement polaire.
  */
-void Asservissement::process(Encodeurs & enc, ConsignePolaire & cp) {
+void Asservissement::process(ARIGEncodeurs & enc, ConsignePolaire & cp) {
 	// Récupération des valeurs réel
 	inputDistance = enc.getDistance();
 	inputOrientation = enc.getOrientation();

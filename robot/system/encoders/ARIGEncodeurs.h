@@ -1,20 +1,21 @@
 /*
- * Encodeurs.h
+ * ARIGEncodeurs.h
  *
  *  Created on: 22 déc. 2012
  *      Author: mythril
  */
 
-#ifndef ENCODEURS_H_
-#define ENCODEURS_H_
+#ifndef ARIG_ENCODEURS_H_
+#define ARIG_ENCODEURS_H_
 
 #include <Arduino.h>
-#include "../../common.h"
-#include "../../utils/I2CUtils.h"
+#include <Wire.h>
+#include "../../../utils/I2CUtils.h"
+#include "../../../common.h"
 
-class Encodeurs {
+class ARIGEncodeurs {
 public:
-	Encodeurs();
+	ARIGEncodeurs();
 
 	void lectureValeurs();
 	double getDistance();
@@ -42,4 +43,4 @@ private:
 	byte retCode;
 };
 
-#endif /* ENCODEURS_H_ */
+#endif /* ARIG_ENCODEURS_H_ */
