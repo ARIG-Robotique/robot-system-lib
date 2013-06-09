@@ -30,8 +30,6 @@ public:
 	void process();
 	void stop();
 
-	// Consigne a atteindre
-	void setConsigneTable(RobotConsigne rc);
 
 	void setPosition(double x, double y, double angle);
 	RobotPosition getPosition();
@@ -47,19 +45,26 @@ public:
 	// Pointeur de fonction pour assurer la detection d'obstacle proche
 	void setHasObstacle(boolean (*hasObstacle)(void));
 
+	// Méthode de déplacement
+	void gotoPointMM(double x, double y, boolean frein);
+	void gotoOrientationDeg(double angle);
+	void avanceMM(double distance);
+	void reculeMM(double distance);
+	void tourneDeg(double angle);
+
 	// Getter pour les enchainement de valeurs
 	boolean getTrajetAtteint();
 	boolean getTrajetEnApproche();
 
 
 private:
+	RobotConsigne consigneTable;
 	Odometrie odom;
-	ConsignePolaire consignePolaire;
 	ARIGEncodeurs enc;
 	Asservissement asserv;
 	SD21Motors moteurs;
 
-	RobotConsigne consigneTable;
+	void prepareNextMouvement();
 
 	boolean (*hasObstacle)(void);
 
