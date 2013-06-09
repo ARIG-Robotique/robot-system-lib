@@ -9,6 +9,7 @@
 #define ROBOTMANAGER_H_
 
 #include "../common.h"
+#include "../utils/Convertion.h"
 
 // Value Object
 #include "vo/RobotConsigne.h"
@@ -41,20 +42,17 @@ public:
 	void setPIDOrientation(double kp, double ki, double kd);
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
+	void setVitesse(word vDistance, word vOrientation);
+
+	// Pointeur de fonction pour assurer la detection d'obstacle proche
 	void setHasObstacle(boolean (*hasObstacle)(void));
 
 	// Getter pour les enchainement de valeurs
 	boolean getTrajetAtteint();
 	boolean getTrajetEnApproche();
 
-	// Pour la modification de la vitesse a chaud
-	void setVitesse(word vDistance, word vOrientation);
 
 private:
-	// FIXME : Ces coëficient doivent dépendre de la vitesse courrante du robot, car en 10ms a forte vitesse on peut dépasser.
-	#define FENETRE_EN_APPROCHE_DISTANCE	640 	// +- 320 pulse pour la reception de la nouvelle position -> 2 cm
-	#define FENETRE_EN_APPROCHE_ORIENTATION 228		// +- 56,8 pulse pour la reception de la nouvelle position -> 5°
-
 	Odometrie odom;
 	ConsignePolaire consignePolaire;
 	ARIGEncodeurs enc;

@@ -6,7 +6,6 @@
  */
 
 #include "RobotManager.h"
-#include "../utils/Convertion.h"
 
 RobotManager::RobotManager() {
 	odom = Odometrie();
@@ -163,7 +162,7 @@ void RobotManager::setConsigneTable(RobotConsigne rc) {
 	}
 
 	// Reset de l'erreur de l'asserv sur le mouvement précédent lorsqu'il
-	// s'agit d'un nouveau mouvement au départ vitesse nulle
+	// s'agit d'un nouveau mouvement au départ vitesse presque nulle
 	if (trajetAtteint) {
 		asserv.reset();
 	}
@@ -224,6 +223,13 @@ void RobotManager::setRampDec(double rampDistance, double rampOrientation) {
 }
 
 /*
+ * Mutateur pour spécifier la vitesse de déplacement du robot
+ */
+void RobotManager::setVitesse(word vDistance, word vOrientation) {
+	consigneTable.getConsignePolaire().setVitesseDistance(vDistance);
+	consigneTable.getConsignePolaire().setVitesseOrientation(vOrientation);
+}
+
  * Mutateur pour préciser la fonction permettant d'effectuer la détéction d'obstacle pour l'evittement.
  * Il s'agit d'un pointeur de fonction ayant la signature suivante :
  *
@@ -247,12 +253,4 @@ boolean RobotManager::getTrajetAtteint() {
  */
 boolean RobotManager::getTrajetEnApproche() {
 	return trajetEnApproche;
-}
-
-/*
- * Mutateur pour spécifier la vitesse de déplacement du robot
- */
-void RobotManager::setVitesse(word vDistance, word vOrientation) {
-	consignePolaire.setVitesseDistance(vDistance);
-	consignePolaire.setVitesseOrientation(vOrientation);
 }

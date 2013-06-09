@@ -7,8 +7,6 @@
 
 #include "Convertion.h"
 
-#include <Arduino.h>
-
 Convertion::Convertion(double countPerMm, double countPerDegree) {
 	this->countPerMm = countPerMm;
 	this->countPerDegree = countPerDegree;

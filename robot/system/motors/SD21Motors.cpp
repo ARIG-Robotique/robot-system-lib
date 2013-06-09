@@ -7,6 +7,8 @@
 
 #include "SD21Motors.h"
 
+#include <Wire.h>
+
 SD21Motors::SD21Motors() {
  minVal = 1100;
  stopVal = 1500;
