@@ -13,27 +13,21 @@
 RobotConsigne::RobotConsigne() {
 	position = RobotPosition();
 	consignePolaire = ConsignePolaire();
-	type = CONSIGNE_POLAIRE;
 	consignePolaire.setFrein(true);
+	type = CONSIGNE_POLAIRE;
 }
 
 /*
  * Mutateur pour la récupération de la position de consigne du robot sur la table
  */
-void RobotConsigne::setPosition(RobotPosition position) {
-	this->position = position;
-}
-RobotPosition RobotConsigne::getPosition() {
+RobotPosition & RobotConsigne::getPosition() {
 	return position;
 }
 
 /*
  * Mutateur pour la récupération de la consigne en polaire sur la table pour avoir des mouvements basique
  */
-void RobotConsigne::setConsignePolaire(ConsignePolaire cp) {
-	this->consignePolaire = cp;
-}
-ConsignePolaire RobotConsigne::getConsignePolaire() {
+ConsignePolaire & RobotConsigne::getConsignePolaire() {
 	return consignePolaire;
 }
 
