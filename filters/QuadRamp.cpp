@@ -34,16 +34,22 @@ QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
 	this->rampAcc = rampAcc;
 	this->rampDec = rampDec;
 
-	distanceDecel = 0;
-	ecartPrecedent = 0;
-	vitesseCourante = 0;
-
+	reset();
 	updateStepVitesse();
 }
 
 // --------------------------------------------------------- //
 // --------------------- BUSINESS METHODS ------------------ //
 // --------------------------------------------------------- //
+
+/*
+ * Réinitialisation des paramètres du filtre
+ */
+void QuadRamp::reset() {
+	distanceDecel = 0;
+	ecartPrecedent = 0;
+	vitesseCourante = 0;
+}
 
 /*
  * Application du filtre.

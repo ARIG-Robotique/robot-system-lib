@@ -71,12 +71,21 @@ void Asservissement::process(ARIGEncodeurs & enc, ConsignePolaire & cp) {
 	cp.setCmdGauche((int) (outputDistance - outputOrientation));
 }
 
+void Asservissement::reset() {
+	reset(false);
+}
+
 /*
- * Méthode pour effectuer un reset des PID
+ * Méthode pour effectuer un reset des PID et des filtres QuadRamp
  */
-void Asservissement::reset(){
+void Asservissement::reset(boolean resetFilter){
 	pidDistance.reset();
 	pidOrientation.reset();
+
+	if (resetFilter) {
+		filterDistance.reset();
+		filterOrientation.reset();
+	}
 }
 
 /*

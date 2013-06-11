@@ -77,6 +77,7 @@ private:
 
 	boolean trajetAtteint;
 	boolean trajetEnApproche;
+	boolean evittementEnCours;
 
 	void calculConsigne();
 	double calculAngleConsigne(double dX, double dY);

@@ -16,6 +16,7 @@ RobotManager::RobotManager() {
 	timePrec = time = 0;
 	trajetAtteint = false;
 	trajetEnApproche = false;
+	evittementEnCours = false;
 
 	fenetreArretDistance = Conv.mmToPulse(10);
 	fenetreArretOrientation = Conv.degToPulse(1);
@@ -70,13 +71,27 @@ void RobotManager::process() {
 		// 2. Calcul des consignes
 		calculConsigne();
 
-		// 3. Asservissement sur les consignes
-		asserv.process(enc, consigneTable.getConsignePolaire());
+		// 3.Gestion de l'evittement, de la reprise, et du cycle continue
+		if ((*hasObstacle)() && !evittementEnCours) {
+			stop();
+			asserv.reset(true);
+			evittementEnCours = true;
 
-		// 4. Envoi aux moteurs
-		moteurs.generateMouvement(consigneTable.getConsignePolaire().getCmdGauche(), consigneTable.getConsignePolaire().getCmdDroit());
+		} else if ((*hasObstacle)() && evittementEnCours) {
+			// NOP
 
-		// 5. Gestion des flags pour le séquencement du calcul de la position
+		} else if (!(*hasObstacle)() && evittementEnCours) {
+			evittementEnCours = false;
+
+		} else {
+			// 3.4.1. Asservissement sur les consignes
+			asserv.process(enc, consigneTable.getConsignePolaire());
+
+			// 3.4.2. Envoi aux moteurs
+			moteurs.generateMouvement(consigneTable.getConsignePolaire().getCmdGauche(), consigneTable.getConsignePolaire().getCmdDroit());
+		}
+
+		// 4. Gestion des flags pour le séquencement du calcul de la position
 		// TODO : Voir il ne serait pas judicieux de traiter le cas des consignes ODOM avec un rayon sur le point a atteindre.
 		if (consigneTable.getConsignePolaire().getFrein()
 				&& abs(consigneTable.getConsignePolaire().getConsigneDistance()) < fenetreArretDistance

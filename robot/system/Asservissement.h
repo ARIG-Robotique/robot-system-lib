@@ -30,6 +30,7 @@ public:
 	void process(ARIGEncodeurs & encodeurs, ConsignePolaire & consignePolaire);
 
 	void reset();
+	void reset(boolean resetFilters);
 
 	double getFenetreApprocheDistance();
 	double getFenetreApprocheOrientation();
