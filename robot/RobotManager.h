@@ -48,6 +48,8 @@ public:
 	// Méthode de déplacement
 	void gotoPointMM(double x, double y, boolean frein);
 	void gotoOrientationDeg(double angle);
+	void alignFrontTo(double x, double y);
+	void alignBackTo(double x, double y);
 	void avanceMM(double distance);
 	void reculeMM(double distance);
 	void tourneDeg(double angle);
@@ -64,7 +66,6 @@ private:
 	Asservissement asserv;
 	SD21Motors moteurs;
 
-	void prepareNextMouvement();
 
 	boolean (*hasObstacle)(void);
 
@@ -78,6 +79,10 @@ private:
 	boolean trajetEnApproche;
 
 	void calculConsigne();
+	double calculAngleConsigne(double dX, double dY);
+	double calculDistanceConsigne(double dX, double dY);
+
+	void prepareNextMouvement();
 };
 
 #endif /* ROBOTMANAGER_H_ */

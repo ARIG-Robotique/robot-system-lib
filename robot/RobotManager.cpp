@@ -90,7 +90,7 @@ void RobotManager::process() {
 				&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < asserv.getFenetreApprocheOrientation()) {
 
 			// Modification du type de consigne pour la stabilisation
-			consigneTable.setType(CONSIGNE_POLAIRE);
+			consigneTable.setType(CONSIGNE_SIMPLE);
 
 			// Notification que le point de passage est atteint, envoi de la position suivante requis
 			if (!consigneTable.getConsignePolaire().getFrein()) {
@@ -112,26 +112,16 @@ void RobotManager::process() {
  * -> b : Si dans fenetre d'approche : consigne(n) = consigne(n-1) - d(position)
  */
 void RobotManager::calculConsigne() {
-	if (!trajetAtteint && consigneTable.getType() == CONSIGNE_ODOMETRIE) {
+	if (!trajetAtteint && consigneTable.getType() == CONSIGNE_XY) {
 
 		Serial.print(";ODOM");
 		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
 
-		long alpha = Conv.radToPulse(atan2(Conv.pulseToRad(dY), Conv.pulseToRad(dX)));
-
-		// Ajustement a PI
-		long consigneOrientation = alpha - odom.getPosition().getAngle();
-		if (consigneOrientation > Conv.getPiPulse()) {
-			consigneOrientation = consigneOrientation - Conv.get2PiPulse();
-		} else if (consigneOrientation < -Conv.getPiPulse()) {
-			consigneOrientation = consigneOrientation + Conv.get2PiPulse();
-		}
-
 		// Sauvegarde des consignes
-		consigneTable.getConsignePolaire().setConsigneDistance(sqrt(pow(dX, 2) + pow(dY, 2)));
-		consigneTable.getConsignePolaire().setConsigneOrientation(consigneOrientation);
+		consigneTable.getConsignePolaire().setConsigneDistance(calculDistanceConsigne(dX, dY));
+		consigneTable.getConsignePolaire().setConsigneOrientation(calculAngleConsigne(dX, dY));
 
 	} else {
 		Serial.print(";POLAIRE");
@@ -144,6 +134,30 @@ void RobotManager::calculConsigne() {
 	Serial.print(";");Serial.print(Conv.pulseToMm(consigneTable.getConsignePolaire().getConsigneDistance()));
 	Serial.print(";");Serial.print(Conv.pulseToDeg(consigneTable.getConsignePolaire().getConsigneOrientation()));
 #endif
+}
+
+/*
+ * Méthode de calcul de la consigne d'angle en fonction de dX et dY.
+ */
+double RobotManager::calculAngleConsigne(double dX, double dY) {
+	double alpha = Conv.radToPulse(atan2(Conv.pulseToRad(dY), Conv.pulseToRad(dX)));
+
+	// Ajustement a PI
+	double consigneOrientation = alpha - odom.getPosition().getAngle();
+	if (consigneOrientation > Conv.getPiPulse()) {
+		consigneOrientation = consigneOrientation - Conv.get2PiPulse();
+	} else if (consigneOrientation < -Conv.getPiPulse()) {
+		consigneOrientation = consigneOrientation + Conv.get2PiPulse();
+	}
+
+	return consigneOrientation;
+}
+
+/*
+ * Méthode de calcul de la consigne de distance en fonction de dX et dY.
+ */
+double RobotManager::calculDistanceConsigne(double dX, double dY) {
+	return sqrt(pow(dX, 2) + pow(dY, 2));
 }
 
 /* ------------------------------------------------------------------ */
@@ -230,7 +244,7 @@ void RobotManager::gotoPointMM(double x, double y, boolean frein) {
 	consigneTable.getPosition().setAngle(0);
 	consigneTable.getPosition().setX(Conv.mmToPulse(x));
 	consigneTable.getPosition().setY(Conv.mmToPulse(y));
-	consigneTable.setType(CONSIGNE_ODOMETRIE);
+	consigneTable.setType(CONSIGNE_XY);
 	if (frein) {
 		consigneTable.enableFrein();
 	} else {
@@ -249,10 +263,47 @@ void RobotManager::gotoOrientationDeg(double angle) {
 }
 
 /*
+ * Méthode permettant d'aligner le robot face a un point
+ */
+void RobotManager::alignFrontTo(double x, double y) {
+	double dX = Conv.mmToPulse(x) - odom.getPosition().getX();
+	double dY = Conv.mmToPulse(y) - odom.getPosition().getY();
+
+	consigneTable.setType(CONSIGNE_SIMPLE);
+	consigneTable.getConsignePolaire().setConsigneDistance(0);
+	consigneTable.getConsignePolaire().setConsigneOrientation(calculAngleConsigne(dX, dY));
+	consigneTable.enableFrein();
+
+	prepareNextMouvement();
+}
+
+/*
+ * Méthode permettant d'aligner le robot dos a un point
+ */
+void RobotManager::alignBackTo(double x, double y) {
+	double dX = Conv.mmToPulse(x) - odom.getPosition().getX();
+	double dY = Conv.mmToPulse(y) - odom.getPosition().getY();
+
+	double consigneOrientation = calculAngleConsigne(dX, dY);
+	if (consigneOrientation > 0) {
+		consigneOrientation = consigneOrientation - Conv.getPiPulse();
+	} else {
+		consigneOrientation = consigneOrientation + Conv.getPiPulse();
+	}
+
+	consigneTable.setType(CONSIGNE_SIMPLE);
+	consigneTable.getConsignePolaire().setConsigneDistance(0);
+	consigneTable.getConsignePolaire().setConsigneOrientation(consigneOrientation);
+	consigneTable.enableFrein();
+
+	prepareNextMouvement();
+}
+
+/*
  * Méthode permettant d'effectuer un déplacement en avant de distance fixe
  */
 void RobotManager::avanceMM(double distance) {
-	consigneTable.setType(CONSIGNE_POLAIRE);
+	consigneTable.setType(CONSIGNE_SIMPLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(Conv.mmToPulse(distance));
 	consigneTable.getConsignePolaire().setConsigneOrientation(0);
 	consigneTable.enableFrein();
@@ -271,7 +322,7 @@ void RobotManager::reculeMM(double distance) {
  * Méthode permettant d'effectuer une rotation d'angle fixe
  */
 void RobotManager::tourneDeg(double angle) {
-	consigneTable.setType(CONSIGNE_POLAIRE);
+	consigneTable.setType(CONSIGNE_SIMPLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(0);
 	consigneTable.getConsignePolaire().setConsigneOrientation(Conv.degToPulse(angle));
 	consigneTable.enableFrein();

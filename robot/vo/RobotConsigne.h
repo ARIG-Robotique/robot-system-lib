@@ -12,8 +12,13 @@
 #include "RobotPosition.h"
 #include "ConsignePolaire.h"
 
-#define CONSIGNE_ODOMETRIE 	0
-#define CONSIGNE_POLAIRE 	1
+#define CONSIGNE_XY 			1
+#define CONSIGNE_SIMPLE 		2
+
+// Pas encore utilisé
+// Permet de désactiver un asservissement sur une des consignes (calage bordure, etc...)
+#define CONSIGNE_DISTANCE		4
+#define CONSIGNE_ORIENTATION	8
 
 //  y (2000)
 //  |
