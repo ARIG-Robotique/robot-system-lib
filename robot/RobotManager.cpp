@@ -92,7 +92,7 @@ void RobotManager::process() {
 		}
 
 		// 4. Gestion des flags pour le séquencement du calcul de la position
-		// TODO : Voir il ne serait pas judicieux de traiter le cas des consignes ODOM avec un rayon sur le point a atteindre.
+		// TODO : Voir il ne serait pas judicieux de traiter le cas des consignes XY avec un rayon sur le point a atteindre.
 		if (consigneTable.getConsignePolaire().getFrein()
 				&& abs(consigneTable.getConsignePolaire().getConsigneDistance()) < fenetreArretDistance
 				&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < fenetreArretOrientation) {
@@ -129,7 +129,7 @@ void RobotManager::process() {
 void RobotManager::calculConsigne() {
 	if (!trajetAtteint && consigneTable.getType() == CONSIGNE_XY) {
 
-		Serial.print(";ODOM");
+		Serial.print(";XY");
 		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
@@ -139,7 +139,7 @@ void RobotManager::calculConsigne() {
 		consigneTable.getConsignePolaire().setConsigneOrientation(calculAngleConsigne(dX, dY));
 
 	} else {
-		Serial.print(";POLAIRE");
+		Serial.print(";AD");
 		// Calcul par différence vis a vis de la valeur codeur (asservissement de position "basique").
 		consigneTable.getConsignePolaire().setConsigneDistance(consigneTable.getConsignePolaire().getConsigneDistance() - enc.getDistance());
 		consigneTable.getConsignePolaire().setConsigneOrientation(consigneTable.getConsignePolaire().getConsigneOrientation() - enc.getOrientation());
