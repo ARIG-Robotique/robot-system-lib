@@ -345,6 +345,14 @@ void RobotManager::tourneDeg(double angle) {
 	prepareNextMouvement();
 }
 
+void RobotManager::followLine(double x1, double y1, double x2, double y2) {
+	// TO BE IMPLEMENTED
+}
+
+void RobotManager::turnAround(double x, double y, double r) {
+	// TO BE IMPLEMENTED
+}
+
 /*
  * Mutateur pour préciser la fonction permettant d'effectuer la détéction d'obstacle pour l'evittement.
  * Il s'agit d'un pointeur de fonction ayant la signature suivante :

@@ -53,11 +53,12 @@ public:
 	void avanceMM(double distance);
 	void reculeMM(double distance);
 	void tourneDeg(double angle);
+	void followLine(double x1, double y1, double x2, double y2);
+	void turnAround(double x, double y, double r);
 
 	// Getter pour les enchainement de valeurs
 	boolean getTrajetAtteint();
 	boolean getTrajetEnApproche();
-
 
 private:
 	RobotConsigne consigneTable;
@@ -65,7 +66,6 @@ private:
 	ARIGEncodeurs enc;
 	Asservissement asserv;
 	SD21Motors moteurs;
-
 
 	boolean (*hasObstacle)(void);
 
