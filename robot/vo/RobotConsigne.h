@@ -13,12 +13,9 @@
 #include "ConsignePolaire.h"
 
 #define CONSIGNE_XY 			1
-#define CONSIGNE_SIMPLE 		2
-
-// TODO : Pas encore utilisé
-// Permet de désactiver un asservissement sur une des consignes (calage bordure, etc...)
-#define CONSIGNE_DISTANCE		4
-#define CONSIGNE_ORIENTATION	8
+#define CONSIGNE_DIST_ANGLE		2
+#define CONSIGNE_LINE			4
+#define CONSIGNE_CIRCLE			8
 
 //  y (2000)
 //  |

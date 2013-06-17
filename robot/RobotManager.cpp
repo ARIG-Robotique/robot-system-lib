@@ -105,7 +105,7 @@ void RobotManager::process() {
 				&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < asserv.getFenetreApprocheOrientation()) {
 
 			// Modification du type de consigne pour la stabilisation
-			consigneTable.setType(CONSIGNE_SIMPLE);
+			consigneTable.setType(CONSIGNE_DIST_ANGLE);
 
 			// Notification que le point de passage est atteint, envoi de la position suivante requis
 			if (!consigneTable.getConsignePolaire().getFrein()) {
@@ -139,7 +139,7 @@ void RobotManager::calculConsigne() {
 		consigneTable.getConsignePolaire().setConsigneOrientation(calculAngleConsigne(dX, dY));
 
 	} else {
-		Serial.print(";AD");
+		Serial.print(";DIST_ANGLE");
 		// Calcul par différence vis a vis de la valeur codeur (asservissement de position "basique").
 		consigneTable.getConsignePolaire().setConsigneDistance(consigneTable.getConsignePolaire().getConsigneDistance() - enc.getDistance());
 		consigneTable.getConsignePolaire().setConsigneOrientation(consigneTable.getConsignePolaire().getConsigneOrientation() - enc.getOrientation());
@@ -284,7 +284,7 @@ void RobotManager::alignFrontTo(double x, double y) {
 	double dX = Conv.mmToPulse(x) - odom.getPosition().getX();
 	double dY = Conv.mmToPulse(y) - odom.getPosition().getY();
 
-	consigneTable.setType(CONSIGNE_SIMPLE);
+	consigneTable.setType(CONSIGNE_DIST_ANGLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(0);
 	consigneTable.getConsignePolaire().setConsigneOrientation(calculAngleConsigne(dX, dY));
 	consigneTable.enableFrein();
@@ -306,7 +306,7 @@ void RobotManager::alignBackTo(double x, double y) {
 		consigneOrientation = consigneOrientation + Conv.getPiPulse();
 	}
 
-	consigneTable.setType(CONSIGNE_SIMPLE);
+	consigneTable.setType(CONSIGNE_DIST_ANGLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(0);
 	consigneTable.getConsignePolaire().setConsigneOrientation(consigneOrientation);
 	consigneTable.enableFrein();
@@ -318,7 +318,7 @@ void RobotManager::alignBackTo(double x, double y) {
  * Méthode permettant d'effectuer un déplacement en avant de distance fixe
  */
 void RobotManager::avanceMM(double distance) {
-	consigneTable.setType(CONSIGNE_SIMPLE);
+	consigneTable.setType(CONSIGNE_DIST_ANGLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(Conv.mmToPulse(distance));
 	consigneTable.getConsignePolaire().setConsigneOrientation(0);
 	consigneTable.enableFrein();
@@ -337,7 +337,7 @@ void RobotManager::reculeMM(double distance) {
  * Méthode permettant d'effectuer une rotation d'angle fixe
  */
 void RobotManager::tourneDeg(double angle) {
-	consigneTable.setType(CONSIGNE_SIMPLE);
+	consigneTable.setType(CONSIGNE_DIST_ANGLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(0);
 	consigneTable.getConsignePolaire().setConsigneOrientation(Conv.degToPulse(angle));
 	consigneTable.enableFrein();

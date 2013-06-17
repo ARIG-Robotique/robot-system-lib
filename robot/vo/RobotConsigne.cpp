@@ -14,7 +14,7 @@ RobotConsigne::RobotConsigne() {
 	position = RobotPosition();
 	consignePolaire = ConsignePolaire();
 	consignePolaire.setFrein(true);
-	type = CONSIGNE_SIMPLE;
+	type = CONSIGNE_DIST_ANGLE;
 }
 
 /*
