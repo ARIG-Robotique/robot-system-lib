@@ -20,6 +20,12 @@ RobotManager::RobotManager() {
 
 	fenetreArretDistance = Conv.mmToPulse(10);
 	fenetreArretOrientation = Conv.degToPulse(1);
+
+	// Angle de départ pour les déplacement.
+	// Si l'angle est supérieur en absolu, on annule la distance
+	// afin de naviguer en priorité en marche avant.
+	// TODO : Externalisé le coëficient de départ
+	startAngle = 0.55 * Conv.getPiPulse();
 }
 
 /* ------------------------------------------------------------------ */
@@ -128,15 +134,24 @@ void RobotManager::process() {
  */
 void RobotManager::calculConsigne() {
 	if (!trajetAtteint && consigneTable.getType() == CONSIGNE_XY) {
-
 		Serial.print(";XY");
 		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
 
+		// Calcul des consignes
+		double consDist = calculDistanceConsigne(dX, dY);
+		double consOrient = calculAngleConsigne(dX, dY);
+
+		// Calcul du coef d'annulation de la distance
+		// Permet d'effectuer d'abord une rotation avant de lancer le déplacement.
+		if (abs(consOrient) > startAngle) {
+			consDist = consDist * (1 - (odom.getPosition().getAngle() - consOrient) / startAngle);
+		}
+
 		// Sauvegarde des consignes
-		consigneTable.getConsignePolaire().setConsigneDistance(calculDistanceConsigne(dX, dY));
-		consigneTable.getConsignePolaire().setConsigneOrientation(calculAngleConsigne(dX, dY));
+		consigneTable.getConsignePolaire().setConsigneDistance(consDist);
+		consigneTable.getConsignePolaire().setConsigneOrientation(consOrient);
 
 	} else {
 		Serial.print(";DIST_ANGLE");

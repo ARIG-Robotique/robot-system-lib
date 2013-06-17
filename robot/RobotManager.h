@@ -75,6 +75,8 @@ private:
 	double fenetreArretDistance;
 	double fenetreArretOrientation;
 
+	double startAngle;
+
 	boolean trajetAtteint;
 	boolean trajetEnApproche;
 	boolean evittementEnCours;
