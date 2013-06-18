@@ -13,9 +13,11 @@
 #include "ConsignePolaire.h"
 
 #define CONSIGNE_XY 			1
-#define CONSIGNE_DIST_ANGLE		2
-#define CONSIGNE_LINE			4
-#define CONSIGNE_CIRCLE			8
+#define CONSIGNE_DIST			2
+#define CONSIGNE_ANGLE			4
+
+#define CONSIGNE_LINE			8
+#define CONSIGNE_CIRCLE			16
 
 //  y (2000)
 //  |
