@@ -146,7 +146,7 @@ void RobotManager::calculConsigne() {
 		// Calcul du coef d'annulation de la distance
 		// Permet d'effectuer d'abord une rotation avant de lancer le déplacement.
 		if (abs(consOrient) > startAngle) {
-			consDist = consDist * (1 - (odom.getPosition().getAngle() - consOrient) / startAngle);
+			consDist = consDist * ((startAngle - abs(consOrient)) / startAngle);
 		}
 
 		// Sauvegarde des consignes
