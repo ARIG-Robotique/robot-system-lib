@@ -82,6 +82,7 @@ private:
 	boolean evittementEnCours;
 
 	void calculConsigne();
+	void gestionFlags();
 	double calculAngleConsigne(double dX, double dY);
 	double calculDistanceConsigne(double dX, double dY);
 

@@ -102,26 +102,7 @@ void RobotManager::process() {
 		}
 
 		// 4. Gestion des flags pour le séquencement du calcul de la position
-		// TODO : Voir si il ne serait pas judicieux de traiter le cas des consignes XY avec un rayon sur le point a atteindre.
-		if (consigneTable.getConsignePolaire().getFrein()
-				&& abs(consigneTable.getConsignePolaire().getConsigneDistance()) < fenetreArretDistance
-				&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < fenetreArretOrientation) {
-
-			// Notification que le trajet est atteint.
-			trajetAtteint = true;
-		}
-
-		if (abs(consigneTable.getConsignePolaire().getConsigneDistance()) < asserv.getFenetreApprocheDistance()
-				&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < asserv.getFenetreApprocheOrientation()) {
-
-			// Modification du type de consigne pour la stabilisation
-			consigneTable.setType(CONSIGNE_DIST | CONSIGNE_ANGLE);
-
-			// Notification que le point de passage est atteint, envoi de la position suivante requis
-			if (!consigneTable.getConsignePolaire().getFrein()) {
-				trajetEnApproche = true;
-			}
-		}
+		gestionFlags();
 
 #ifdef DEBUG_MODE
 		Serial.print(";");Serial.print(trajetEnApproche, DEC);
@@ -201,6 +182,32 @@ double RobotManager::calculAngleConsigne(double dX, double dY) {
  */
 double RobotManager::calculDistanceConsigne(double dX, double dY) {
 	return sqrt(pow(dX, 2) + pow(dY, 2));
+}
+
+/*
+ * Méthode permettant de positionné les flags de trajet en fonction des type de consigne
+ */
+void RobotManager::gestionFlags() {
+	// TODO : Voir si il ne serait pas judicieux de traiter le cas des consignes XY avec un rayon sur le point a atteindre.
+	if (consigneTable.getConsignePolaire().getFrein()
+			&& abs(consigneTable.getConsignePolaire().getConsigneDistance()) < fenetreArretDistance
+			&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < fenetreArretOrientation) {
+
+		// Notification que le trajet est atteint.
+		trajetAtteint = true;
+	}
+
+	if (abs(consigneTable.getConsignePolaire().getConsigneDistance()) < asserv.getFenetreApprocheDistance()
+			&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < asserv.getFenetreApprocheOrientation()) {
+
+		// Modification du type de consigne pour la stabilisation
+		consigneTable.setType(CONSIGNE_DIST | CONSIGNE_ANGLE);
+
+		// Notification que le point de passage est atteint, envoi de la position suivante requis
+		if (!consigneTable.getConsignePolaire().getFrein()) {
+			trajetEnApproche = true;
+		}
+	}
 }
 
 /* ------------------------------------------------------------------ */
