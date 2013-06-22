@@ -20,8 +20,8 @@ RobotManager::RobotManager() {
 	trajetEnApproche = false;
 	evittementEnCours = false;
 
-	fenetreArretDistance = Conv.mmToPulse(10);
-	fenetreArretOrientation = Conv.degToPulse(1);
+	fenetreArretDistance = Conv.mmToPulse(1);
+	fenetreArretOrientation = Conv.degToPulse(0.1);
 
 	// Angle de départ pour les déplacement.
 	// Si l'angle est supérieur en absolu, on annule la distance
@@ -88,7 +88,8 @@ void RobotManager::process() {
 			evittementEnCours = true;
 
 		} else if ((*hasObstacle)() && evittementEnCours) {
-			// NOP
+			// TODO : Trajectoire d'évittement. Comme le hasObstacle externalisé
+			// cette gestion au programme principale
 
 		} else if (!(*hasObstacle)() && evittementEnCours) {
 			evittementEnCours = false;
