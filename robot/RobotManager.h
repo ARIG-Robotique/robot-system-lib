@@ -18,7 +18,7 @@
 // Business elements
 #include "system/Odometrie.h"
 #include "system/Asservissement.h"
-#include "system/motors/SD21Motors.h"
+#include "system/motors/AbstractMotors.h"
 #include "system/encoders/ARIGEncodeurs.h"
 
 class RobotManager {
@@ -65,7 +65,7 @@ private:
 	Odometrie odom;
 	ARIGEncodeurs enc;
 	Asservissement asserv;
-	SD21Motors moteurs;
+	AbstractMotors moteurs;
 
 	boolean (*hasObstacle)(void);
 

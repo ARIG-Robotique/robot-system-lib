@@ -7,6 +7,8 @@
 
 #include "RobotManager.h"
 
+#include "system/motors/SD21Motors.h"
+
 RobotManager::RobotManager() {
 	odom = Odometrie();
 	enc = ARIGEncodeurs();
@@ -40,6 +42,8 @@ void RobotManager::init() {
 	resetEncodeurs();
 
 	// Initialisation du contrôle moteurs
+	moteurs.init();
+	moteurs.assignMotors(ASSIGN_MOTOR_1, ASSIGN_MOTOR_2);
 #ifdef DEBUG_MODE
 	moteurs.printVersion();
 #endif
