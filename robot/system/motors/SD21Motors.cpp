@@ -9,9 +9,7 @@
 
 #include <Wire.h>
 
-SD21Motors::SD21Motors() {
-	// TODO : Call super constructor
-
+SD21Motors::SD21Motors() : SD21(), AbstractMotors() {
 	minVal = 1100;
 	maxVal = 1900;
 
