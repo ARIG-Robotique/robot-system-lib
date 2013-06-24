@@ -218,11 +218,11 @@ void MD22::printVersion() {
 		while(Wire.available() < 1);
 		int software = Wire.read();
 
-		Serial.print(" - MD22 [OK] (V : ");
+		Serial.print(" - MD22 DC Motors [OK] (V : ");
 		Serial.print(software);
 		Serial.println(")");
 	} else {
-		Serial.print(" - MD22 [KO] ");
+		Serial.print(" - MD22 DC Motors [KO] ");
 		i2cUtils.printReturnCode(retCode);
 	}
 }

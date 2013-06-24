@@ -45,10 +45,10 @@ void SD21::setPosition(byte servoNb, word position) {
 void SD21::setSpeed(byte servoNb, byte speed) {
 	if (checkServo(servoNb)) {
 #ifdef DEBUG_MODE
-		/*Serial.print("[Servo] ");
+		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
-		Serial.println(speed, DEC);*/
+		Serial.println(speed, DEC);
 #endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
@@ -69,12 +69,12 @@ void SD21::setSpeed(byte servoNb, byte speed) {
 void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 	if (checkServo(servoNb)) {
 #ifdef DEBUG_MODE
-		/*Serial.print("[Servo] ");
+		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
 		Serial.print(speed, DEC);
 		Serial.print(" -> P:");
-		Serial.println(position, DEC);*/
+		Serial.println(position, DEC);
 #endif
 
 		Wire.beginTransmission(SD21_ADD_BOARD);
@@ -90,29 +90,6 @@ void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 #endif
 	}
 }
-
-#ifdef DEBUG_MODE
-/*
- * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
- */
-void SD21::printVersion() {
-	Wire.beginTransmission(SD21_ADD_BOARD);
-	Wire.write(SD21_VERSION_REGISTER);
-	retCode = Wire.endTransmission();
-	if (i2cUtils.isOk(retCode)) {
-		Wire.requestFrom(SD21_ADD_BOARD, 1);
-		while(Wire.available() < 1);
-		int software = Wire.read();
-
-		Serial.print(" - SD21 [OK] (V : ");
-		Serial.print(software);
-		Serial.println(")");
-	} else {
-		Serial.print(" - SD21 [KO] ");
-		i2cUtils.printReturnCode(retCode);
-	}
-}
-#endif
 
 /*
  * Méthode pour le contrôle du numéro du servo
@@ -136,3 +113,26 @@ boolean SD21::checkServo(byte servoNb) {
 char SD21::getBaseRegister(byte servoNb) {
 	return servoNb * 3 - 3;
 }
+
+#ifdef DEBUG_MODE
+/*
+ * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
+ */
+void SD21::printVersion() {
+	Wire.beginTransmission(SD21_ADD_BOARD);
+	Wire.write(SD21_VERSION_REGISTER);
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isOk(retCode)) {
+		Wire.requestFrom(SD21_ADD_BOARD, 1);
+		while(Wire.available() < 1);
+		int software = Wire.read();
+
+		Serial.print(" - SD21 ServoMotors [OK] (V : ");
+		Serial.print(software);
+		Serial.println(")");
+	} else {
+		Serial.print(" - SD21 ServoMotors [KO] ");
+		i2cUtils.printReturnCode(retCode);
+	}
+}
+#endif

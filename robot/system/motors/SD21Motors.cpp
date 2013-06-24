@@ -67,7 +67,7 @@ void SD21Motors::moteur2(int val) {
 /*
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */
-void SD21::printVersion() {
+void SD21Motors::printVersion() {
 	Wire.beginTransmission(SD21_ADD_BOARD);
 	Wire.write(SD21_VERSION_REGISTER);
 	retCode = Wire.endTransmission();

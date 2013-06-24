@@ -19,14 +19,8 @@ public:
 	MD22();
 	MD22(byte mode, byte accel);
 
-	void init();
-
 	void setMode(byte value);
 	void setAccel(byte value);
-
-#ifdef DEBUG_MODE
-	void printVersion();
-#endif
 
 private:
 	#define MD22_ADD_BOARD			0x58
