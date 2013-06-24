@@ -13,18 +13,10 @@
 /*
  * Constucteur
  */
-MD22::MD22() {
-	// TODO : Appeler le super constructeur
-
-	modeValue = DEFAULT_MODE_VALUE;
-	accelValue = DEFAULT_ACCEL_VALUE;
-
-	init(false);
+MD22::MD22() : AbstractMotors(), MD22(DEFAULT_MODE_VALUE, DEFAULT_ACCEL_VALUE) {
 }
 
-MD22::MD22(byte mode, byte accel) {
-	// TODO : Appeler le super constructeur
-
+MD22::MD22(byte mode, byte accel) : AbstractMotors() {
 	modeValue = mode;
 	accelValue = accel;
 

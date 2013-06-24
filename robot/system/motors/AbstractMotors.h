@@ -25,7 +25,6 @@ public:
 	void stop1();
 	void stop2();
 
-
 	void moteur1(int cmd); // A définir dans les classes filles
 	void moteur2(int cmd); // A définir dans les classes filles
 

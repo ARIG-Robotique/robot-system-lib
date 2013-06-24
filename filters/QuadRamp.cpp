@@ -12,18 +12,9 @@
 #include "../robot/vo/ConsignePolaire.h"
 
 /*
- * Constructeur
+ * Constructeur par défaut
  */
-QuadRamp::QuadRamp() {
-	sampleTime = 0;
-	rampAcc = 0;
-	rampDec = 0;
-
-	distanceDecel = 0;
-	ecartPrecedent = 0;
-	vitesseCourante = 0;
-
-	updateStepVitesse();
+QuadRamp::QuadRamp() : QuadRamp(0, 0, 0) {
 }
 
 /*

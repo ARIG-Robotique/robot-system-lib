@@ -9,14 +9,9 @@
 #include "../../utils/Convertion.h"
 
 /*
- * Constructeur
+ * Constructeur par défaut
  */
-Asservissement::Asservissement() {
-	this->sampleTime = 10;
-	setup();
-
-	minFenetreDistance = Conv.mmToPulse(50);
-	minFenetreOrientation = Conv.degToPulse(10);
+Asservissement::Asservissement() : Asservissement(10) {
 }
 
 /*
@@ -25,6 +20,9 @@ Asservissement::Asservissement() {
 Asservissement::Asservissement(byte sampleTime) {
 	this->sampleTime = sampleTime;
 	setup();
+
+	minFenetreDistance = Conv.mmToPulse(50);
+	minFenetreOrientation = Conv.degToPulse(10);
 }
 
 // -------------------------------------------------------------- //
