@@ -21,6 +21,7 @@ public:
 	virtual ~SD21Motors();
 
 	// Implémentation méthode virtuel //
+	virtual void init();
 	virtual void moteur1(int cmd);
 	virtual void moteur2(int cmd);
 

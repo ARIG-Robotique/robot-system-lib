@@ -22,14 +22,6 @@ AbstractMotors::~AbstractMotors() {
 /* *********************************** */
 
 /*
- * Méthode d'initialisation pour la commande moteurs
- */
-void AbstractMotors::init() {
-	// Cette méthode est a surcharger au besoin
-	Serial.println(" * Rien de particulier a initialiser");
-}
-
-/*
  * Méthode pour assigner le numéro du moteur pour la commande gauche / droite
  */
 void AbstractMotors::assignMotors(int numMoteurGauche, int numMoteurDroit) {

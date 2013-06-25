@@ -19,6 +19,15 @@ SD21Motors::SD21Motors() : AbstractMotors(), SD21() {
 	offsetValue = 1500;
 }
 
+SD21Motors::~SD21Motors() {
+}
+
+/*
+ * Initialisation de la commande moteurs
+ */
+void SD21Motors::init() {
+}
+
 /*
  * Envoi des commandes au moteur 1
  */

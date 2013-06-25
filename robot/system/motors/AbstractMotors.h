@@ -31,7 +31,6 @@ public:
 
 	// Méthode "héritable" //
 	// ------------------- //
-	virtual void init();
 	virtual void stop1();
 	virtual void stop2();
 
@@ -41,6 +40,7 @@ public:
 
 	// Méthodes abstraites //
 	// ------------------- //
+	virtual void init() = 0;
 	virtual void moteur1(int cmd) = 0;
 	virtual void moteur2(int cmd) = 0;
 
