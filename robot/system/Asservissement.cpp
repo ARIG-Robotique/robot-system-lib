@@ -11,7 +11,8 @@
 /*
  * Constructeur par défaut
  */
-Asservissement::Asservissement() : Asservissement(10) {
+Asservissement::Asservissement() {
+	Asservissement(10);
 }
 
 /*

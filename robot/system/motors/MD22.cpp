@@ -13,7 +13,8 @@
 /*
  * Constucteur
  */
-MD22::MD22() : AbstractMotors(), MD22(DEFAULT_MODE_VALUE, DEFAULT_ACCEL_VALUE) {
+MD22::MD22() : AbstractMotors() {
+	MD22(DEFAULT_MODE_VALUE, DEFAULT_ACCEL_VALUE);
 }
 
 MD22::MD22(byte mode, byte accel) : AbstractMotors() {

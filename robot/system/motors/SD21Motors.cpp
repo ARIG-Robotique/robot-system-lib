@@ -9,7 +9,7 @@
 
 #include <Wire.h>
 
-SD21Motors::SD21Motors() : SD21(), AbstractMotors() {
+SD21Motors::SD21Motors() : AbstractMotors(), SD21() {
 	minVal = 1100;
 	maxVal = 1900;
 

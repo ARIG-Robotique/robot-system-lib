@@ -14,7 +14,8 @@
 /*
  * Constructeur par défaut
  */
-QuadRamp::QuadRamp() : QuadRamp(0, 0, 0) {
+QuadRamp::QuadRamp() {
+	QuadRamp(0, 0, 0);
 }
 
 /*
@@ -25,8 +26,8 @@ QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
 	this->rampAcc = rampAcc;
 	this->rampDec = rampDec;
 
-	reset();
-	updateStepVitesse();
+	QuadRamp::reset();
+	QuadRamp::updateStepVitesse();
 }
 
 // --------------------------------------------------------- //
