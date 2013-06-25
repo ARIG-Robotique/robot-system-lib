@@ -55,7 +55,7 @@ private:
 
 	byte sampleTime;
 
-	void setup();
+	void setup(byte sampleTime = 10);
 };
 
 #endif /* ASSERVISSEMENT_H_ */

@@ -12,18 +12,14 @@
  * Constructeur par défaut
  */
 Asservissement::Asservissement() {
-	Asservissement(10);
+	setup();
 }
 
 /*
  * Constructeur
  */
 Asservissement::Asservissement(byte sampleTime) {
-	this->sampleTime = sampleTime;
-	setup();
-
-	minFenetreDistance = Conv.mmToPulse(50);
-	minFenetreOrientation = Conv.degToPulse(10);
+	setup(sampleTime);
 }
 
 // -------------------------------------------------------------- //
@@ -34,8 +30,12 @@ Asservissement::Asservissement(byte sampleTime) {
  * Cette méthode initialise l'asservissement.
  * Les valeurs peuvent être modifié par les accesseurs.
  */
-void Asservissement::setup() {
+void Asservissement::setup(byte sampleTime = 10) {
+	minFenetreDistance = Conv.mmToPulse(50);
+	minFenetreOrientation = Conv.degToPulse(10);
+
 	// Variable
+	this->sampleTime = sampleTime;
 	inputDistance = inputOrientation = 0;
 	outputDistance = outputOrientation = 0;
 	setPointDistance = setPointOrientation = 0;

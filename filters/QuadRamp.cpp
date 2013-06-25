@@ -15,7 +15,12 @@
  * Constructeur par défaut
  */
 QuadRamp::QuadRamp() {
-	QuadRamp(0, 0, 0);
+	this->sampleTime = 0.010;
+	this->rampAcc = 100.0;
+	this->rampDec = 100.0;
+
+	QuadRamp::reset();
+	QuadRamp::updateStepVitesse();
 }
 
 /*
