@@ -30,7 +30,7 @@ Asservissement::Asservissement(byte sampleTime) {
  * Cette méthode initialise l'asservissement.
  * Les valeurs peuvent être modifié par les accesseurs.
  */
-void Asservissement::setup(byte sampleTime = 10) {
+void Asservissement::setup(byte sampleTime) {
 	minFenetreDistance = Conv.mmToPulse(50);
 	minFenetreOrientation = Conv.degToPulse(10);
 
