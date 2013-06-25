@@ -17,7 +17,12 @@ public:
 	LMD18200();
 	virtual ~LMD18200();
 
+	void moteur3(int cmd);
+	void moteur4(int cmd);
+
+	// ------------------------------ //
 	// Implémentation méthode virtuel //
+	// ------------------------------ //
 	virtual void moteur1(int cmd);
 	virtual void moteur2(int cmd);
 

@@ -41,6 +41,20 @@ void LMD18200::moteur2(int val) {
 	// TODO : Implémentation de la commande
 }
 
+/*
+ * Envoi des commandes au moteur 3
+ */
+void LMD18200::moteur3(int cmd) {
+	// TODO : Implémentation de la commande
+}
+
+/*
+ * Envoi des commandes au moteur 4
+ */
+void LMD18200::moteur4(int cmd) {
+	// TODO : Implémentation de la commande
+}
+
 #ifdef DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
