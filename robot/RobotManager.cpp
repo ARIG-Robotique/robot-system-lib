@@ -11,9 +11,11 @@
 
 RobotManager::RobotManager() {
 	odom = Odometrie();
-	enc = ARIGEncodeurs();
 	asserv = Asservissement();
-	moteurs = SD21Motors();
+	enc = ARIGEncodeurs();
+
+	moteurs = 0;
+	hasObstacle = 0;
 
 	timePrec = time = 0;
 	trajetAtteint = false;
@@ -42,12 +44,18 @@ void RobotManager::init() {
 	resetEncodeurs();
 
 	// Initialisation du contrôle moteurs
-	moteurs.init();
-	moteurs.assignMotors(ASSIGN_MOTOR_1, ASSIGN_MOTOR_2);
+	moteurs->init();
 #ifdef DEBUG_MODE
-	moteurs.printVersion();
+	moteurs->printVersion();
 #endif
 	stop();
+}
+
+/*
+ * Configuration de l'implémentation de la commande des moteurs de propulsion
+ */
+void RobotManager::setMotorsImpl(AbstractMotors * impl) {
+	moteurs = impl;
 }
 
 /*
@@ -61,7 +69,7 @@ void RobotManager::resetEncodeurs() {
  * Fonction permettant de gérer l'arret des actionneur du manageur
  */
 void RobotManager::stop() {
-	moteurs.stopAll();
+	moteurs->stopAll();
 }
 
 /*
@@ -99,7 +107,7 @@ void RobotManager::process() {
 			asserv.process(enc, consigneTable.getConsignePolaire());
 
 			// 3.4.2. Envoi aux moteurs
-			moteurs.generateMouvement(consigneTable.getConsignePolaire().getCmdGauche(), consigneTable.getConsignePolaire().getCmdDroit());
+			moteurs->generateMouvement(consigneTable.getConsignePolaire().getCmdGauche(), consigneTable.getConsignePolaire().getCmdDroit());
 		}
 
 		// 4. Gestion des flags pour le séquencement du calcul de la position

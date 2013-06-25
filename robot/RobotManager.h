@@ -30,7 +30,6 @@ public:
 	void process();
 	void stop();
 
-
 	void setPosition(double x, double y, double angle);
 	RobotPosition getPosition();
 
@@ -41,6 +40,9 @@ public:
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
 	void setVitesse(word vDistance, word vOrientation);
+
+	// Configuration des implémentations pour le manager
+	void setMotorsImpl(AbstractMotors * impl);
 
 	// Pointeur de fonction pour assurer la detection d'obstacle proche
 	void setHasObstacle(boolean (*hasObstacle)(void));
@@ -63,9 +65,10 @@ public:
 private:
 	RobotConsigne consigneTable;
 	Odometrie odom;
-	ARIGEncodeurs enc;
 	Asservissement asserv;
-	AbstractMotors moteurs;
+
+	AbstractMotors * moteurs;
+	ARIGEncodeurs enc;
 
 	boolean (*hasObstacle)(void);
 
