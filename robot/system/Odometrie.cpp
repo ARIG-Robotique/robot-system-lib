@@ -7,6 +7,8 @@
 
 #include "Odometrie.h"
 
+#include "../../common.h"
+
 /*
  * Constructeur
  */
@@ -29,9 +31,8 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
  *
  * /!\ Cette méthode doit être appelé après la lecture des valeurs codeurs toutes les x ms.
  */
-void Odometrie::calculPosition(ARIGEncodeurs * enc) {
+void Odometrie::calculPosition(AbstractEncodeurs * enc) {
 	// Approximation linéaire
-
 	int newTheta = position.getAngle() + enc->getOrientation();
 	// Ajustement a 2PI près
 	if (newTheta > Conv.get2PiPulse()) {

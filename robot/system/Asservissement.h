@@ -11,7 +11,7 @@
 #include "../../filters/Pid.h"
 #include "../../filters/QuadRamp.h"
 #include "../vo/ConsignePolaire.h"
-#include "encoders/ARIGEncodeurs.h"
+#include "encoders/AbstractEncodeurs.h"
 
 class Asservissement {
 public:
@@ -27,7 +27,7 @@ public:
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
 
-	void process(ARIGEncodeurs & encodeurs, ConsignePolaire & consignePolaire);
+	void process(AbstractEncodeurs * encodeurs, ConsignePolaire & consignePolaire);
 
 	void reset();
 	void reset(boolean resetFilters);

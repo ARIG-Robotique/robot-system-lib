@@ -10,16 +10,16 @@
 
 #include <math.h>
 
-#include "encoders/ARIGEncodeurs.h"
 #include "../vo/RobotPosition.h"
 #include "../../utils/Convertion.h"
+#include "encoders/AbstractEncodeurs.h"
 
 class Odometrie {
 public:
 	Odometrie();
 
 	void initOdometrie(double x, double y, int angle);
-	void calculPosition(ARIGEncodeurs *);
+	void calculPosition(AbstractEncodeurs *);
 	RobotPosition getPosition();
 
 private:

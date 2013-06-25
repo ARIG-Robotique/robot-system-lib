@@ -10,13 +10,16 @@
 #include "system/motors/SD21Motors.h"
 
 RobotManager::RobotManager() {
+	// Définition des paramètres généraux pour le manager
 	odom = Odometrie();
 	asserv = Asservissement();
-	enc = ARIGEncodeurs();
 
+	// Initialisation des pointeurs
+	enc = 0;
 	moteurs = 0;
 	hasObstacle = 0;
 
+	// Initialisation des valeurs par défaut
 	timePrec = time = 0;
 	trajetAtteint = false;
 	trajetEnApproche = false;
@@ -59,10 +62,17 @@ void RobotManager::setMotorsImpl(AbstractMotors * impl) {
 }
 
 /*
+ * Configuration de l'implémentation pour la lecture des valeurs codeurs
+ */
+void RobotManager::setEncodeursImpl(AbstractEncodeurs * impl) {
+	enc = impl;
+}
+
+/*
  * Commande de reset des valeurs codeurs
  */
 void RobotManager::resetEncodeurs() {
-	enc.reset();
+	enc->reset();
 }
 
 /*
@@ -83,8 +93,8 @@ void RobotManager::process() {
 		timePrec = time;
 
 		// 1. Calcul de la position du robot
-		enc.lectureValeurs();
-		odom.calculPosition(&enc);
+		enc->lectureValeurs();
+		odom.calculPosition(enc);
 
 		// 2. Calcul des consignes
 		calculConsigne();
@@ -156,10 +166,10 @@ void RobotManager::calculConsigne() {
 		Serial.print(";DIST_ANGLE");
 		// Calcul par différence vis a vis de la valeur codeur (asservissement de position "basique").
 		if (consigneTable.getType() & CONSIGNE_DIST) {
-			consigneTable.getConsignePolaire().setConsigneDistance(consigneTable.getConsignePolaire().getConsigneDistance() - enc.getDistance());
+			consigneTable.getConsignePolaire().setConsigneDistance(consigneTable.getConsignePolaire().getConsigneDistance() - enc->getDistance());
 		}
 		if (consigneTable.getType() & CONSIGNE_ANGLE) {
-			consigneTable.getConsignePolaire().setConsigneOrientation(consigneTable.getConsignePolaire().getConsigneOrientation() - enc.getOrientation());
+			consigneTable.getConsignePolaire().setConsigneOrientation(consigneTable.getConsignePolaire().getConsigneOrientation() - enc->getOrientation());
 		}
 	}
 

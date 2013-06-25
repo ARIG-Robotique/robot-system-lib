@@ -12,11 +12,11 @@
 /*
  * Constructeur
  */
-ARIGEncodeurs::ARIGEncodeurs() {
-	distance = orientation = 0;
+ARIGEncodeurs::ARIGEncodeurs() : AbstractEncodeurs() {
 	retCode = I2C_ACK;
-	coefGauche = 1.0;
-	coefDroit = 1.0;
+}
+
+ARIGEncodeurs::~ARIGEncodeurs() {
 }
 
 /*
@@ -35,41 +35,17 @@ void ARIGEncodeurs::reset() {
 }
 
 /*
- * Définition des coeficient pour l'ajustement des valeur codeur.
- * Cela permet de compenser le défaut éventuel d'une roue codeuse par rapport a l'autre.
- */
-void ARIGEncodeurs::setCoefs(double coefGauche, double coefDroit) {
-	this->coefGauche = coefGauche;
-	this->coefDroit = coefDroit;
-}
-
-/*
- * Lecture de la valeurs des codeurs.
- * La lecture est alterné afin de ne pas inclure d'erreur du au temps de lecture.
- */
-void ARIGEncodeurs::lectureValeurs() {
-	double gauche = lectureGauche();
-	double droit = lectureDroit();
-	setValeursCodeurs(gauche, droit);
-
-#ifdef DEBUG_MODE
-	Serial.print(gauche);
-	Serial.print(";");Serial.print(droit);
-#endif
-}
-
-/*
  * Lecture de la valeur du codeur de la roue gauche
  */
 double ARIGEncodeurs::lectureGauche() {
-	return lectureData(ADD_CARTE_CODEUR_GAUCHE) * coefGauche;
+	return lectureData(ADD_CARTE_CODEUR_GAUCHE);
 }
 
 /*
  * Lecture de la valeur du codeur de la roue droite
  */
 double ARIGEncodeurs::lectureDroit() {
-	return lectureData(ADD_CARTE_CODEUR_DROIT) * coefDroit;
+	return lectureData(ADD_CARTE_CODEUR_DROIT);
 }
 
 /*
@@ -87,17 +63,4 @@ int ARIGEncodeurs::lectureData(int address) {
 	}
 
 	return value;
-}
-
-double ARIGEncodeurs::getDistance() {
-	return distance;
-}
-
-double ARIGEncodeurs::getOrientation() {
-	return orientation;
-}
-
-void ARIGEncodeurs::setValeursCodeurs(double gauche, double droit) {
-	distance = (droit + gauche) / 2.0;
-	orientation = droit - gauche;
 }

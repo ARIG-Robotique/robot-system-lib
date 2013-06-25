@@ -10,34 +10,33 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "../../../utils/I2CUtils.h"
+#include "AbstractEncodeurs.h"
 #include "../../../common.h"
+#include "../../../utils/I2CUtils.h"
 
-class ARIGEncodeurs {
+class ARIGEncodeurs : public AbstractEncodeurs {
 public:
 	ARIGEncodeurs();
+	virtual ~ARIGEncodeurs();
 
-	void lectureValeurs();
-	double getDistance();
-	double getOrientation();
-	void setCoefs(double coefGauche, double coefDroit);
-
-	void reset();
+	// -------------------------------------- //
+	// Implémentation des méthodes abstraites //
+	// -------------------------------------- //
+	virtual void reset();
 
 protected:
-	double distance, orientation;
+
+	// -------------------------------------- //
+	// Implémentation des méthodes abstraites //
+	// -------------------------------------- //
+	virtual double lectureGauche();
+	virtual double lectureDroit();
 
 private:
-	// Addresses cartes
+	// TODO : Externalisé addresses cartes
 	#define ADD_CARTE_CODEUR_DROIT  0xB0
 	#define ADD_CARTE_CODEUR_GAUCHE 0xB2
 
-	double coefGauche;
-	double coefDroit;
-
-	void setValeursCodeurs(double gauche, double droit);
-	double lectureGauche();
-	double lectureDroit();
 	int lectureData(int address);
 
 	byte retCode;

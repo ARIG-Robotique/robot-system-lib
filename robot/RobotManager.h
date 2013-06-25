@@ -19,7 +19,7 @@
 #include "system/Odometrie.h"
 #include "system/Asservissement.h"
 #include "system/motors/AbstractMotors.h"
-#include "system/encoders/ARIGEncodeurs.h"
+#include "system/encoders/AbstractEncodeurs.h"
 
 class RobotManager {
 public:
@@ -43,6 +43,7 @@ public:
 
 	// Configuration des implémentations pour le manager
 	void setMotorsImpl(AbstractMotors * impl);
+	void setEncodeursImpl(AbstractEncodeurs * impl);
 
 	// Pointeur de fonction pour assurer la detection d'obstacle proche
 	void setHasObstacle(boolean (*hasObstacle)(void));
@@ -68,7 +69,7 @@ private:
 	Asservissement asserv;
 
 	AbstractMotors * moteurs;
-	ARIGEncodeurs enc;
+	AbstractEncodeurs * enc;
 
 	boolean (*hasObstacle)(void);
 

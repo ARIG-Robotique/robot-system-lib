@@ -52,10 +52,10 @@ void Asservissement::setup(byte sampleTime) {
 /*
  * Méthode de processing de l'asservissement polaire.
  */
-void Asservissement::process(ARIGEncodeurs & enc, ConsignePolaire & cp) {
+void Asservissement::process(AbstractEncodeurs * enc, ConsignePolaire & cp) {
 	// Récupération des valeurs réel
-	inputDistance = enc.getDistance();
-	inputOrientation = enc.getOrientation();
+	inputDistance = enc->getDistance();
+	inputOrientation = enc->getOrientation();
 
 	// Application du filtre pour la génération du profil trapézoidale et définition des consignes
 	setPointDistance = filterDistance.filter(cp.getVitesseDistance(), cp.getConsigneDistance(), cp.getFrein());
