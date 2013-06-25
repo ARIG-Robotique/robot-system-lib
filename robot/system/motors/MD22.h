@@ -18,9 +18,21 @@ class MD22: public AbstractMotors {
 public:
 	MD22();
 	MD22(byte mode, byte accel);
+	virtual ~MD22();
 
 	void setMode(byte value);
 	void setAccel(byte value);
+
+	// Implémentation méthode virtuel //
+	virtual void init();
+	virtual void stop1();
+	virtual void stop2();
+	virtual void moteur1(int cmd);
+	virtual void moteur2(int cmd);
+
+#ifdef DEBUG_MODE
+	virtual void printVersion();
+#endif
 
 private:
 	#define MD22_ADD_BOARD			0x58

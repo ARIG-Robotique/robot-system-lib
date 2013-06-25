@@ -24,6 +24,9 @@ MD22::MD22(byte mode, byte accel) : AbstractMotors() {
 	init(false);
 }
 
+MD22::~MD22() {
+}
+
 /*
  * Envoi d'une consigne sur le moteur 1
  */

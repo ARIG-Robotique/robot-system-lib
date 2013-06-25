@@ -14,6 +14,8 @@ AbstractMotors::AbstractMotors() {
 	alternate = false;
 }
 
+AbstractMotors::~AbstractMotors() {
+}
 
 /* *********************************** */
 /* ********* PUBLIC METHODS ********** */

@@ -12,25 +12,37 @@
 
 class AbstractMotors {
 public:
-	AbstractMotors();
+	// Constantes pour la configuration des moteurs
+	#define ASSIGN_UNDEF_MOTOR		0
+	#define ASSIGN_MOTOR_1			1
+	#define ASSIGN_MOTOR_2			2
 
-	void init();
+	AbstractMotors();
+	virtual ~AbstractMotors();
+
 	void assignMotors(int numMoteurGauche, int numMoteurDroit);
 	void generateMouvement(int gauche, int droit);
 	void moteurGauche(int cmd);
 	void moteurDroit(int cmd);
-	void stopAll();
 	void stopGauche();
 	void stopDroit();
-	void stop1();
-	void stop2();
 
-	void moteur1(int cmd); // A définir dans les classes filles
-	void moteur2(int cmd); // A définir dans les classes filles
+	void stopAll();
+
+	// Méthode "héritable" //
+	// ------------------- //
+	virtual void init();
+	virtual void stop1();
+	virtual void stop2();
 
 #ifdef DEBUG_MODE
-	void printVersion(); // A surcharger si besoin dans les classes filles
+	virtual void printVersion();
 #endif
+
+	// Méthodes abstraites //
+	// ------------------- //
+	virtual void moteur1(int cmd) = 0;
+	virtual void moteur2(int cmd) = 0;
 
 protected:
 	int minVal;
@@ -42,11 +54,6 @@ protected:
 	int check(int);
 
 private:
-	// Constantes pour la configuration des moteurs
-	#define ASSIGN_UNDEF_MOTOR		0
-	#define ASSIGN_MOTOR_1			1
-	#define ASSIGN_MOTOR_2			2
-
 	char numMoteurGauche, numMoteurDroit;
 
 	bool alternate;

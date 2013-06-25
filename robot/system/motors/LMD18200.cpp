@@ -7,6 +7,8 @@
 
 #include "LMD18200.h"
 
+#include <Arduino.h>
+
 /*
  * Constructeurs.
  */

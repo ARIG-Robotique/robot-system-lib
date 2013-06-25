@@ -18,6 +18,15 @@
 class SD21Motors: public AbstractMotors, public SD21 {
 public:
 	SD21Motors();
+	virtual ~SD21Motors();
+
+	// Implémentation méthode virtuel //
+	virtual void moteur1(int cmd);
+	virtual void moteur2(int cmd);
+
+#ifdef DEBUG_MODE
+	virtual void printVersion();
+#endif
 
 private:
 	#define MOTOR1_REGISTER			13

@@ -15,6 +15,15 @@
 class LMD18200: public AbstractMotors {
 public:
 	LMD18200();
+	virtual ~LMD18200();
+
+	// Implémentation méthode virtuel //
+	virtual void moteur1(int cmd);
+	virtual void moteur2(int cmd);
+
+#ifdef DEBUG_MODE
+	virtual void printVersion();
+#endif
 };
 
 #endif /* LMD18200_H_ */
