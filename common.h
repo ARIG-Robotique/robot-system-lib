@@ -8,7 +8,7 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
-#define VERSION_LIB	1
+#define VERSION_LIB		1.1
 
 #define DEBUG_MODE
 
