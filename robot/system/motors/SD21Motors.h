@@ -17,7 +17,7 @@
 
 class SD21Motors: public AbstractMotors, public SD21 {
 public:
-	SD21Motors();
+	SD21Motors(byte address);
 	virtual ~SD21Motors();
 
 	// Implémentation méthode virtuel //

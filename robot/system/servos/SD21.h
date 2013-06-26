@@ -15,7 +15,7 @@
 
 class SD21 {
 public:
-	SD21();
+	SD21(byte address);
 
 	void setPosition(byte servoNb, word position);
 	void setSpeed(byte servoNb, byte speed);
@@ -26,15 +26,13 @@ public:
 #endif
 
 protected:
-	#define SD21_ADD_BOARD				0x61
+	#define SD21_VERSION_REGISTER		0x40
 
 	char getBaseRegister(byte servoNb);
+	byte address;
 	byte retCode;
 
 private:
-
-	#define SD21_VERSION_REGISTER		0x40
-
 	boolean checkServo(byte servoNb);
 };
 

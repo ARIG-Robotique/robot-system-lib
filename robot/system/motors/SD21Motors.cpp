@@ -9,7 +9,7 @@
 
 #include <Wire.h>
 
-SD21Motors::SD21Motors() : AbstractMotors(), SD21() {
+SD21Motors::SD21Motors(byte address) : AbstractMotors(), SD21(address) {
 	minVal = 1100;
 	maxVal = 1900;
 
@@ -39,7 +39,7 @@ void SD21Motors::moteur1(int val) {
 	}
 	prevM1 = cmd;
 
-	Wire.beginTransmission(SD21_ADD_BOARD);
+	Wire.beginTransmission(address);
 	Wire.write(getBaseRegister(MOTOR1_REGISTER) + 1);
 	Wire.write(cmd & 0xFF);
 	Wire.write(cmd >> 8);
@@ -61,7 +61,7 @@ void SD21Motors::moteur2(int val) {
 	}
 	prevM2 = cmd;
 
-	Wire.beginTransmission(SD21_ADD_BOARD);
+	Wire.beginTransmission(address);
 	Wire.write(getBaseRegister(MOTOR2_REGISTER) + 1);
 	Wire.write(cmd & 0xFF);
 	Wire.write(cmd >> 8);
@@ -78,11 +78,11 @@ void SD21Motors::moteur2(int val) {
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */
 void SD21Motors::printVersion() {
-	Wire.beginTransmission(SD21_ADD_BOARD);
+	Wire.beginTransmission(address);
 	Wire.write(SD21_VERSION_REGISTER);
 	retCode = Wire.endTransmission();
 	if (i2cUtils.isOk(retCode)) {
-		Wire.requestFrom(SD21_ADD_BOARD, 1);
+		Wire.requestFrom((int) address, 1);
 		while(Wire.available() < 1);
 		int software = Wire.read();
 

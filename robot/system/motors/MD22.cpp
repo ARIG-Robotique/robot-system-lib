@@ -13,16 +13,18 @@
 /*
  * Constucteur
  */
-MD22::MD22() : AbstractMotors() {
+MD22::MD22(byte address) : AbstractMotors() {
 	modeValue = DEFAULT_MODE_VALUE;
 	accelValue = DEFAULT_ACCEL_VALUE;
+	this->address = address;
 
 	init(false);
 }
 
-MD22::MD22(byte mode, byte accel) : AbstractMotors() {
+MD22::MD22(byte address, byte mode, byte accel) : AbstractMotors() {
 	modeValue = mode;
 	accelValue = accel;
+	this->address = address;
 
 	init(false);
 }
@@ -40,7 +42,7 @@ void MD22::moteur1(int val) {
 	}
 	prevM1 = cmd;
 
-	Wire.beginTransmission(MD22_ADD_BOARD);
+	Wire.beginTransmission(address);
 	Wire.write(MOTOR1_REGISTER);
 	Wire.write((char) cmd);
 	retCode = Wire.endTransmission();
@@ -62,7 +64,7 @@ void MD22::moteur2(int val) {
 	}
 	prevM2 = cmd;
 
-	Wire.beginTransmission(MD22_ADD_BOARD);
+	Wire.beginTransmission(address);
 	Wire.write(MOTOR2_REGISTER);
 	Wire.write((char) cmd);
 	retCode = Wire.endTransmission();
@@ -159,7 +161,7 @@ void MD22::setAccel(byte value, boolean transmit) {
 
 	// Set accelleration
 	if (transmit) {
-		Wire.beginTransmission(MD22_ADD_BOARD);
+		Wire.beginTransmission(address);
 		Wire.write(ACCEL_REGISTER);
 		Wire.write(value);
 		retCode = Wire.endTransmission();
@@ -199,7 +201,7 @@ void MD22::setMode(byte value, boolean transmit) {
 
 	// Set mode
 	if (transmit) {
-		Wire.beginTransmission(MD22_ADD_BOARD);
+		Wire.beginTransmission(address);
 		Wire.write(MODE_REGISTER);
 		Wire.write(modeValue);
 		retCode = Wire.endTransmission();
@@ -217,11 +219,11 @@ void MD22::setMode(byte value, boolean transmit) {
  * Cette méthode affiche la version de la carte sur la liaison série
  */
 void MD22::printVersion() {
-	Wire.beginTransmission(MD22_ADD_BOARD);
+	Wire.beginTransmission(address);
 	Wire.write(MD22_VERSION_REGISTER);
 	retCode = Wire.endTransmission();
 	if (i2cUtils.isOk(retCode)) {
-		Wire.requestFrom(MD22_ADD_BOARD, 1);
+		Wire.requestFrom((int) address, 1);
 		while(Wire.available() < 1);
 		int software = Wire.read();
 

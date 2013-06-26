@@ -16,7 +16,7 @@
 
 class ARIGEncodeurs : public AbstractEncodeurs {
 public:
-	ARIGEncodeurs();
+	ARIGEncodeurs(byte addressGauche, byte addressDroit);
 	virtual ~ARIGEncodeurs();
 
 	// -------------------------------------- //
@@ -33,12 +33,10 @@ protected:
 	virtual double lectureDroit();
 
 private:
-	// TODO : Externalisé addresses cartes
-	#define ADD_CARTE_CODEUR_DROIT  0xB0
-	#define ADD_CARTE_CODEUR_GAUCHE 0xB2
-
 	int lectureData(int address);
 
+	byte addressDroit;
+	byte addressGauche;
 	byte retCode;
 };
 

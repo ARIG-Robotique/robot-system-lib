@@ -16,8 +16,8 @@
 class MD22: public AbstractMotors {
 
 public:
-	MD22();
-	MD22(byte mode, byte accel);
+	MD22(byte address);
+	MD22(byte address, byte mode, byte accel);
 	virtual ~MD22();
 
 	void setMode(byte value);
@@ -35,8 +35,6 @@ public:
 #endif
 
 private:
-	#define MD22_ADD_BOARD			0x58
-
 	#define MODE_REGISTER			0x00
 	#define ACCEL_REGISTER			0x03
 	#define MOTOR1_REGISTER			0x01
@@ -58,6 +56,7 @@ private:
 	#define MAX_VAL_MODE_1			127
 
 	byte retCode;
+	byte address;
 	int stopVal;
 	char modeValue;
 	char accelValue;

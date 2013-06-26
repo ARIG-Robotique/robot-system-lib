@@ -12,8 +12,10 @@
 /*
  * Constructeur
  */
-ARIGEncodeurs::ARIGEncodeurs() : AbstractEncodeurs() {
+ARIGEncodeurs::ARIGEncodeurs(byte addressGauche, byte addressDroit) : AbstractEncodeurs() {
 	retCode = I2C_ACK;
+	this->addressGauche = addressGauche;
+	this->addressDroit = addressDroit;
 }
 
 ARIGEncodeurs::~ARIGEncodeurs() {
@@ -38,14 +40,14 @@ void ARIGEncodeurs::reset() {
  * Lecture de la valeur du codeur de la roue gauche
  */
 double ARIGEncodeurs::lectureGauche() {
-	return lectureData(ADD_CARTE_CODEUR_GAUCHE);
+	return lectureData(addressGauche);
 }
 
 /*
  * Lecture de la valeur du codeur de la roue droite
  */
 double ARIGEncodeurs::lectureDroit() {
-	return lectureData(ADD_CARTE_CODEUR_DROIT);
+	return lectureData(addressDroit);
 }
 
 /*
