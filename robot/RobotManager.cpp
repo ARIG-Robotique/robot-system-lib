@@ -7,8 +7,6 @@
 
 #include "RobotManager.h"
 
-#include "system/motors/SD21Motors.h"
-
 RobotManager::RobotManager() {
 	// Définition des paramètres généraux pour le manager
 	odom = Odometrie();
