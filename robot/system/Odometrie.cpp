@@ -33,7 +33,7 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
  */
 void Odometrie::calculPosition(AbstractEncodeurs * enc) {
 	// Approximation linéaire
-	int newTheta = position.getAngle() + enc->getOrientation();
+	double newTheta = position.getAngle() + enc->getOrientation();
 	// Ajustement a 2PI près
 	if (newTheta > Conv.get2PiPulse()) {
 		newTheta = newTheta - Conv.get2PiPulse();
