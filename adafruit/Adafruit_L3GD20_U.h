@@ -17,13 +17,9 @@
 #ifndef __L3GD20_H__
 #define __L3GD20_H__
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include <Arduino.h>
 
-#include <Adafruit_Sensor.h>
+#include "Adafruit_Sensor.h"
 #include <Wire.h>
 
 /*=========================================================================

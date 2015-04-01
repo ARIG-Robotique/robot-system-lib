@@ -15,16 +15,12 @@
 #ifndef __ADAFRUIT_10DOF_H__
 #define __ADAFRUIT_10DOF_H__
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include <Arduino.h>
 
-#include <Adafruit_Sensor.h>
-#include <Adafruit_LSM303_U.h>
-#include <Adafruit_BMP085_U.h>
-#include <Adafruit_L3GD20_U.h>
+#include "Adafruit_Sensor.h"
+#include "Adafruit_LSM303_U.h"
+#include "Adafruit_BMP085_U.h"
+#include "Adafruit_L3GD20_U.h"
 #include <Wire.h>
 
 /** Sensor axis */

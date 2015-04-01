@@ -12,19 +12,17 @@
   Written by Kevin Townsend for Adafruit Industries.  
   BSD license, all text above must be included in any redistribution
  ***************************************************************************/
-#if ARDUINO >= 100
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include <Arduino.h>
 
 #include <Wire.h>
 #include <limits.h>
-#include <Math.h>
+#include <math.h>
 
 #include "Adafruit_10DOF.h"
 
+#ifndef PI
 #define PI  (3.14159265F);
+#endif
 
 /***************************************************************************
  PRIVATE FUNCTIONS
@@ -56,7 +54,7 @@ Adafruit_10DOF::Adafruit_10DOF(void)
 bool Adafruit_10DOF::begin()
 {
   // Enable I2C
-  Wire.begin();
+  //Wire.begin();
 
   return true;
 }
@@ -93,7 +91,6 @@ bool Adafruit_10DOF::accelGetOrientation(sensors_event_t *event, sensors_vec_t *
 
   float t_pitch;
   float t_roll;
-  float t_heading;
   float signOfZ = event->acceleration.z >= 0 ? 1.0F : -1.0F;
 
   /* roll: Rotation around the longitudinal axis (the plane body, 'X axis'). -90<=roll<=90    */
@@ -125,7 +122,7 @@ bool Adafruit_10DOF::accelGetOrientation(sensors_event_t *event, sensors_vec_t *
 /*!
     @brief  Utilize the sensor data from an accelerometer to compensate
             the magnetic sensor measurements when the sensor is tilted
-            (the pitch and roll angles are not equal 0°)
+            (the pitch and roll angles are not equal 0ï¿½)
 
     @param  axis          The given axis (SENSOR_AXIS_X/Y/Z) that is
                           parallel to the gravity of the Earth
@@ -216,7 +213,7 @@ bool Adafruit_10DOF::magTiltCompensation(sensors_axis_t axis, sensors_event_t *m
 /**************************************************************************/
 /*!
     @brief  Populates the .heading fields in the sensors_vec_t
-            struct with the right angular data (0-359°)
+            struct with the right angular data (0-359ï¿½)
 
             Heading increases when measuring clockwise
 
@@ -268,7 +265,7 @@ bool Adafruit_10DOF::magGetOrientation(sensors_axis_t axis, sensors_event_t *eve
       return false;
   }
 
-  /* Normalize to 0-359° */
+  /* Normalize to 0-359ï¿½ */
   if (orientation->heading < 0)
   {
     orientation->heading = 360 + orientation->heading;

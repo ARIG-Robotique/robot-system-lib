@@ -14,11 +14,7 @@
   Written by Kevin "KTOWN" Townsend for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ****************************************************/
-#if ARDUINO >= 100
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include <Arduino.h>
 
 #include <Wire.h>
 #include <limits.h>
@@ -37,13 +33,8 @@
 void Adafruit_L3GD20_Unified::write8(byte reg, byte value)
 {
   Wire.beginTransmission(L3GD20_ADDRESS);
-  #if ARDUINO >= 100
-    Wire.write((uint8_t)reg);
-    Wire.write((uint8_t)value);
-  #else
-    Wire.send(reg);
-    Wire.send(value);
-  #endif
+  Wire.write((uint8_t)reg);
+  Wire.write((uint8_t)value);
   Wire.endTransmission();
 }
 
@@ -57,19 +48,11 @@ byte Adafruit_L3GD20_Unified::read8(byte reg)
   byte value;
 
   Wire.beginTransmission((byte)L3GD20_ADDRESS);
-  #if ARDUINO >= 100
-    Wire.write((uint8_t)reg);
-  #else
-    Wire.send(reg);
-  #endif
+  Wire.write((uint8_t)reg);
   Wire.endTransmission();
   Wire.requestFrom((byte)L3GD20_ADDRESS, (byte)1);
   while (!Wire.available()); // Wait for data to arrive.
-  #if ARDUINO >= 100
-    value = Wire.read();
-  #else
-    value = Wire.receive();
-  #endif  
+  value = Wire.read();
   Wire.endTransmission();
 
   return value;
@@ -101,7 +84,7 @@ Adafruit_L3GD20_Unified::Adafruit_L3GD20_Unified(int32_t sensorID) {
 bool Adafruit_L3GD20_Unified::begin(gyroRange_t rng)
 {
   /* Enable I2C */
-  Wire.begin();
+  //Wire.begin();
 
   /* Set the range the an appropriate value */  
   _range = rng;
@@ -233,32 +216,19 @@ bool Adafruit_L3GD20_Unified::getEvent(sensors_event_t* event)
   
     /* Read 6 bytes from the sensor */
     Wire.beginTransmission((byte)L3GD20_ADDRESS);
-    #if ARDUINO >= 100
-      Wire.write(GYRO_REGISTER_OUT_X_L | 0x80);
-    #else
-      Wire.send(GYRO_REGISTER_OUT_X_L | 0x80);
-    #endif
+    Wire.write(GYRO_REGISTER_OUT_X_L | 0x80);
     Wire.endTransmission();
     Wire.requestFrom((byte)L3GD20_ADDRESS, (byte)6);
 
     /* Wait around until enough data is available */
     while (Wire.available() < 6);
 
-    #if ARDUINO >= 100
-      uint8_t xlo = Wire.read();
-      uint8_t xhi = Wire.read();
-      uint8_t ylo = Wire.read();
-      uint8_t yhi = Wire.read();
-      uint8_t zlo = Wire.read();
-      uint8_t zhi = Wire.read();
-    #else
-      uint8_t xlo = Wire.receive();
-      uint8_t xhi = Wire.receive();
-      uint8_t ylo = Wire.receive();
-      uint8_t yhi = Wire.receive();
-      uint8_t zlo = Wire.receive();
-      uint8_t zhi = Wire.receive();
-    #endif    
+    uint8_t xlo = Wire.read();
+    uint8_t xhi = Wire.read();
+    uint8_t ylo = Wire.read();
+    uint8_t yhi = Wire.read();
+    uint8_t zlo = Wire.read();
+    uint8_t zhi = Wire.read();
   
     /* Shift values to create properly formed integer (low byte first) */
     event->gyro.x = (int16_t)(xlo | (xhi << 8));
