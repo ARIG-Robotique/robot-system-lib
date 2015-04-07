@@ -13,7 +13,6 @@
  * Constructeur
  */
 ARIGEncodeurs::ARIGEncodeurs(byte addressGauche, byte addressDroit) : AbstractEncodeurs() {
-	retCode = I2C_ACK;
 	this->addressGauche = addressGauche;
 	this->addressDroit = addressDroit;
 }

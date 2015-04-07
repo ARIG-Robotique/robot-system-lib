@@ -8,7 +8,7 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
-#define VERSION_LIB		1.1
+#define ROBOT_SYSTEM_LIB_VERSION 	"1.1"
 
 #define DEBUG_MODE
 

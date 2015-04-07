@@ -12,7 +12,6 @@
 #include <Wire.h>
 #include "AbstractEncodeurs.h"
 #include "../../../common.h"
-#include "../../../utils/I2CUtils.h"
 
 class ARIGEncodeurs : public AbstractEncodeurs {
 public:
@@ -37,7 +36,6 @@ private:
 
 	byte addressDroit;
 	byte addressGauche;
-	byte retCode;
 };
 
 #endif /* ARIG_ENCODEURS_H_ */
