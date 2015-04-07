@@ -180,11 +180,11 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
       mosipinmask = digitalPinToBitMask(sid);
       }
     if (hwSPI){
-      SPI.begin ();
+      //SPI.begin ();
 #ifdef __SAM3X8E__
       SPI.setClockDivider (9); // 9.3 MHz
 #else
-      SPI.setClockDivider (SPI_CLOCK_DIV2); // 8 MHz
+      //SPI.setClockDivider (SPI_CLOCK_DIV2); // 8 MHz
 #endif
       }
     }
@@ -541,7 +541,7 @@ void Adafruit_SSD1306::clearDisplay(void) {
 inline void Adafruit_SSD1306::fastSPIwrite(uint8_t d) {
   
   if(hwSPI) {
-    (void)SPI.transfer(d);
+    //(void)SPI.transfer(d);
   } else {
     for(uint8_t bit = 0x80; bit; bit >>= 1) {
       *clkport &= ~clkpinmask;
