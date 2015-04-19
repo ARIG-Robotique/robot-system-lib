@@ -58,3 +58,5 @@ double Pid::compute(double consigne, double mesure) {
 
 	return result;
 }
+
+double Pid::getError() { return errorSum; }
