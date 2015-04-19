@@ -5,20 +5,20 @@
  *      Author: mythril
  */
 
-#include "Asservissement.h"
+#include "AsservissementPolaire.h"
 #include "../../utils/Convertion.h"
 
 /*
  * Constructeur par défaut
  */
-Asservissement::Asservissement() {
+AsservissementPolaire::AsservissementPolaire() {
 	setup();
 }
 
 /*
  * Constructeur
  */
-Asservissement::Asservissement(byte sampleTime) {
+AsservissementPolaire::AsservissementPolaire(byte sampleTime) {
 	setup(sampleTime);
 }
 
@@ -30,9 +30,9 @@ Asservissement::Asservissement(byte sampleTime) {
  * Cette méthode initialise l'asservissement.
  * Les valeurs peuvent être modifié par les accesseurs.
  */
-void Asservissement::setup(byte sampleTime) {
-	minFenetreDistance = Conv.mmToPulse(50);
-	minFenetreOrientation = Conv.degToPulse(10);
+void AsservissementPolaire::setup(byte sampleTime) {
+	minFenetreDistance = Conv.mmToPulse(10);
+	minFenetreOrientation = Conv.degToPulse(5);
 
 	// Variable
 	this->sampleTime = sampleTime;
@@ -52,14 +52,14 @@ void Asservissement::setup(byte sampleTime) {
 /*
  * Méthode de processing de l'asservissement polaire.
  */
-void Asservissement::process(AbstractEncodeurs * enc, ConsignePolaire & cp) {
+void AsservissementPolaire::process(AbstractEncodeurs * enc, ConsignePolaire & cp) {
 	// Récupération des valeurs réel
 	inputDistance = enc->getDistance();
 	inputOrientation = enc->getOrientation();
 
 	// Application du filtre pour la génération du profil trapézoidale et définition des consignes
 	setPointDistance = filterDistance.filter(cp.getVitesseDistance(), cp.getConsigneDistance(), cp.getFrein());
-	setPointOrientation = filterOrientation.filter(cp.getVitesseOrientation(), cp.getConsigneOrientation(), 1); // Toujours le frein pour l'orientation
+	setPointOrientation = filterOrientation.filter(cp.getVitesseOrientation(), cp.getConsigneOrientation(), true);
 
 	// Calcul du filtres PID
 	outputDistance = pidDistance.compute(setPointDistance, inputDistance);
@@ -70,14 +70,14 @@ void Asservissement::process(AbstractEncodeurs * enc, ConsignePolaire & cp) {
 	cp.setCmdGauche((int) (outputDistance - outputOrientation));
 }
 
-void Asservissement::reset() {
+void AsservissementPolaire::reset() {
 	reset(false);
 }
 
 /*
  * Méthode pour effectuer un reset des PID et des filtres QuadRamp
  */
-void Asservissement::reset(boolean resetFilter){
+void AsservissementPolaire::reset(boolean resetFilter){
 	pidDistance.reset();
 	pidOrientation.reset();
 
@@ -90,21 +90,21 @@ void Asservissement::reset(boolean resetFilter){
 /*
  * Méthode permettant de récuperer la zone pour la fenetre en distance
  */
-double Asservissement::getFenetreApprocheDistance() {
+double AsservissementPolaire::getFenetreApprocheDistance() {
 	// Application du théorème de Shannon
 	// En gros l'idée est que la fenêtre varie en fonction de la vitesse afin qu'a pleine bourre on la dépasse pas
 	// et que l'on se mette a faire des tours sur soit même
-	return fmax(minFenetreDistance, 3 * setPointDistance);
+	return minFenetreDistance;
 }
 
 /*
  * Méthode permettant de récuperer la zone pour la fenetre en distance
  */
-double Asservissement::getFenetreApprocheOrientation() {
+double AsservissementPolaire::getFenetreApprocheOrientation() {
 	// Application du théorème de Shannon
 	// En gros l'idée est que la fenêtre varie en fonction de la vitesse afin qu'a pleine bourre on la dépasse pas
 	// et que l'on se mette a faire des tours sur soit même
-	return fmax(minFenetreOrientation, 3 * setPointOrientation);
+	return minFenetreOrientation;
 }
 
 // -------------------------------------------------------------- //
@@ -115,7 +115,7 @@ double Asservissement::getFenetreApprocheOrientation() {
  * Définition du temps en ms pour l'asservissement.
  * Cela permet de déterminer le pas de génération des profils de vitesses
  */
-void Asservissement::setSampleTimeMs(byte sampleTime) {
+void AsservissementPolaire::setSampleTimeMs(byte sampleTime) {
 	this->sampleTime = sampleTime;
 	filterDistance.setSampleTimeMs(sampleTime);
 	filterOrientation.setSampleTimeMs(sampleTime);
@@ -124,36 +124,36 @@ void Asservissement::setSampleTimeMs(byte sampleTime) {
 /*
  * Accesseur pour le temps d'asservissement
  */
-byte Asservissement::getSampleTimeMs() {
+byte AsservissementPolaire::getSampleTimeMs() {
 	return this->sampleTime;
 }
 
 /*
  * Configuration du PID de distance
  */
-void Asservissement::setPIDDistance(double kp, double ki, double kd) {
+void AsservissementPolaire::setPIDDistance(double kp, double ki, double kd) {
 	pidDistance.setTunings(kp, ki, kd);
 }
 
 /*
  * Configuration du PID d'orientation
  */
-void Asservissement::setPIDOrientation(double kp, double ki, double kd) {
+void AsservissementPolaire::setPIDOrientation(double kp, double ki, double kd) {
 	pidOrientation.setTunings(kp, ki, kd);
 }
 
 /*
  * Configuration des rampes d'acceleration
  */
-void Asservissement::setRampAcc(double rampDistance, double rampOrientation) {
+void AsservissementPolaire::setRampAcc(double rampDistance, double rampOrientation) {
 	filterDistance.setRampAcc(rampDistance);
-	filterOrientation.setRampDec(rampOrientation);
+	filterOrientation.setRampAcc(rampOrientation);
 }
 
 /*
  * Configuration des rampes de décéleration
  */
-void Asservissement::setRampDec(double rampDistance, double rampOrientation) {
+void AsservissementPolaire::setRampDec(double rampDistance, double rampOrientation) {
 	filterDistance.setRampDec(rampDistance);
 	filterOrientation.setRampDec(rampOrientation);
 }

@@ -1,22 +1,22 @@
 /*
- * Asservissement.h
+ * AsservissementPolaire.h
  *
  *  Created on: 26 déc. 2012
  *      Author: mythril
  */
 
-#ifndef ASSERVISSEMENT_H_
-#define ASSERVISSEMENT_H_
+#ifndef ASSERVISSEMENT_POLAIRE_H_
+#define ASSERVISSEMENT_POLAIRE_H_
 
 #include "../../filters/Pid.h"
 #include "../../filters/QuadRamp.h"
 #include "../vo/ConsignePolaire.h"
 #include "encoders/AbstractEncodeurs.h"
 
-class Asservissement {
+class AsservissementPolaire {
 public:
-	Asservissement();
-	Asservissement(byte sampleTime);
+	AsservissementPolaire();
+	AsservissementPolaire(byte sampleTime);
 
 	void setSampleTimeMs(byte sampleTime);
 	byte getSampleTimeMs();
@@ -58,4 +58,4 @@ private:
 	void setup(byte sampleTime = 10);
 };
 
-#endif /* ASSERVISSEMENT_H_ */
+#endif /* ASSERVISSEMENT_POLAIRE_H_ */

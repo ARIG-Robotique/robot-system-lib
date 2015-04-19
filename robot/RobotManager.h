@@ -17,8 +17,8 @@
 
 // Business elements
 #include "system/Odometrie.h"
-#include "system/Asservissement.h"
 #include "system/motors/AbstractMotors.h"
+#include "system/AsservissementPolaire.h"
 #include "system/encoders/AbstractEncodeurs.h"
 
 class RobotManager {
@@ -66,7 +66,7 @@ public:
 private:
 	RobotConsigne consigneTable;
 	Odometrie odom;
-	Asservissement asserv;
+	AsservissementPolaire asserv;
 
 	AbstractMotors * moteurs;
 	AbstractEncodeurs * enc;

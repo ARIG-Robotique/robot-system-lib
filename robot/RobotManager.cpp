@@ -10,7 +10,7 @@
 RobotManager::RobotManager() {
 	// Définition des paramètres généraux pour le manager
 	odom = Odometrie();
-	asserv = Asservissement();
+	asserv = AsservissementPolaire();
 
 	// Initialisation des pointeurs
 	enc = 0;
@@ -46,9 +46,6 @@ void RobotManager::init() {
 
 	// Initialisation du contrôle moteurs
 	moteurs->init();
-#ifdef DEBUG_MODE
-	moteurs->printVersion();
-#endif
 	stop();
 }
 
@@ -136,8 +133,11 @@ void RobotManager::process() {
  */
 void RobotManager::calculConsigne() {
 	if (!trajetAtteint && (consigneTable.getType() & CONSIGNE_XY)) {
+#ifdef DEBUG_MODE
 		Serial.print(";XY");
-		// Calcul en fonction de l'odométrie
+#endif
+
+		// Calcul en fonction de l'odométrie
 		double dX = consigneTable.getPosition().getX() - odom.getPosition().getX();
 		double dY = consigneTable.getPosition().getY() - odom.getPosition().getY();
 
@@ -155,13 +155,23 @@ void RobotManager::calculConsigne() {
 		consigneTable.getConsignePolaire().setConsigneDistance(consDist);
 		consigneTable.getConsignePolaire().setConsigneOrientation(consOrient);
 	} else if (!trajetAtteint && (consigneTable.getType() & CONSIGNE_LINE)) {
+#ifdef DEBUG_MODE
+		Serial.print(";LINE");
+#endif
+
 		// Calcul des consigne pour la ligne
 
 	} else if (!trajetAtteint && (consigneTable.getType() & CONSIGNE_CIRCLE)) {
+#ifdef DEBUG_MODE
+		Serial.print(";CIRCLE");
+#endif
+
 		// Calcul des consignes pour le cercle
 
 	} else {
+#ifdef DEBUG_MODE
 		Serial.print(";DIST_ANGLE");
+#endif
 		// Calcul par différence vis a vis de la valeur codeur (asservissement de position "basique").
 		if (consigneTable.getType() & CONSIGNE_DIST) {
 			consigneTable.getConsignePolaire().setConsigneDistance(consigneTable.getConsignePolaire().getConsigneDistance() - enc->getDistance());
@@ -202,7 +212,7 @@ double RobotManager::calculDistanceConsigne(double dX, double dY) {
 }
 
 /*
- * Méthode permettant de positionné les flags de trajet en fonction des type de consigne
+ * Méthode permettant de positionner les flags de trajet en fonction des types de consigne
  */
 void RobotManager::gestionFlags() {
 	// TODO : Voir si il ne serait pas judicieux de traiter le cas des consignes XY avec un rayon sur le point a atteindre.
@@ -214,13 +224,15 @@ void RobotManager::gestionFlags() {
 		trajetAtteint = true;
 	}
 
+	// Détermination de la présence du robot dans le voisinage du point a atteindre.
+	// Information utile uniquement lors de l'enchainement des points.
 	if (abs(consigneTable.getConsignePolaire().getConsigneDistance()) < asserv.getFenetreApprocheDistance()
 			&& abs(consigneTable.getConsignePolaire().getConsigneOrientation()) < asserv.getFenetreApprocheOrientation()) {
 
 		// Modification du type de consigne pour la stabilisation
+		// Lorsque l'on est dans le voisinage du point d'arrivé
 		consigneTable.setType(CONSIGNE_DIST | CONSIGNE_ANGLE);
 
-		// Notification que le point de passage est atteint, envoi de la position suivante requis
 		if (!consigneTable.getConsignePolaire().getFrein()) {
 			trajetEnApproche = true;
 		}
