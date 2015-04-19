@@ -17,8 +17,8 @@
 
 // Business elements
 #include "system/Odometrie.h"
-#include "system/motors/AbstractMotors.h"
 #include "system/AsservissementPolaire.h"
+#include "system/motors/AbstractPropulsionMotors.h"
 #include "system/encoders/AbstractEncodeurs.h"
 
 class RobotManager {
@@ -42,7 +42,7 @@ public:
 	void setVitesse(word vDistance, word vOrientation);
 
 	// Configuration des implémentations pour le manager
-	void setMotorsImpl(AbstractMotors * impl);
+	void setMotorsImpl(AbstractPropulsionMotors * impl);
 	void setEncodeursImpl(AbstractEncodeurs * impl);
 
 	// Pointeur de fonction pour assurer la detection d'obstacle proche
@@ -68,7 +68,7 @@ private:
 	Odometrie odom;
 	AsservissementPolaire asserv;
 
-	AbstractMotors * moteurs;
+	AbstractPropulsionMotors * moteurs;
 	AbstractEncodeurs * enc;
 
 	boolean (*hasObstacle)(void);

@@ -9,11 +9,11 @@
 #define MD22_H_
 
 #include <Arduino.h>
-#include "AbstractMotors.h"
+#include "AbstractPropulsionMotors.h"
 #include "../../../common.h"
 #include "../../../utils/I2CUtils.h"
 
-class MD22: public AbstractMotors {
+class MD22: public AbstractPropulsionMotors {
 
 public:
 	MD22(byte address);

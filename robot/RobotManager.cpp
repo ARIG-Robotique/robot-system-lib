@@ -52,7 +52,7 @@ void RobotManager::init() {
 /*
  * Configuration de l'implémentation de la commande des moteurs de propulsion
  */
-void RobotManager::setMotorsImpl(AbstractMotors * impl) {
+void RobotManager::setMotorsImpl(AbstractPropulsionMotors * impl) {
 	moteurs = impl;
 }
 

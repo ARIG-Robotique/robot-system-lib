@@ -5,16 +5,16 @@
  *      Author: mythril
  */
 
-#include "AbstractMotors.h"
+#include "AbstractPropulsionMotors.h"
 
 #include <Arduino.h>
 
-AbstractMotors::AbstractMotors() {
+AbstractPropulsionMotors::AbstractPropulsionMotors() {
 	assignMotors(ASSIGN_UNDEF_MOTOR, ASSIGN_UNDEF_MOTOR);
 	alternate = false;
 }
 
-AbstractMotors::~AbstractMotors() {
+AbstractPropulsionMotors::~AbstractPropulsionMotors() {
 }
 
 /* *********************************** */
@@ -24,7 +24,7 @@ AbstractMotors::~AbstractMotors() {
 /*
  * Méthode pour assigner le numéro du moteur pour la commande gauche / droite
  */
-void AbstractMotors::assignMotors(int numMoteurGauche, int numMoteurDroit) {
+void AbstractPropulsionMotors::assignMotors(int numMoteurGauche, int numMoteurDroit) {
 	this->numMoteurGauche = numMoteurGauche;
 	this->numMoteurDroit = numMoteurDroit;
 }
@@ -32,7 +32,7 @@ void AbstractMotors::assignMotors(int numMoteurGauche, int numMoteurDroit) {
 /*
  * Méthode de génération groupé de la commande droite / gauche
  */
-void AbstractMotors::generateMouvement(int gauche, int droit) {
+void AbstractPropulsionMotors::generateMouvement(int gauche, int droit) {
 	alternate = !alternate;
 	if (alternate) {
 		moteurGauche(gauche);
@@ -46,7 +46,7 @@ void AbstractMotors::generateMouvement(int gauche, int droit) {
 /*
  * Méthode de commande du moteur gauche (doit être assigné)
  */
-void AbstractMotors::moteurGauche(int cmd) {
+void AbstractPropulsionMotors::moteurGauche(int cmd) {
 	if (numMoteurGauche == ASSIGN_MOTOR_1) {
 		moteur1(cmd);
 	} else if (numMoteurGauche == ASSIGN_MOTOR_2) {
@@ -57,7 +57,7 @@ void AbstractMotors::moteurGauche(int cmd) {
 /*
  *  Méthode de commande du moteur droit (doit être assigné)
  */
-void AbstractMotors::moteurDroit(int cmd) {
+void AbstractPropulsionMotors::moteurDroit(int cmd) {
 	if (numMoteurDroit == ASSIGN_MOTOR_1) {
 		moteur1(cmd);
 	} else if (numMoteurDroit == ASSIGN_MOTOR_2) {
@@ -68,7 +68,7 @@ void AbstractMotors::moteurDroit(int cmd) {
 /*
  * Méthode pour commander l'arret des moteurs configuré
  */
-void AbstractMotors::stopAll() {
+void AbstractPropulsionMotors::stopAll() {
 	stop1();
 	stop2();
 }
@@ -76,7 +76,7 @@ void AbstractMotors::stopAll() {
 /*
  * Méthode d'arrêt du moteur gauche (doit être assigné)
  */
-void AbstractMotors::stopGauche() {
+void AbstractPropulsionMotors::stopGauche() {
 	if (numMoteurGauche == ASSIGN_MOTOR_1) {
 		stop1();
 	} else if (numMoteurGauche == ASSIGN_MOTOR_2) {
@@ -87,7 +87,7 @@ void AbstractMotors::stopGauche() {
 /*
  * Méthode d'arret du moteur droit (doit être assigné)
  */
-void AbstractMotors::stopDroit() {
+void AbstractPropulsionMotors::stopDroit() {
 	if (numMoteurDroit == ASSIGN_MOTOR_1) {
 		stop1();
 	} else if (numMoteurDroit == ASSIGN_MOTOR_2) {
@@ -98,21 +98,21 @@ void AbstractMotors::stopDroit() {
 /*
  * Méthode d'arrêt du moteur 1
  */
-void AbstractMotors::stop1() {
+void AbstractPropulsionMotors::stop1() {
 	moteur1(0);
 }
 
 /*
  * Méthode d'arrêt du moteur 2
  */
-void AbstractMotors::stop2() {
+void AbstractPropulsionMotors::stop2() {
 	moteur2(0);
 }
 
 /*
  * Méthode de contrôle du bornage des commandes moteurs
  */
-int AbstractMotors::check(int val) {
+int AbstractPropulsionMotors::check(int val) {
 	if (val < minVal) {
 		val = minVal;
 	}
@@ -127,7 +127,7 @@ int AbstractMotors::check(int val) {
 /*
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */
-void AbstractMotors::printVersion() {
+void AbstractPropulsionMotors::printVersion() {
 	Serial.println(" - AbstractMotor [OK] (V : UNKOWN)");
 }
 #endif

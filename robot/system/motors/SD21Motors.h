@@ -10,12 +10,12 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "AbstractMotors.h"
+#include "AbstractPropulsionMotors.h"
 #include "../servos/SD21.h"
 #include "../../../common.h"
 #include "../../../utils/I2CUtils.h"
 
-class SD21Motors: public AbstractMotors, public SD21 {
+class SD21Motors: public AbstractPropulsionMotors, public SD21 {
 public:
 	SD21Motors(byte address);
 	virtual ~SD21Motors();

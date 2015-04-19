@@ -13,7 +13,7 @@
 /*
  * Constucteur
  */
-MD22::MD22(byte address) : AbstractMotors() {
+MD22::MD22(byte address) : AbstractPropulsionMotors() {
 	modeValue = DEFAULT_MODE_VALUE;
 	accelValue = DEFAULT_ACCEL_VALUE;
 	this->address = address;
@@ -21,7 +21,7 @@ MD22::MD22(byte address) : AbstractMotors() {
 	init(false);
 }
 
-MD22::MD22(byte address, byte mode, byte accel) : AbstractMotors() {
+MD22::MD22(byte address, byte mode, byte accel) : AbstractPropulsionMotors() {
 	modeValue = mode;
 	accelValue = accel;
 	this->address = address;

@@ -9,7 +9,7 @@
 
 #include <Wire.h>
 
-SD21Motors::SD21Motors(byte address) : AbstractMotors(), SD21(address) {
+SD21Motors::SD21Motors(byte address) : AbstractPropulsionMotors(), SD21(address) {
 	minVal = 1100;
 	maxVal = 1900;
 

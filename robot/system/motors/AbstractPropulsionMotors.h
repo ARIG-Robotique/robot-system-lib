@@ -5,20 +5,20 @@
  *      Author: mythril
  */
 
-#ifndef ABSTRACTMOTORS_H_
-#define ABSTRACTMOTORS_H_
+#ifndef ABSTRACT_PROPULSION_MOTORS_H_
+#define ABSTRACT_PROPULSION_MOTORS_H_
 
 #include "../../../common.h"
 
-class AbstractMotors {
+class AbstractPropulsionMotors {
 public:
 	// Constantes pour la configuration des moteurs
 	#define ASSIGN_UNDEF_MOTOR		0
 	#define ASSIGN_MOTOR_1			1
 	#define ASSIGN_MOTOR_2			2
 
-	AbstractMotors();
-	virtual ~AbstractMotors();
+	AbstractPropulsionMotors();
+	virtual ~AbstractPropulsionMotors();
 
 	void assignMotors(int numMoteurGauche, int numMoteurDroit);
 	void generateMouvement(int gauche, int droit);
@@ -59,4 +59,4 @@ private:
 	bool alternate;
 };
 
-#endif /* ABSTRACTMOTORS_H_ */
+#endif /* ABSTRACT_PROPULSION_MOTORS_H_ */
