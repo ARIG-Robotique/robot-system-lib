@@ -28,8 +28,8 @@ int BoardI2CADC::readCapteurValue(byte capteurId) {
 	byte reg = (sdMode << 7) + (CH_ADD[capteurId] << 4) + (powerDownMode << 2);
 
 	Wire.beginTransmission(address);
-	Wire.write(reg);        // Configure the device to read each CH
-	Wire.endTransmission();
+	Wire.write(reg);
+	Wire.endTransmission();;
 	delay(1);
 
 	// Read A/D value
