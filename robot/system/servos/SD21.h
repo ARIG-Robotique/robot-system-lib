@@ -21,7 +21,7 @@ public:
 	void setSpeed(byte servoNb, byte speed);
 	void setPositionAndSpeed(byte servoNb, byte speed, word position);
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	void printVersion();
 #endif
 

@@ -10,6 +10,6 @@
 
 #define ROBOT_SYSTEM_LIB_VERSION 	"1.1"
 
-#define DEBUG_MODE
+//#define LIB_DEBUG_MODE
 
 #endif /* COMMON_H_ */

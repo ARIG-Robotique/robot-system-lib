@@ -36,7 +36,7 @@ void AbstractEncodeurs::lectureValeurs() {
 	double droit = lectureDroit() * coefDroit;
 	setValeursCodeurs(gauche, droit);
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	Serial.print(gauche);
 	Serial.print(";");Serial.print(droit);
 #endif

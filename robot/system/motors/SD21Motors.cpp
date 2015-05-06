@@ -44,7 +44,7 @@ void SD21Motors::moteur1(int val) {
 	Wire.write(cmd & 0xFF);
 	Wire.write(cmd >> 8);
 	retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
 		i2cUtils.printReturnCode(retCode);
 	}
@@ -66,14 +66,14 @@ void SD21Motors::moteur2(int val) {
 	Wire.write(cmd & 0xFF);
 	Wire.write(cmd >> 8);
 	retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
 }
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */

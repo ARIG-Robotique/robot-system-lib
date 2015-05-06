@@ -20,7 +20,7 @@ SD21::SD21(byte address) {
  */
 void SD21::setPosition(byte servoNb, word position) {
 	if (checkServo(servoNb)) {
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> P:");
@@ -32,7 +32,7 @@ void SD21::setPosition(byte servoNb, word position) {
 		Wire.write(position & 0xFF);
 		Wire.write(position >> 8);
 		retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			i2cUtils.printReturnCode(retCode);
 		}
@@ -45,7 +45,7 @@ void SD21::setPosition(byte servoNb, word position) {
  */
 void SD21::setSpeed(byte servoNb, byte speed) {
 	if (checkServo(servoNb)) {
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
@@ -56,7 +56,7 @@ void SD21::setSpeed(byte servoNb, byte speed) {
 		Wire.write(getBaseRegister(servoNb));
 		Wire.write(speed);
 		retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			i2cUtils.printReturnCode(retCode);
 		}
@@ -69,7 +69,7 @@ void SD21::setSpeed(byte servoNb, byte speed) {
  */
 void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 	if (checkServo(servoNb)) {
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		Serial.print("[Servo] ");
 		Serial.print(servoNb);
 		Serial.print(" -> S:");
@@ -84,7 +84,7 @@ void SD21::setPositionAndSpeed(byte servoNb, byte speed, word position) {
 		Wire.write(position & 0xFF);
 		Wire.write(position >> 8);
 		retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			i2cUtils.printReturnCode(retCode);
 		}
@@ -115,7 +115,7 @@ char SD21::getBaseRegister(byte servoNb) {
 	return servoNb * 3 - 3;
 }
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */

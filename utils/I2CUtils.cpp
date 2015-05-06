@@ -13,7 +13,7 @@ I2CUtils::I2CUtils() {
 }
 
 byte I2CUtils::scan() {
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	Serial.println(" * I2C Scanning...");
 #endif
 	byte nDevices = 0;
@@ -23,7 +23,7 @@ byte I2CUtils::scan() {
 		Wire.beginTransmission(address);
 		byte retCode = Wire.endTransmission();
 		if (this->isOk(retCode)) {
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 			Serial.print("    -> Device found at address 0x");
 			if (address < 16)
 				Serial.print("0");
@@ -32,7 +32,7 @@ byte I2CUtils::scan() {
 #endif
 			nDevices++;
 		} else if (retCode == I2C_OTHER_ERROR) {
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 			Serial.print("    -> Unknow error at address 0x");
 			if (address < 16)
 				Serial.print("0");
@@ -51,7 +51,7 @@ void I2CUtils::fastSpeed(boolean fast) {
 		TWBR = ((F_CPU / 400000) - 16) / 2;
 	}
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	Serial.print(" * Speed I2C (0 = 100, 1 = 400) : ");
 	Serial.println(fast, DEC);
 #endif
@@ -61,7 +61,7 @@ void I2CUtils::pullup(boolean activate) {
 	// NOT YET IMPLEMENTED
 }
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 /*
  * Fonction permettant d'afficher le résultat d'une commande I2C
  */

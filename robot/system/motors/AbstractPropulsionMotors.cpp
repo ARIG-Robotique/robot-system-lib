@@ -123,7 +123,7 @@ int AbstractPropulsionMotors::check(int val) {
 	return val;
 }
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
  */

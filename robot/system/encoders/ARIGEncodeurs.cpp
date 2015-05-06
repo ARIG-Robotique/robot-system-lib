@@ -24,12 +24,12 @@ ARIGEncodeurs::~ARIGEncodeurs() {
  * Reset des valeurs codeurs
  */
 void ARIGEncodeurs::reset() {
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	Serial.println(" * Reset carte codeur droit");
 #endif
 	lectureDroit();
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	Serial.println(" * Reset carte codeur gauche");
 #endif
 	lectureGauche();
