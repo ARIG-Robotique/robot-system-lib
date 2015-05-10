@@ -40,11 +40,13 @@ void Odometrie::calculPosition(AbstractEncodeurs * enc) {
 	} else if (newTheta < -Conv.get2PiPulse()) {
 		newTheta = newTheta + Conv.get2PiPulse();
 	}
-	position.setAngle(newTheta); // En pulse
 
-	long double thetaRad = Conv.pulseToRad(position.getAngle());
+	long double thetaRad = Conv.pulseToRad(newTheta);
 	double dX = enc->getDistance() * cos(thetaRad);
 	double dY = enc->getDistance() * sin(thetaRad);
+
+	// Sauvegarde nouvelle position
+	position.setAngle(newTheta); // En pulse
 	position.setX(position.getX() + dX);
 	position.setY(position.getY() + dY);
 
