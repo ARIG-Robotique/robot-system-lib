@@ -24,13 +24,13 @@ RobotManager::RobotManager() {
 	evittementEnCours = false;
 
 	fenetreArretDistance = Conv.mmToPulse(1);
-	fenetreArretOrientation = Conv.degToPulse(0.1);
+	fenetreArretOrientation = Conv.degToPulse(1);
 
 	// Angle de départ pour les déplacement.
 	// Si l'angle est supérieur en absolu, on annule la distance
 	// afin de naviguer en priorité en marche avant.
 	// TODO : Externalisé le coëficient de départ
-	startAngle = 0.55 * Conv.getPiPulse();
+	startAngle = 0.45 * Conv.getPiPulse();
 }
 
 /* ------------------------------------------------------------------ */
