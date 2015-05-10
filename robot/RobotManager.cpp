@@ -194,14 +194,20 @@ double RobotManager::calculAngleConsigne(double dX, double dY) {
 	double alpha = Conv.radToPulse(atan2(Conv.pulseToRad(dY), Conv.pulseToRad(dX)));
 
 	// Ajustement a PI
-	double consigneOrientation = alpha - odom.getPosition().getAngle();
-	if (consigneOrientation > Conv.getPiPulse()) {
-		consigneOrientation = consigneOrientation - Conv.get2PiPulse();
-	} else if (consigneOrientation < -Conv.getPiPulse()) {
-		consigneOrientation = consigneOrientation + Conv.get2PiPulse();
+	return ajusteAngle(alpha - odom.getPosition().getAngle());
+}
+
+/**
+ * Ajustement de l'angle [ -pi ; pi ]
+ */
+double RobotManager::ajusteAngle(double angle) {
+	if (angle > Conv.getPiPulse()) {
+		angle = angle - Conv.get2PiPulse();
+	} else if (angle < -Conv.getPiPulse()) {
+		angle = angle + Conv.get2PiPulse();
 	}
 
-	return consigneOrientation;
+	return angle;
 }
 
 /*
@@ -403,7 +409,7 @@ void RobotManager::reculeMM(double distance) {
 void RobotManager::tourneDeg(double angle) {
 	consigneTable.setType(CONSIGNE_DIST | CONSIGNE_ANGLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(0);
-	consigneTable.getConsignePolaire().setConsigneOrientation(Conv.degToPulse(angle));
+	consigneTable.getConsignePolaire().setConsigneOrientation(ajusteAngle(Conv.degToPulse(angle)));
 	consigneTable.enableFrein();
 
 	prepareNextMouvement();

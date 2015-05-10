@@ -89,6 +89,7 @@ private:
 	void gestionFlags();
 	double calculAngleConsigne(double dX, double dY);
 	double calculDistanceConsigne(double dX, double dY);
+	double ajusteAngle(double angle);
 
 	void prepareNextMouvement();
 };
