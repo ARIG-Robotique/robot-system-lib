@@ -40,11 +40,11 @@ int BoardI2CADC::readCapteurValue(byte capteurId) {
 	}
 	int result = (MSB << 8) + LSB;
 
-#ifdef LIB_DEBUG_MODE
+/*#ifdef LIB_DEBUG_MODE
 	Serial.print("Lecture analogique capt. ");Serial.print(capteurId);
 	Serial.print(" (Ox");Serial.print(reg , HEX);Serial.print(") = ");
 	Serial.println(result, DEC);
-#endif
+#endif*/
 
 	return result;
 }

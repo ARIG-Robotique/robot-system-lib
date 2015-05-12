@@ -31,8 +31,8 @@ AsservissementPolaire::AsservissementPolaire(byte sampleTime) {
  * Les valeurs peuvent être modifié par les accesseurs.
  */
 void AsservissementPolaire::setup(byte sampleTime) {
-	minFenetreDistance = Conv.mmToPulse(10);
-	minFenetreOrientation = Conv.degToPulse(5);
+	minFenetreDistance = Conv.mmToPulse(50);
+	minFenetreOrientation = Conv.degToPulse(10);
 
 	// Variable
 	this->sampleTime = sampleTime;
@@ -94,7 +94,7 @@ double AsservissementPolaire::getFenetreApprocheDistance() {
 	// Application du théorème de Shannon
 	// En gros l'idée est que la fenêtre varie en fonction de la vitesse afin qu'a pleine bourre on la dépasse pas
 	// et que l'on se mette a faire des tours sur soit même
-	return minFenetreDistance;
+	return fmax(minFenetreDistance, 3 * setPointDistance);
 }
 
 /*
@@ -104,7 +104,7 @@ double AsservissementPolaire::getFenetreApprocheOrientation() {
 	// Application du théorème de Shannon
 	// En gros l'idée est que la fenêtre varie en fonction de la vitesse afin qu'a pleine bourre on la dépasse pas
 	// et que l'on se mette a faire des tours sur soit même
-	return minFenetreOrientation;
+	return fmax(minFenetreOrientation, 3 * setPointOrientation);
 }
 
 // -------------------------------------------------------------- //

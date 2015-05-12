@@ -409,7 +409,7 @@ void RobotManager::reculeMM(double distance) {
 void RobotManager::tourneDeg(double angle) {
 	consigneTable.setType(CONSIGNE_DIST | CONSIGNE_ANGLE);
 	consigneTable.getConsignePolaire().setConsigneDistance(0);
-	consigneTable.getConsignePolaire().setConsigneOrientation(ajusteAngle(Conv.degToPulse(angle)));
+	consigneTable.getConsignePolaire().setConsigneOrientation(Conv.degToPulse(angle));
 	consigneTable.enableFrein();
 
 	prepareNextMouvement();
