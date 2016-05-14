@@ -22,9 +22,6 @@ print_programmer_list()
 # Ajout des libs Arduino
 link_directories(${ARDUINO_SDK_PATH}/libraries)
 
-# Ajout des libs Adafruit
-link_directories(../../external/adafruit)
-
 # La lib Wire contient des sources dans des sous répertoires.
 set(Wire_RECURSE True)
 
