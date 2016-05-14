@@ -12,7 +12,7 @@
 
 #include <Arduino.h>
 #include "../../../common.h"
-#include "CapteurDefine.h"
+#include "Board2007Define.h"
 
 class Board2007NoMux {
 public:

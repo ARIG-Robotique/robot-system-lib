@@ -1,22 +1,22 @@
 /*
- * Asservissement.h
+ * AsservissementPolaire.h
  *
  *  Created on: 26 déc. 2012
  *      Author: mythril
  */
 
-#ifndef ASSERVISSEMENT_H_
-#define ASSERVISSEMENT_H_
+#ifndef ASSERVISSEMENT_POLAIRE_H_
+#define ASSERVISSEMENT_POLAIRE_H_
 
 #include "../../filters/Pid.h"
 #include "../../filters/QuadRamp.h"
 #include "../vo/ConsignePolaire.h"
-#include "Encodeurs.h"
+#include "encoders/AbstractEncodeurs.h"
 
-class Asservissement {
+class AsservissementPolaire {
 public:
-	Asservissement();
-	Asservissement(byte sampleTime);
+	AsservissementPolaire();
+	AsservissementPolaire(byte sampleTime);
 
 	void setSampleTimeMs(byte sampleTime);
 	byte getSampleTimeMs();
@@ -27,9 +27,13 @@ public:
 	void setRampAcc(double rampDistance, double rampOrientation);
 	void setRampDec(double rampDistance, double rampOrientation);
 
-	void process(Encodeurs & encodeurs, ConsignePolaire & consignePolaire);
+	void process(AbstractEncodeurs * encodeurs, ConsignePolaire & consignePolaire);
 
 	void reset();
+	void reset(boolean resetFilters);
+
+	double getFenetreApprocheDistance();
+	double getFenetreApprocheOrientation();
 
 private:
 	Pid pidOrientation;
@@ -46,9 +50,12 @@ private:
 	double outputDistance;
 	double outputOrientation;
 
+	double minFenetreDistance;
+	double minFenetreOrientation;
+
 	byte sampleTime;
 
-	void setup();
+	void setup(byte sampleTime = 10);
 };
 
-#endif /* ASSERVISSEMENT_H_ */
+#endif /* ASSERVISSEMENT_POLAIRE_H_ */

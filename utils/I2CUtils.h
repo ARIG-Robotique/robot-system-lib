@@ -9,8 +9,9 @@
 #define I2CUTILS_H_
 
 #include <Arduino.h>
+#include <Wire.h>
 
-#include "../../common.h"
+#include "../common.h"
 
 #define I2C_ACK					0
 #define I2C_DATA_TOO_LONG		1
@@ -18,14 +19,22 @@
 #define I2C_NACK_BAD_DATA		3
 #define I2C_OTHER_ERROR			4
 
+#define cbi(sfr, bit)   (_SFR_BYTE(sfr) &= ~_BV(bit))
+#define sbi(sfr, bit)   (_SFR_BYTE(sfr) |= _BV(bit))
+
 class I2CUtils {
 public:
 	I2CUtils();
 
+	byte scan();
+
+	void fastSpeed(boolean fast);
+	void pullup(boolean activate);
+
 	boolean isError(byte code);
 	boolean isOk(byte code);
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	void printReturnCode(byte code);
 #endif
 };

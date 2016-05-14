@@ -7,86 +7,91 @@
 
 #include "SD21Motors.h"
 
-SD21Motors::SD21Motors() {
- minVal = 1100;
- stopVal = 1500;
- maxVal = 1900;
+#include <Wire.h>
 
- prevGauche = 1500;
- prevDroit = 1500;
+SD21Motors::SD21Motors(byte address) : AbstractPropulsionMotors(), SD21(address) {
+	minVal = 1100;
+	maxVal = 1900;
 
- alternate = false;
+	prevM1 = 1500;
+	prevM2 = 1500;
+
+	offsetValue = 1500;
 }
 
-void SD21Motors::generateMouvement(int gauche, int droit) {
-	alternate = !alternate;
-	if (alternate) {
-		moteurGauche(gauche);
-		moteurDroit(droit);
+SD21Motors::~SD21Motors() {
+}
+
+/*
+ * Initialisation de la commande moteurs
+ */
+void SD21Motors::init() {
+	stopAll();
+}
+
+/*
+ * Envoi des commandes au moteur 1
+ */
+void SD21Motors::moteur1(int val) {
+	int cmd = check(val + offsetValue);
+	if (cmd == prevM1) {
+		return;
+	}
+	prevM1 = cmd;
+
+	Wire.beginTransmission(address);
+	Wire.write(getBaseRegister(MOTOR1_REGISTER) + 1);
+	Wire.write(cmd & 0xFF);
+	Wire.write(cmd >> 8);
+	retCode = Wire.endTransmission();
+#ifdef LIB_DEBUG_MODE
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
+#endif
+}
+
+/*
+ * Envoi des commandes au moteur 2
+ */
+void SD21Motors::moteur2(int val) {
+	int cmd = check(val + offsetValue);
+	if (cmd == prevM2) {
+		return;
+	}
+	prevM2 = cmd;
+
+	Wire.beginTransmission(address);
+	Wire.write(getBaseRegister(MOTOR2_REGISTER) + 1);
+	Wire.write(cmd & 0xFF);
+	Wire.write(cmd >> 8);
+	retCode = Wire.endTransmission();
+#ifdef LIB_DEBUG_MODE
+	if (i2cUtils.isError(retCode)) {
+		i2cUtils.printReturnCode(retCode);
+	}
+#endif
+}
+
+#ifdef LIB_DEBUG_MODE
+/*
+ * Cette méthode affiche la version de la carte sur la liaison serie en mode debug
+ */
+void SD21Motors::printVersion() {
+	Wire.beginTransmission(address);
+	Wire.write(SD21_VERSION_REGISTER);
+	retCode = Wire.endTransmission();
+	if (i2cUtils.isOk(retCode)) {
+		Wire.requestFrom((int) address, 1);
+		while(Wire.available() < 1);
+		int software = Wire.read();
+
+		Serial.print(" - SD21 DC Motors [OK] (V : ");
+		Serial.print(software);
+		Serial.println(")");
 	} else {
-		moteurDroit(droit);
-		moteurGauche(gauche);
-	}
-}
-
-void SD21Motors::moteurGauche(int val) {
-	int cmd = check(val + stopVal);
-	if (cmd == prevGauche) {
-		return;
-	}
-	prevGauche = cmd;
-
-	Wire.beginTransmission(SD21_ADD_BOARD);
-	Wire.write(getBaseRegister(LEFT_MOTOR_REGISTER) + 1);
-	Wire.write(cmd & 0xFF);
-	Wire.write(cmd >> 8);
-	retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
-	if (i2cUtils.isError(retCode)) {
+		Serial.print(" - SD21 DC Motors CMD [KO] ");
 		i2cUtils.printReturnCode(retCode);
 	}
+}
 #endif
-}
-
-void SD21Motors::moteurDroit(int val) {
-	int cmd = check(val + stopVal);
-	if (cmd == prevDroit) {
-		return;
-	}
-	prevDroit = cmd;
-
-	Wire.beginTransmission(SD21_ADD_BOARD);
-	Wire.write(getBaseRegister(RIGHT_MOTOR_REGISTER) + 1);
-	Wire.write(cmd & 0xFF);
-	Wire.write(cmd >> 8);
-	retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
-	if (i2cUtils.isError(retCode)) {
-		i2cUtils.printReturnCode(retCode);
-	}
-#endif
-}
-
-void SD21Motors::stopAll() {
-	stopDroit();
-	stopGauche();
-}
-
-void SD21Motors::stopGauche() {
-	moteurGauche(0);
-}
-
-void SD21Motors::stopDroit() {
-	moteurDroit(0);
-}
-
-int SD21Motors::check(int val) {
-	if (val < minVal) {
-		val = minVal;
-	}
-	if (val > maxVal) {
-		val = maxVal;
-	}
-
-	return val;
-}

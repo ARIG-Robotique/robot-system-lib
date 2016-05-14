@@ -7,15 +7,14 @@
 
 #include "Odometrie.h"
 
+#include "../../common.h"
+
 /*
  * Constructeur
  */
 Odometrie::Odometrie() {
 	position = RobotPosition();
 	position.updatePosition(0, 0, 0);
-
-	piPulse = Conv.degToPulse(180);
-	pi2Pulse = Conv.degToPulse(360);
 }
 
 /*
@@ -32,21 +31,22 @@ void Odometrie::initOdometrie(double x, double y, int angle) {
  *
  * /!\ Cette méthode doit être appelé après la lecture des valeurs codeurs toutes les x ms.
  */
-void Odometrie::calculPosition(Encodeurs * enc) {
+void Odometrie::calculPosition(AbstractEncodeurs * enc) {
 	// Approximation linéaire
-
-	int newTheta = position.getAngle() + enc->getOrientation();
+	double newTheta = position.getAngle() + enc->getOrientation();
 	// Ajustement a PI près
-	if (newTheta > piPulse) {
-		newTheta -= pi2Pulse;
-	} else if (newTheta < -piPulse) {
-		newTheta += pi2Pulse;
+	if (newTheta > Conv.getPiPulse()) {
+		newTheta = newTheta - Conv.get2PiPulse();
+	} else if (newTheta < -Conv.getPiPulse()) {
+		newTheta = newTheta + Conv.get2PiPulse();
 	}
-	position.setAngle(newTheta); // En pulse
 
-	long double thetaRad = Conv.pulseToRad(position.getAngle());
+	long double thetaRad = Conv.pulseToRad(newTheta);
 	double dX = enc->getDistance() * cos(thetaRad);
 	double dY = enc->getDistance() * sin(thetaRad);
+
+	// Sauvegarde nouvelle position
+	position.setAngle(newTheta); // En pulse
 	position.setX(position.getX() + dX);
 	position.setY(position.getY() + dY);
 
@@ -57,7 +57,7 @@ void Odometrie::calculPosition(Encodeurs * enc) {
 	positionCourrante.y += r * (cos(positionCourrante.theta) - cos(positionCourrante.theta + arcAngle));
 	positionCourrante.theta += arcAngle;*/
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	Serial.print(";");Serial.print(Conv.pulseToMm(position.getX()));
 	Serial.print(";");Serial.print(Conv.pulseToMm(position.getY()));
 	Serial.print(";");Serial.print((double) Conv.pulseToDeg(position.getAngle()));

@@ -13,133 +13,81 @@
 /*
  * Constucteur
  */
-MD22::MD22() {
-	alternate = false;
+MD22::MD22(byte address) : AbstractPropulsionMotors() {
 	modeValue = DEFAULT_MODE_VALUE;
 	accelValue = DEFAULT_ACCEL_VALUE;
+	this->address = address;
 
 	init(false);
 }
 
-MD22::MD22(byte mode, byte accel) {
-	alternate = false;
+MD22::MD22(byte address, byte mode, byte accel) : AbstractPropulsionMotors() {
 	modeValue = mode;
 	accelValue = accel;
+	this->address = address;
 
 	init(false);
 }
 
-/*
- * Envoi d'une consigne sur le moteur Gauche
- */
-void MD22::moteurGauche(int val) {
-	int cmd = check(val);
-	if (cmd == prevGauche) {
-		return;
-	}
-	prevGauche = cmd;
-
-	Wire.beginTransmission(MD22_ADD_BOARD);
-	Wire.write(LEFT_MOTOR_REGISTER);
-	Wire.write((char) cmd);
-	retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
-	if (i2cUtils.isError(retCode)) {
-		Serial.print(" * Cmd moteur gauche ");
-		i2cUtils.printReturnCode(retCode);
-	}
-#endif
+MD22::~MD22() {
 }
 
+/*
+ * Envoi d'une consigne sur le moteur 1
+ */
 void MD22::moteur1(int val) {
-	moteurGauche(val);
-}
-
-/*
- * Envoi d'une consigne sur le moteur Droit
- */
-void MD22::moteurDroit(int val) {
 	int cmd = check(val);
-	if (cmd == prevDroit) {
+	if (cmd == prevM1) {
 		return;
 	}
-	prevDroit = cmd;
+	prevM1 = cmd;
 
-	Wire.beginTransmission(MD22_ADD_BOARD);
-	Wire.write(RIGHT_MOTOR_REGISTER);
+	Wire.beginTransmission(address);
+	Wire.write(MOTOR1_REGISTER);
 	Wire.write((char) cmd);
 	retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	if (i2cUtils.isError(retCode)) {
-		Serial.print(" * Cmd moteur droit ");
+		Serial.print(" * Cmd moteur 1 ");
 		i2cUtils.printReturnCode(retCode);
 	}
 #endif
 }
 
+/*
+ * Envoi d'une consigne sur le moteur 2
+ */
 void MD22::moteur2(int val) {
-	moteurDroit(val);
-}
-
-/*
- * Cette fonction permet de controler les bornes min et max en fonction du mode.
- */
-int MD22::check(int val) {
-	if (val < minVal) {
-		val = minVal;
+	int cmd = check(val);
+	if (cmd == prevM2) {
+		return;
 	}
-	if (val > maxVal) {
-		val = maxVal;
+	prevM2 = cmd;
+
+	Wire.beginTransmission(address);
+	Wire.write(MOTOR2_REGISTER);
+	Wire.write((char) cmd);
+	retCode = Wire.endTransmission();
+#ifdef LIB_DEBUG_MODE
+	if (i2cUtils.isError(retCode)) {
+		Serial.print(" * Cmd moteur 2 ");
+		i2cUtils.printReturnCode(retCode);
 	}
-
-	return val;
+#endif
 }
 
 /*
- * Generation des mouvements pour le robot.
- * La commande de chacun des moteurs est alterné a chaque commande.
- * Cela est fait pour ne pas pénaliser un coté vis a vis d'un autre.
- * Normalement le PID devrais gérer ça, mais bon ceinture et bretelle.
+ * Commande du stop moteur 1 en fonction du mode de configuration
  */
-void MD22::generateMouvement(int gauche, int droit) {
-	//alternate = !alternate;
-	//if (alternate) {
-		moteurGauche(gauche);
-		moteurDroit(droit);
-	/*} else {
-		moteurDroit(droit);
-		moteurGauche(gauche);
-	}*/
-}
-
-/*
- * Stop les moteurs en fonction de la valeur de l'acceleration
- */
-void MD22::stopAll() {
-	stopDroit();
-	stopGauche();
-}
-
-/*
- * Stop le moteur droit.
- */
-void MD22::stopDroit() {
-	moteurDroit(stopVal);
-}
-
-void MD22::stop2() {
-	stopDroit();
-}
-
-/*
- * Stop le moteur gauche
- */
-void MD22::stopGauche() {
-	moteurGauche(stopVal);
-}
-
 void MD22::stop1() {
-	stopGauche();
+	moteur1(stopVal);
+}
+
+/*
+ * Commande du stop moteur 1 en fonction du mode de configuration
+ */
+void MD22::stop2() {
+	moteur2(stopVal);
 }
 
 /*
@@ -151,8 +99,8 @@ void MD22::init() {
 }
 
 void MD22::init(boolean transmit) {
-	prevGauche = 300;
-	prevDroit = 300;
+	prevM1 = 300;
+	prevM2 = 300;
 
 	setMode(modeValue, transmit);
 	delayMicroseconds(100);
@@ -213,11 +161,11 @@ void MD22::setAccel(byte value, boolean transmit) {
 
 	// Set accelleration
 	if (transmit) {
-		Wire.beginTransmission(MD22_ADD_BOARD);
+		Wire.beginTransmission(address);
 		Wire.write(ACCEL_REGISTER);
 		Wire.write(value);
 		retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			Serial.print(" * Set accelleration ");
 			i2cUtils.printReturnCode(retCode);
@@ -253,11 +201,11 @@ void MD22::setMode(byte value, boolean transmit) {
 
 	// Set mode
 	if (transmit) {
-		Wire.beginTransmission(MD22_ADD_BOARD);
+		Wire.beginTransmission(address);
 		Wire.write(MODE_REGISTER);
 		Wire.write(modeValue);
 		retCode = Wire.endTransmission();
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 		if (i2cUtils.isError(retCode)) {
 			Serial.print(" * Set mode ");
 			i2cUtils.printReturnCode(retCode);
@@ -266,24 +214,24 @@ void MD22::setMode(byte value, boolean transmit) {
 	}
 }
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 /*
  * Cette méthode affiche la version de la carte sur la liaison série
  */
 void MD22::printVersion() {
-	Wire.beginTransmission(MD22_ADD_BOARD);
+	Wire.beginTransmission(address);
 	Wire.write(MD22_VERSION_REGISTER);
 	retCode = Wire.endTransmission();
 	if (i2cUtils.isOk(retCode)) {
-		Wire.requestFrom(MD22_ADD_BOARD, 1);
+		Wire.requestFrom((int) address, 1);
 		while(Wire.available() < 1);
 		int software = Wire.read();
 
-		Serial.print(" - MD22 [OK] (V : ");
+		Serial.print(" - MD22 DC Motors [OK] (V : ");
 		Serial.print(software);
 		Serial.println(")");
 	} else {
-		Serial.print(" - MD22 [KO] ");
+		Serial.print(" - MD22 DC Motors [KO] ");
 		i2cUtils.printReturnCode(retCode);
 	}
 }

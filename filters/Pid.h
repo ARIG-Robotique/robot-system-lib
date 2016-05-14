@@ -17,7 +17,7 @@ public:
 	void setTunings(double kp, double ki, double kd);
 	void reset();
 	double compute(double consigne, double mesure);
-
+	double getError();
 
 private:
 	double kp;

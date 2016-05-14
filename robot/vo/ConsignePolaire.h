@@ -32,8 +32,7 @@ public:
 	void setCmdDroit(int value);
 	int getCmdDroit();
 
-	void enableFrein();
-	void disableFrein();
+	void setFrein(boolean frein);
 	boolean getFrein();
 
 private:

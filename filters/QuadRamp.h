@@ -20,6 +20,8 @@ public:
 	void setRampAcc(double value);
 	void setRampDec(double value);
 
+	void reset();
+
 	double filter(double vitesse, double consigne, boolean frein);
 	double filterLog(double vitesse, double consigne, double mesure, boolean frein); // /!\ EXPERIMENTAL
 
@@ -28,9 +30,14 @@ private:
 	double rampAcc;
 	double rampDec;
 
+	double stepVitesseAccel;
+	double stepVitesseDecel;
+
 	double vitesseCourante;
 	double distanceDecel;
 	double ecartPrecedent;
+
+	void updateStepVitesse();
 };
 
 #endif /* QUAD_RAMP_H_ */

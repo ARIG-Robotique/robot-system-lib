@@ -9,31 +9,30 @@
 #define SD21_H_
 
 #include <Arduino.h>
+#include <Wire.h>
 #include "../../../common.h"
-#include "../../utils/I2CUtils.h"
+#include "../../../utils/I2CUtils.h"
 
 class SD21 {
 public:
-	SD21();
+	SD21(byte address);
 
 	void setPosition(byte servoNb, word position);
 	void setSpeed(byte servoNb, byte speed);
 	void setPositionAndSpeed(byte servoNb, byte speed, word position);
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	void printVersion();
 #endif
 
 protected:
-	#define SD21_ADD_BOARD				0x61
+	#define SD21_VERSION_REGISTER		0x40
 
 	char getBaseRegister(byte servoNb);
+	byte address;
 	byte retCode;
 
 private:
-
-	#define SD21_VERSION_REGISTER		0x40
-
 	boolean checkServo(byte servoNb);
 };
 

@@ -9,44 +9,37 @@
 #define MD22_H_
 
 #include <Arduino.h>
-#include "../../utils/I2CUtils.h"
+#include "AbstractPropulsionMotors.h"
 #include "../../../common.h"
+#include "../../../utils/I2CUtils.h"
 
-class MD22 {
+class MD22: public AbstractPropulsionMotors {
 
 public:
-	MD22();
-	MD22(byte mode, byte accel);
+	MD22(byte address);
+	MD22(byte address, byte mode, byte accel);
+	virtual ~MD22();
 
-	void init();
-	void generateMouvement(int gauche, int droit);
-	void moteurGauche(int);
-	void moteurDroit(int);
-	void moteur1(int);
-	void moteur2(int);
-	void stopAll();
-	void stopGauche();
-	void stopDroit();
-	void stop1();
-	void stop2();
 	void setMode(byte value);
 	void setAccel(byte value);
 
-#ifdef DEBUG_MODE
-	void printVersion();
+	// Implémentation méthode virtuel //
+	virtual void init();
+	virtual void stop1();
+	virtual void stop2();
+	virtual void moteur1(int cmd);
+	virtual void moteur2(int cmd);
+
+#ifdef LIB_DEBUG_MODE
+	virtual void printVersion();
 #endif
 
 private:
-	#define MD22_ADD_BOARD			0x58
-
 	#define MODE_REGISTER			0x00
 	#define ACCEL_REGISTER			0x03
 	#define MOTOR1_REGISTER			0x01
 	#define MOTOR2_REGISTER			0x02
 	#define MD22_VERSION_REGISTER	0x07
-
-	#define RIGHT_MOTOR_REGISTER	MOTOR1_REGISTER
-	#define LEFT_MOTOR_REGISTER		MOTOR2_REGISTER
 
 	#define MODE_0					0 // 0 (Reverse) - 128 (Stop) - 255 (Forward)
 	#define MODE_1					1 // -128 (Reverse) - 0 (Stop) - 127 (Forward)
@@ -63,16 +56,11 @@ private:
 	#define MAX_VAL_MODE_1			127
 
 	byte retCode;
-	bool alternate;
+	byte address;
+	int stopVal;
 	char modeValue;
 	char accelValue;
-	int minVal;
-	int maxVal;
-	int stopVal;
-	int prevGauche;
-	int prevDroit;
 
-	int check(int);
 	void setMode(byte value, boolean transmit);
 	void setAccel(byte value, boolean transmit);
 	void init(boolean transmit);

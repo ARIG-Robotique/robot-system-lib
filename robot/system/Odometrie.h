@@ -10,23 +10,20 @@
 
 #include <math.h>
 
-#include "Encodeurs.h"
 #include "../vo/RobotPosition.h"
-#include "../utils/Convertion.h"
+#include "../../utils/Convertion.h"
+#include "encoders/AbstractEncodeurs.h"
 
 class Odometrie {
 public:
 	Odometrie();
 
 	void initOdometrie(double x, double y, int angle);
-	void calculPosition(Encodeurs *);
+	void calculPosition(AbstractEncodeurs *);
 	RobotPosition getPosition();
 
 private:
 	RobotPosition position;
-
-	int piPulse;
-	int pi2Pulse;
 };
 
 #endif /* ODOMETRIE_H_ */

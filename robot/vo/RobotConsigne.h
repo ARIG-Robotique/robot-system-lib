@@ -12,8 +12,12 @@
 #include "RobotPosition.h"
 #include "ConsignePolaire.h"
 
-#define CONSIGNE_ODOMETRIE 	0
-#define CONSIGNE_POLAIRE 	1
+#define CONSIGNE_XY 			1
+#define CONSIGNE_DIST			2
+#define CONSIGNE_ANGLE			4
+
+#define CONSIGNE_LINE			8
+#define CONSIGNE_CIRCLE			16
 
 //  y (2000)
 //  |
@@ -29,11 +33,9 @@ class RobotConsigne {
 public:
 	RobotConsigne();
 
-	void setPosition(RobotPosition position);
-	RobotPosition getPosition();
+	RobotPosition & getPosition();
 
-	void setConsignePolaire(ConsignePolaire cp);
-	ConsignePolaire getConsignePolaire();
+	ConsignePolaire & getConsignePolaire();
 
 	void enableFrein();
 	void disableFrein();

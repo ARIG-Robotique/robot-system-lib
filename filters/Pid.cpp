@@ -7,22 +7,23 @@
 
 #include "Pid.h"
 
+#ifdef LIB_DEBUG_MODE
 #include <Arduino.h>
+#endif
 
 /*
  * Constructeur de la classe de gestion du PID
  */
 Pid::Pid() {
-	kp = 0.1;
-	kd = 0.5;
-	ki = 0.25;
+	kp = 0.8;
+	kd = 0.2;
+	ki = 0.1;
 
-	errorSum = 0;
-	lastError = 0;
+	reset();
 }
 
 /*
- * Réinitialise les variables du PID
+ * Réinitialise les cumuls d'erreur du PID
  */
 void Pid::reset() {
 	errorSum = 0;
@@ -44,20 +45,18 @@ void Pid::setTunings(double kp, double ki, double kd) {
 double Pid::compute(double consigne, double mesure) {
 	double error = consigne - mesure;
 	double deltaError = error - lastError;
-	//FIXME : A ameliorer
-	if(errorSum+error>34000000000.0) errorSum= 34000000000.0;
-	else if(errorSum+error<-34000000000.0) errorSum= -34000000000.0;
-	else errorSum += error;
-
+	errorSum += error;
 	lastError = error;
 	double result = kp * error + ki * errorSum + kd * deltaError;
 
-#ifdef DEBUG_MODE
-	//Serial.print(";PIDCons ");Serial.print(consigne);
-	//Serial.print(";PIDMes ");Serial.print(mesure);
-	//Serial.print(";PIDsumErr ");Serial.print(errorSum);
-	//Serial.print(";PIDresult ");Serial.print(result);
+#ifdef LIB_DEBUG_MODE
+	Serial.print(";");Serial.print(consigne);
+	Serial.print(";");Serial.print(mesure);
+	Serial.print(";");Serial.print(errorSum);
+	Serial.print(";");Serial.print(result);
 #endif
 
 	return result;
 }
+
+double Pid::getError() { return errorSum; }

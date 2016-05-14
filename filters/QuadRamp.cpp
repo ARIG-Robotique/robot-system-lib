@@ -8,20 +8,19 @@
 #include "QuadRamp.h"
 
 #include <Arduino.h>
-#include "../robot/utils/Convertion.h"
+#include "../utils/Convertion.h"
 #include "../robot/vo/ConsignePolaire.h"
 
 /*
- * Constructeur
+ * Constructeur par défaut
  */
 QuadRamp::QuadRamp() {
-	sampleTime = 0;
-	rampAcc = 0;
-	rampDec = 0;
+	this->sampleTime = 0.010;
+	this->rampAcc = 100.0;
+	this->rampDec = 100.0;
 
-	distanceDecel = 0;
-	ecartPrecedent = 0;
-	vitesseCourante = 0;
+	QuadRamp::reset();
+	QuadRamp::updateStepVitesse();
 }
 
 /*
@@ -32,14 +31,22 @@ QuadRamp::QuadRamp(double sampleTime, double rampAcc, double rampDec) {
 	this->rampAcc = rampAcc;
 	this->rampDec = rampDec;
 
-	distanceDecel = 0;
-	ecartPrecedent = 0;
-	vitesseCourante = 0;
+	QuadRamp::reset();
+	QuadRamp::updateStepVitesse();
 }
 
 // --------------------------------------------------------- //
 // --------------------- BUSINESS METHODS ------------------ //
 // --------------------------------------------------------- //
+
+/*
+ * Réinitialisation des paramètres du filtre
+ */
+void QuadRamp::reset() {
+	distanceDecel = 0;
+	ecartPrecedent = 0;
+	vitesseCourante = 0;
+}
 
 /*
  * Application du filtre.
@@ -49,10 +56,13 @@ double QuadRamp::filter(double vitesse, double consigne, boolean frein) {
 	// Calcul de la distance de décéleration en fonction des parametres
 	distanceDecel = Conv.mmToPulse((vitesseCourante * vitesseCourante) / (2 * rampDec));
 	if (vitesseCourante > vitesse || (abs(consigne) <= distanceDecel && frein)) {
-		vitesseCourante -= rampDec * sampleTime;
-	} else if (vitesseCourante < vitesse && abs(consigne) > distanceDecel) {
-		vitesseCourante += rampAcc * sampleTime;
+		vitesseCourante -= stepVitesseDecel;
+	} else if (vitesseCourante < vitesse) {
+		vitesseCourante += stepVitesseAccel;
 	}
+
+	// Valeur max (evite les oscilations en régime établie)
+	vitesseCourante = fmin(vitesseCourante, vitesse);
 
 	// Controle pour interdire les valeurs négatives
 	vitesseCourante = fmax(vitesseCourante, 0);
@@ -65,14 +75,6 @@ double QuadRamp::filter(double vitesse, double consigne, boolean frein) {
 	if (consigne < 0) {
 		ecartTheorique = -ecartTheorique;
 	}
-
-#ifdef DEBUG_MODE
-	//Serial.print(";Frein ");Serial.print(frein);
-	//Serial.print(";FVit. ");Serial.print(vitesseCourante);
-	//Serial.print(";FDistD");Serial.print(distanceDecel);
-	//Serial.print(";FCons.");Serial.print(consigne);
-	//Serial.print(";FOut");Serial.print(ecartTheorique);
-#endif
 
 	return ecartTheorique;
 }
@@ -90,7 +92,7 @@ double QuadRamp::filterLog(double vitesse, double consigne, double mesure, boole
 	double ecartTheorique = filter(vitesse, consigne, frein) + ecartPrecedent;
 	ecartPrecedent = ecartTheorique - mesure;
 
-#ifdef DEBUG_MODE
+#ifdef LIB_DEBUG_MODE
 	//Serial.print(";FOutLog");Serial.print(ecartTheorique);
 #endif
 
@@ -103,12 +105,20 @@ double QuadRamp::filterLog(double vitesse, double consigne, double mesure, boole
 
 void QuadRamp::setSampleTimeMs(double value) {
 	sampleTime = value / 1000;
+	updateStepVitesse();
 }
 
 void QuadRamp::setRampAcc(double value) {
 	rampAcc = value;
+	updateStepVitesse();
 }
 
 void QuadRamp::setRampDec(double value) {
 	rampDec = value;
+	updateStepVitesse();
+}
+
+void QuadRamp::updateStepVitesse() {
+	stepVitesseAccel = rampAcc * sampleTime;
+	stepVitesseDecel = rampDec * sampleTime;
 }

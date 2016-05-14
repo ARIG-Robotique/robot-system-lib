@@ -7,11 +7,12 @@
 
 #include "Convertion.h"
 
-#include <Arduino.h>
-
 Convertion::Convertion(double countPerMm, double countPerDegree) {
 	this->countPerMm = countPerMm;
 	this->countPerDegree = countPerDegree;
+
+	piPulse = degToPulse(180);
+	pi2Pulse = degToPulse(360);
 }
 
 double Convertion::mmToPulse(double val) {
@@ -36,4 +37,12 @@ double Convertion::pulseToRad(double val) {
 
 double Convertion::radToPulse(double val) {
 	return degToPulse(val * RAD_TO_DEG);
+}
+
+double Convertion::getPiPulse() {
+	return piPulse;
+}
+
+double Convertion::get2PiPulse() {
+	return pi2Pulse;
 }
