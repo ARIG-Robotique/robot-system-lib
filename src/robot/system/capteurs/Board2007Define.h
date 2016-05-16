@@ -5,8 +5,8 @@
  *      Author: mythril
  */
 
-#ifndef CAPTEURDEFINE_H_
-#define CAPTEURDEFINE_H_
+#ifndef BOARD2007CAPTEURSDEFINE_H_
+#define BOARD2007CAPTEURSDEFINE_H_
 
 #define	NB_CAPTEUR				23
 #define UNDEF_PIN				-1
@@ -36,4 +36,4 @@
 #define IND_02					0x15
 #define EQUIPE					0x16 // 22
 
-#endif /* CAPTEURDEFINE_H_ */
+#endif /* BOARD2007CAPTEURSDEFINE_H_ */
