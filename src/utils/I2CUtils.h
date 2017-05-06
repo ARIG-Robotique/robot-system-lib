@@ -34,7 +34,7 @@ public:
 	boolean isError(byte code);
 	boolean isOk(byte code);
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 	void printReturnCode(byte code);
 #endif
 };

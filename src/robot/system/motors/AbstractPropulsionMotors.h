@@ -34,7 +34,7 @@ public:
 	virtual void stop1();
 	virtual void stop2();
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 	virtual void printVersion();
 #endif
 

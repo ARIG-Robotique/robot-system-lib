@@ -118,7 +118,7 @@ void RobotManager::process() {
 		// 4. Gestion des flags pour le séquencement du calcul de la position
 		gestionFlags();
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 		Serial.print(";");Serial.print(trajetEnApproche, DEC);
 		Serial.print(";");Serial.print(trajetAtteint, DEC);
 		Serial.println();
@@ -133,7 +133,7 @@ void RobotManager::process() {
  */
 void RobotManager::calculConsigne() {
 	if (!trajetAtteint && (consigneTable.getType() & CONSIGNE_XY)) {
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 		Serial.print(";XY");
 #endif
 
@@ -155,21 +155,21 @@ void RobotManager::calculConsigne() {
 		consigneTable.getConsignePolaire().setConsigneDistance(consDist);
 		consigneTable.getConsignePolaire().setConsigneOrientation(consOrient);
 	} else if (!trajetAtteint && (consigneTable.getType() & CONSIGNE_LINE)) {
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 		Serial.print(";LINE");
 #endif
 
 		// Calcul des consigne pour la ligne
 
 	} else if (!trajetAtteint && (consigneTable.getType() & CONSIGNE_CIRCLE)) {
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 		Serial.print(";CIRCLE");
 #endif
 
 		// Calcul des consignes pour le cercle
 
 	} else {
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 		Serial.print(";DIST_ANGLE");
 #endif
 		// Calcul par différence vis a vis de la valeur codeur (asservissement de position "basique").
@@ -181,7 +181,7 @@ void RobotManager::calculConsigne() {
 		}
 	}
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 	Serial.print(";");Serial.print(Conv.pulseToMm(consigneTable.getConsignePolaire().getConsigneDistance()));
 	Serial.print(";");Serial.print(Conv.pulseToDeg(consigneTable.getConsignePolaire().getConsigneOrientation()));
 #endif

@@ -30,7 +30,7 @@ public:
 	virtual void moteur1(int cmd);
 	virtual void moteur2(int cmd);
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 	virtual void printVersion();
 #endif
 

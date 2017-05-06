@@ -35,7 +35,7 @@ void Board2007NoMux::setPinForCapteur(byte capteurId, byte pin, boolean reverse,
 		capteurPins[capteurId] = pin;
 		capteurReverse[capteurId] = reverse;
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 		Serial.print(" * Configuration capteur ");
 		Serial.print(capteurId, DEC);
 		Serial.print(" sur la pin ");

@@ -7,7 +7,7 @@
 
 #include "Pid.h"
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 #include <Arduino.h>
 #endif
 
@@ -49,7 +49,7 @@ double Pid::compute(double consigne, double mesure) {
 	lastError = error;
 	double result = kp * error + ki * errorSum + kd * deltaError;
 
-#ifdef LIB_DEBUG_MODE
+#ifdef DEBUG_MODE
 	Serial.print(";");Serial.print(consigne);
 	Serial.print(";");Serial.print(mesure);
 	Serial.print(";");Serial.print(errorSum);
