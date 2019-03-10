@@ -17,6 +17,10 @@ set(CMAKE_TOOLCHAIN_FILE ./cmake/Arduino-Toolchain.cmake)
 
 set(ARDUINO_CXX_FLAGS    "-std=c++11")
 
+if (NOT DEFINED CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     message(STATUS "Debug mode ON")
     add_definitions(-DDEBUG_MODE)
